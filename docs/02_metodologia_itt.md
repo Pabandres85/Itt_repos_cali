@@ -80,9 +80,19 @@ Estos valores deben quedar marcados como provisionales en resultados y documenta
 
 ## Estado de implementacion en notebooks
 
+- `01_itt_roosevelt.ipynb` ya sigue este metodo y replica la estructura operativa de Barrio Obrero adaptada a un corredor.
 - `03_itt_barrio_obrero.ipynb` ya sigue este metodo.
 - `02_itt_avenida_ciudad_de_cali.ipynb` aun debe migrarse a este metodo.
-- `01_itt_roosevelt.ipynb` sigue siendo plantilla.
+
+## Referencias de vivienda en analisis
+
+En `data/referencia/` se agregaron nuevos Excel de vivienda para evaluar un reemplazo futuro del score fijo de `Entorno Urbano`.
+
+Lectura preliminar:
+
+- `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` es el candidato mas fuerte como proxy de calidad del entorno residencial.
+- `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` y `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` describen mejor intervencion institucional que estado fisico del entorno.
+- Aun no deben incorporarse al calculo sin resolver primero la equivalencia territorial entre comuna, barrio y corredor buffer.
 
 ## Referencia principal
 

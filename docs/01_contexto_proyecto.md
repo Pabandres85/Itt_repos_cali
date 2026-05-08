@@ -17,7 +17,7 @@ El repositorio esta pensado para:
 
 | Zona | Notebook | Estado |
 |---|---|---|
-| ITT Roosevelt | `notebooks/01_itt_roosevelt.ipynb` | Plantilla |
+| ITT Roosevelt | `notebooks/01_itt_roosevelt.ipynb` | Implementado |
 | Avenida Ciudad de Cali | `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` | Implementado |
 | Barrio Obrero | `notebooks/03_itt_barrio_obrero.ipynb` | Implementado |
 | Comparativo | `notebooks/04_comparativo_itt_zonas.ipynb` | Plantilla |
@@ -40,8 +40,17 @@ El repositorio esta pensado para:
 
 ### Roosevelt
 
-- Aun no tiene implementacion final ni datos cargados en el repo.
-- El notebook actual es solo una base para adaptar cuando lleguen los insumos.
+- Analisis sobre corredor con buffer de 100 m y eventos 2023-2025.
+- El notebook ya fue implementado siguiendo la estructura funcional de Barrio Obrero.
+- Usa `ref_min/ref_max` fijos y referentes provisionales para Entorno Urbano, Educacion y Desarrollo, y Vulnerabilidad.
+- La data ya esta disponible en `data/itt_roosevelt/` como ZIP y carpeta descomprimida de trabajo.
+
+## Avances recientes
+
+- Se normalizo el criterio metodologico para agentes y documentacion corta.
+- Roosevelt paso de plantilla a notebook implementado.
+- Se incorporaron insumos de referencia de vivienda en `data/referencia/` para evaluar mejoras en la dimension `Entorno Urbano`.
+- El archivo de deficit habitacional es el principal candidato metodologico para esa futura migracion.
 
 ## Estado documental
 

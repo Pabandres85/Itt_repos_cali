@@ -8,8 +8,23 @@ Este documento registra el inventario operativo de datos por zona y deja trazabi
 
 Estado actual:
 
-- Sin datos cargados en el repo.
-- `data/itt_roosevelt/` solo contiene archivo de referencia y estructura.
+- `data/itt_roosevelt/` ya contiene `Roosevelt.zip`.
+- Existe carpeta de trabajo descomprimida `data/itt_roosevelt/Roosevelt_unzipped/`.
+- El notebook `01_itt_roosevelt.ipynb` ya fue adaptado para esta estructura de insumos.
+
+Insumos identificados en la zona Roosevelt:
+
+| Indicador / capa | Archivo identificado | Observaciones |
+|---|---|---|
+| Buffer / tramos | `Geojson_tramos_Roosevelt_Buffer_100.geojson` | Base espacial del corredor |
+| Tramos | `Geojson_tramos_Roosevelt.geojson` | Geometria auxiliar |
+| Homicidios | `HOMICIDIOS_2023_2025_Roosevelt.geojson` | Eventos 2023-2025 |
+| Hurtos | `HURTOS_2023_2025_Roosevelt.geojson` | Eventos 2023-2025 |
+| Comparendos | `COMPARENDOS_2023_2025_Roosevelt.geojson` | Filtrar `agrupado="RINAS"` si aplica |
+| Siniestros | `BD_SINIESTROS_2023_2025_COMUNA_BARRIO_4326_Roosevelt.geojson` | Base de movilidad |
+| VIF | `VIOLENCIA_INTRAFAMILIAR_2023_2025_Roosevelt.geojson` | Cohesion social |
+| VBG | `VBG_2025_Roosevelt.geojson` | Insumo complementario, aun no incorporado al ITT |
+| Sedes | `Sedes_educativas_oficiales_Roosevelt.geojson` | Solo mapa / apoyo territorial |
 
 ### ITT Avenida Ciudad de Cali
 
@@ -70,3 +85,13 @@ Si una fuente no esta presente en el repo, debe marcarse como:
 - No versionada en repositorio.
 - Disponible solo en Colab o carga manual.
 - Pendiente de entrega.
+
+## Nuevas referencias territoriales
+
+La carpeta `data/referencia/` ahora incluye insumos de vivienda y mejoramiento que pueden servir como soporte metodologico futuro:
+
+| Archivo | Uso potencial | Estado |
+|---|---|---|
+| `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` | Proxy de `Entorno Urbano` por deficit habitacional | En analisis |
+| `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` | Indicador de formalizacion / gestion | En analisis |
+| `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` | Indicador de intervencion en vivienda | En analisis |

@@ -34,7 +34,7 @@ Notas practicas:
 
 - Barrio Obrero hoy tiene `obrero.zip` dentro del repo.
 - Avenida Ciudad de Cali no tiene los GeoJSON fuente versionados en el repo.
-- Roosevelt sigue pendiente de datos.
+- Roosevelt ya tiene `Roosevelt.zip` y una carpeta descomprimida de trabajo en `data/itt_roosevelt/Roosevelt_unzipped/`.
 
 ## 3. Ejecutar notebooks por zona
 
@@ -48,9 +48,14 @@ notebooks/03_itt_barrio_obrero.ipynb
 
 Estado recomendado de uso:
 
-- `01_itt_roosevelt.ipynb`: plantilla.
+- `01_itt_roosevelt.ipynb`: implementado y alineado con la estructura de Barrio Obrero.
 - `02_itt_avenida_ciudad_de_cali.ipynb`: funcional, pero pendiente de migracion a `ref_min/ref_max`.
 - `03_itt_barrio_obrero.ipynb`: referencia actual de implementacion.
+
+Nota operativa para Roosevelt:
+
+- Mantener la convencion `año` en las tablas del notebook para evitar inconsistencias entre celdas.
+- Si se ejecuta en Colab despues de cambios locales, conviene reiniciar entorno y correr desde la celda que construye `base`.
 
 ## 4. Criterio metodologico
 

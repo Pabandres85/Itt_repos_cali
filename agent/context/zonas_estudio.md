@@ -2,10 +2,15 @@
 
 ## ITT Roosevelt
 
-- Estado: plantilla.
+- Estado: implementado.
 - Notebook: `notebooks/01_itt_roosevelt.ipynb`
-- Datos en repo: no disponibles.
-- Observacion: zona pendiente de insumos y configuracion final.
+- Unidad de analisis: corredor con buffer de 100 m.
+- Metodo espacial: uso de capa buffer y eventos territoriales de la zona.
+- Periodo: 2023-2025.
+- Metodologia: usa `ref_min/ref_max` fijos y la estructura funcional de Barrio Obrero.
+- Referentes provisionales: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Datos en repo: `Roosevelt.zip` presente y carpeta descomprimida de trabajo disponible.
+- Observacion: notebook operativo, pendiente de afinacion futura de referentes si se incorporan nuevos indicadores de entorno.
 
 ## ITT Avenida Ciudad de Cali
 

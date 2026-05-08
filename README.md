@@ -15,7 +15,7 @@ El proyecto esta organizado para trabajar con:
 
 | Notebook | Zona | Estado |
 |---|---|---|
-| `notebooks/01_itt_roosevelt.ipynb` | ITT Roosevelt | Plantilla |
+| `notebooks/01_itt_roosevelt.ipynb` | ITT Roosevelt | Implementado |
 | `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` | Avenida Ciudad de Cali | Implementado |
 | `notebooks/03_itt_barrio_obrero.ipynb` | Barrio Obrero | Implementado |
 | `notebooks/04_comparativo_itt_zonas.ipynb` | Comparativo | Plantilla |
@@ -24,7 +24,8 @@ Notas de estado:
 
 - `02_itt_avenida_ciudad_de_cali.ipynb` sigue pendiente de migrar de min-max relativo a `ref_min/ref_max` fijos.
 - `03_itt_barrio_obrero.ipynb` ya usa `ref_min/ref_max` fijos y es la referencia metodologica vigente dentro del repo.
-- `01_itt_roosevelt.ipynb` y `04_comparativo_itt_zonas.ipynb` son bases de trabajo, no versiones finales.
+- `01_itt_roosevelt.ipynb` ya fue adaptado con la estructura de Barrio Obrero y usa `ref_min/ref_max` fijos.
+- `04_comparativo_itt_zonas.ipynb` sigue como base de trabajo y depende de resultados homologos exportados.
 
 ## Metodo vigente
 
@@ -87,6 +88,13 @@ itt-transformacion-territorial/
 3. Exportar resultados a `outputs/`.
 4. Ejecutar el comparativo cuando existan resultados homologos de las zonas.
 5. Actualizar `agent/context/` y `agent/knowledge_base/` con metodologia, fuentes y resultados.
+
+## Seguimiento reciente
+
+- Roosevelt ya cuenta con notebook implementado y alineado con la metodologia de `ref_min/ref_max` fijos.
+- La data de Roosevelt ya esta disponible en `data/itt_roosevelt/` mediante ZIP y carpeta descomprimida de trabajo.
+- Se agregaron Excel de vivienda en `data/referencia/` para evaluar un reemplazo futuro del referente fijo de `Entorno Urbano`.
+- El analisis preliminar indica que `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` es el mejor candidato como proxy territorial de `Entorno Urbano`.
 
 ## Recomendacion operativa
 

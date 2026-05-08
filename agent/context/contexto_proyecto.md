@@ -14,7 +14,7 @@ Calcular el ITT para zonas de intervencion urbana en Cali y comparar resultados 
 
 ## Estado actual
 
-- `01_itt_roosevelt.ipynb`: plantilla.
+- `01_itt_roosevelt.ipynb`: implementado con estructura homologada a Barrio Obrero y `ref_min/ref_max` fijos.
 - `02_itt_avenida_ciudad_de_cali.ipynb`: implementado, pero aun usa min-max relativo en la normalizacion de indicadores reales.
 - `03_itt_barrio_obrero.ipynb`: implementado y alineado con `ref_min/ref_max` fijos.
 - `04_comparativo_itt_zonas.ipynb`: plantilla comparativa.
@@ -44,3 +44,9 @@ El agente debe diferenciar entre:
 - Implementacion pendiente de migrar.
 - Datos presentes en el repo.
 - Datos esperados pero no versionados.
+
+## Seguimiento reciente
+
+- Roosevelt ya dispone de datos fuente en `data/itt_roosevelt/`.
+- Se revisaron errores de consistencia por `ano` y `año`; la convencion vigente en Roosevelt es `año`.
+- Se agregaron Excel de vivienda en `data/referencia/` para evaluar si `Entorno Urbano` puede dejar de depender de un referente fijo.

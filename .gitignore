@@ -11,6 +11,10 @@ venv/
 # Data temp
 *.tmp
 
+# Archivos descomprimidos (solo se versiona el ZIP)
+data/itt_barrio_obrero/obrero/
+data/itt_roosevelt/Roosevelt_unzipped/
+
 # OS
 .DS_Store
 Thumbs.db

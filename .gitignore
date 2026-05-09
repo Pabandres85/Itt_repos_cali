@@ -13,7 +13,9 @@ venv/
 
 # Archivos descomprimidos (solo se versiona el ZIP)
 data/itt_barrio_obrero/obrero/
+data/itt_roosevelt/Roosevelt/
 data/itt_roosevelt/Roosevelt_unzipped/
+data/itt_pulmon_oriente/Pulmon_De_Oriente_2026/
 
 # OS
 .DS_Store

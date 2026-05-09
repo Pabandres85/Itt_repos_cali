@@ -64,6 +64,15 @@ Estado en repo:
 
 - `data/itt_barrio_obrero/` contiene `obrero.zip`.
 - Los GeoJSON no estan expandidos dentro del repo; la carga actual esta pensada para descompresion o subida en Colab.
+- En Colab, el flujo operativo reciente ha sido clonar el repo en `/content/itt_repos_cali`, descomprimir `data/itt_barrio_obrero/obrero.zip` y usar `BASE = /content/obrero/obrero/Geojson_Barrio_Obrero/`.
+
+Soporte metodologico adicional para `Entorno Urbano` en Barrio Obrero:
+
+| Fuente complementaria | Uso actual en notebook | Periodicidad real | Observaciones |
+|---|---|---|---|
+| `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` | Proxy experimental de `Entorno Urbano` | Anual `2024` | Usa `Comuna 9` como proxy territorial para Barrio Obrero |
+| `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` | No usado en calculo actual | Anual `2023-2025` | Contexto de formalizacion |
+| `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` | No usado en calculo actual | Anual `2024-2025` | Contexto de intervencion en vivienda |
 
 ## Recomendaciones de trazabilidad
 
@@ -92,6 +101,11 @@ La carpeta `data/referencia/` ahora incluye insumos de vivienda y mejoramiento q
 
 | Archivo | Uso potencial | Estado |
 |---|---|---|
-| `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` | Proxy de `Entorno Urbano` por deficit habitacional | En analisis |
-| `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` | Indicador de formalizacion / gestion | En analisis |
-| `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` | Indicador de intervencion en vivienda | En analisis |
+| `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` | Proxy de `Entorno Urbano` por deficit habitacional | Ya usado de forma experimental en `03_itt_barrio_obrero.ipynb` |
+| `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` | Indicador de formalizacion / gestion | En analisis, no usado en calculo actual |
+| `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` | Indicador de intervencion en vivienda | En analisis, no usado en calculo actual |
+
+Nota metodologica:
+
+- El archivo de deficit habitacional no tiene granularidad mensual ni trimestral; solo aporta un corte anual 2024.
+- Por eso, en Barrio Obrero la visualizacion incorporada al notebook es un `heatmap` de componentes del deficit cualitativo 2024, no una serie temporal observada.

@@ -46,6 +46,10 @@ Valores vigentes:
 
 Estos valores deben tratarse como **provisionales**, no como mediciones propias de la zona analizada.
 
+Excepcion actual importante:
+
+- En `notebooks/03_itt_barrio_obrero.ipynb`, `Entorno Urbano` ya puede dejar de usar `39.2` si se ejecuta la celda proxy basada en `deficit habitacional 2024`.
+
 ## 5. Estado real de notebooks
 
 ### Notebook de referencia principal
@@ -57,6 +61,19 @@ Este notebook es la referencia operativa mas importante del repo porque:
 - Ya usa `ref_min/ref_max` fijos.
 - Tiene la estructura metodologica vigente.
 - Es el mejor punto de partida para revisar logica de calculo, normalizacion, pesos, series anuales y trimestrales, y exportacion.
+- Ademas, ya documenta un caso real de reemplazo parcial del referente fijo de `Entorno Urbano` mediante un proxy territorial.
+
+### Detalle actual de Entorno Urbano en Barrio Obrero
+
+- La celda `3B` recalcula `REF_ENTORNO_U` con `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`.
+- La base territorial usada es `Comuna 9`, como aproximacion a `Barrio Obrero`.
+- El proxy combina dos componentes:
+  - `Deficit Cualitativo`
+  - `Deficit Cualitativo / Deficit Habitacional`
+- Ambos componentes se normalizan con referencias fijas y luego se promedian.
+- La celda `3C` agrega una visualizacion `heatmap` de componentes del deficit cualitativo 2024.
+- Ese insumo no tiene periodicidad mensual ni trimestral observada; es un corte anual `2024`.
+- `Predios titulados` y `subsidios de mejoramiento` fueron revisados, pero no hacen parte del calculo actual de esta dimension.
 
 ### Roosevelt
 
@@ -93,7 +110,7 @@ Estado:
 
 - No es el notebook comparativo del proyecto.
 - Es una salida parcial para `Seguridad T1 2026`.
-- Usa hurtos observados y homicidios estimados con promedio historico T1 2023-2025.
+- Debe tratarse como notebook de seguimiento, no como referencia integral del flujo principal.
 
 Rol en el proyecto:
 
@@ -117,6 +134,7 @@ Estado:
 - Unidad de analisis: poligono unico.
 - No requiere `spatial join` por tramo.
 - Caso mas limpio para entender la metodologia vigente.
+- Caso actual mas importante para entender el uso experimental de `deficit habitacional` dentro de `Entorno Urbano`.
 
 ### Roosevelt
 
@@ -157,9 +175,9 @@ Implicacion:
 
 - Su ejecucion depende de carga externa, Colab o entrega manual de archivos.
 
-## 8. Referencias futuras en evaluacion
+## 8. Referencias territoriales y su estado actual
 
-La carpeta `data/referencia/` contiene Excel de apoyo en evaluacion metodologica:
+La carpeta `data/referencia/` contiene Excel de apoyo metodologico:
 
 - `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`
 - `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx`
@@ -167,9 +185,11 @@ La carpeta `data/referencia/` contiene Excel de apoyo en evaluacion metodologica
 
 Lectura correcta:
 
-- Aun no hacen parte del calculo oficial del ITT.
+- No todos hacen parte del calculo actual del ITT.
 - Se consideran insumos potenciales para fortalecer `Entorno Urbano` u otras lecturas territoriales futuras.
 - El candidato mas fuerte documentado hoy para `Entorno Urbano` es el deficit habitacional.
+- Ese candidato ya fue incorporado de forma experimental en `03_itt_barrio_obrero.ipynb`.
+- `Predios titulados` y `subsidios de mejoramiento` siguen fuera del calculo actual de la dimension.
 
 ## 9. Donde vive el conocimiento
 
@@ -194,13 +214,14 @@ Para responder bien sobre este repo, un agente debe leer en este orden:
   - score normalizado
   - referente provisional
   - resultado exportado
+- No presentar el proxy de `Entorno Urbano` de Barrio Obrero como serie mensual o trimestral observada.
 
 ## 11. Resumen ejecutivo para handoff rapido
 
-Este repo ya tiene una metodologia definida y parcialmente consolidada. `Barrio Obrero` es la referencia operativa vigente. `Roosevelt` ya esta alineado con esa metodologia. `Avenida Ciudad de Cali` sigue funcional, pero pendiente de migrar desde min-max relativo hacia `ref_min/ref_max` fijos. `Pulmon de Oriente` es la referencia metodologica de fondo y la fuente de los scores provisionales usados en otras zonas. Los datos versionados existen para Roosevelt, Barrio Obrero y Pulmon de Oriente, pero no para Avenida Ciudad de Cali. Cualquier agente que continue trabajo aqui debe priorizar la guia metodologica larga y validar siempre si esta leyendo una implementacion vigente, una implementacion parcial o una plantilla.
+Este repo ya tiene una metodologia definida y parcialmente consolidada. `Barrio Obrero` es la referencia operativa vigente. `Roosevelt` ya esta alineado con esa metodologia. `Avenida Ciudad de Cali` sigue funcional, pero pendiente de migrar desde min-max relativo hacia `ref_min/ref_max` fijos. `Pulmon de Oriente` es la referencia metodologica de fondo y la fuente de los scores provisionales usados en otras zonas. Los datos versionados existen para Roosevelt, Barrio Obrero y Pulmon de Oriente, pero no para Avenida Ciudad de Cali. En Barrio Obrero, `Entorno Urbano` ya puede recalcularse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`, explicado con un `heatmap` de componentes del deficit cualitativo 2024.
 
 ## 12. Prompt sugerido para otro agente
 
 Puedes iniciar a otro agente con este texto:
 
-> Este repo calcula el ITT de zonas urbanas de Cali. La metodologia vigente exige `ref_min/ref_max` fijos por indicador y esta documentada en `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`. `notebooks/03_itt_barrio_obrero.ipynb` es la referencia operativa principal; `notebooks/01_itt_roosevelt.ipynb` ya esta alineado a esa logica; `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` sigue funcional pero aun usa min-max relativo y debe tratarse como implementacion pendiente de homologacion. Los referentes provisionales actuales provenientes de Pulmon de Oriente son `Entorno Urbano = 39.2`, `Educacion y Desarrollo = 54.9` y `Vulnerabilidad = 54.1`. Distingue siempre entre datos reales, scores provisionales y metodologia vigente. No inventes outputs no versionados ni asumas que el comparativo ya esta completo.
+> Este repo calcula el ITT de zonas urbanas de Cali. La metodologia vigente exige `ref_min/ref_max` fijos por indicador y esta documentada en `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`. `notebooks/03_itt_barrio_obrero.ipynb` es la referencia operativa principal; `notebooks/01_itt_roosevelt.ipynb` ya esta alineado a esa logica; `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` sigue funcional pero aun usa min-max relativo y debe tratarse como implementacion pendiente de homologacion. Los referentes provisionales actuales provenientes de Pulmon de Oriente son `Entorno Urbano = 39.2`, `Educacion y Desarrollo = 54.9` y `Vulnerabilidad = 54.1`, pero en Barrio Obrero `Entorno Urbano` ya puede sobrescribirse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`. Ese proxy no tiene periodicidad mensual o trimestral observada; su visualizacion adecuada hoy es el `heatmap` de componentes del deficit cualitativo 2024. Distingue siempre entre datos reales, scores provisionales y metodologia vigente. No inventes outputs no versionados ni asumas que el comparativo ya esta completo.

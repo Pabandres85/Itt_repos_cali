@@ -31,5 +31,9 @@
 - Metodo espacial: no requiere spatial join por tramo.
 - Periodo: 2023-2025.
 - Metodologia: usa `ref_min/ref_max` fijos por indicador.
-- Referentes provisionales: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Referentes provisionales de base: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Estado actual de Entorno Urbano: el notebook ya puede sobrescribir `39.2` con un proxy experimental usando `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`.
+- Base territorial del proxy: `Comuna 9` como aproximacion a Barrio Obrero.
+- Periodicidad real del proxy de Entorno Urbano: anual `2024`, no mensual ni trimestral observada.
+- Visualizacion interna reciente: `heatmap` de componentes del deficit cualitativo 2024.
 - Datos en repo: `obrero.zip` presente; capas se cargan por descompresion o Colab.

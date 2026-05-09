@@ -20,7 +20,8 @@ El repositorio esta pensado para:
 | ITT Roosevelt | `notebooks/01_itt_roosevelt.ipynb` | Implementado |
 | Avenida Ciudad de Cali | `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` | Implementado |
 | Barrio Obrero | `notebooks/03_itt_barrio_obrero.ipynb` | Implementado |
-| Comparativo | `notebooks/04_comparativo_itt_zonas.ipynb` | Plantilla |
+| Pulmon de Oriente 2026 | `notebooks/04_itt_pulmon_oriente_2026.ipynb` | Parcial |
+| Comparativo | `notebooks/05_comparativo_itt_zonas.ipynb` | Plantilla |
 
 ## Diferencias tecnicas por zona
 
@@ -37,6 +38,9 @@ El repositorio esta pensado para:
 - No requiere spatial join por tramo.
 - Los datos ya vienen filtrados a la zona.
 - Usa `ref_min/ref_max` fijos por indicador y es la referencia metodologica vigente del repo.
+- `Entorno Urbano` ya no depende solo del referente fijo: el notebook incluye un proxy experimental con `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`.
+- Ese proxy usa `Comuna 9` como aproximacion territorial a `Barrio Obrero` y combina `Deficit Cualitativo` con su proporcion dentro del `Deficit Habitacional`.
+- La visualizacion recomendada para ese proxy es un `heatmap` de componentes del deficit cualitativo 2024, no una serie mensual o trimestral observada.
 
 ### Roosevelt
 
@@ -50,7 +54,8 @@ El repositorio esta pensado para:
 - Se normalizo el criterio metodologico para agentes y documentacion corta.
 - Roosevelt paso de plantilla a notebook implementado.
 - Se incorporaron insumos de referencia de vivienda en `data/referencia/` para evaluar mejoras en la dimension `Entorno Urbano`.
-- El archivo de deficit habitacional es el principal candidato metodologico para esa futura migracion.
+- El archivo de deficit habitacional ya se usa de forma experimental en `03_itt_barrio_obrero.ipynb` para recalcular `REF_ENTORNO_U`.
+- `Predios titulados` y `subsidios de mejoramiento` siguen como insumos complementarios en evaluacion, pero aun no entran al calculo actual de la dimension.
 
 ## Estado documental
 

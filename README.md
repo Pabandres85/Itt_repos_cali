@@ -18,14 +18,17 @@ El proyecto esta organizado para trabajar con:
 | `notebooks/01_itt_roosevelt.ipynb` | ITT Roosevelt | Implementado |
 | `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` | Avenida Ciudad de Cali | Implementado |
 | `notebooks/03_itt_barrio_obrero.ipynb` | Barrio Obrero | Implementado |
-| `notebooks/04_comparativo_itt_zonas.ipynb` | Comparativo | Plantilla |
+| `notebooks/04_itt_pulmon_oriente_2026.ipynb` | Pulmon de Oriente 2026 | Parcial |
+| `notebooks/05_comparativo_itt_zonas.ipynb` | Comparativo | Plantilla |
 
 Notas de estado:
 
 - `02_itt_avenida_ciudad_de_cali.ipynb` sigue pendiente de migrar de min-max relativo a `ref_min/ref_max` fijos.
 - `03_itt_barrio_obrero.ipynb` ya usa `ref_min/ref_max` fijos y es la referencia metodologica vigente dentro del repo.
+- En `03_itt_barrio_obrero.ipynb`, `Entorno Urbano` ya puede recalcularse con un proxy basado en `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` para `Comuna 9`.
+- Ese proxy de `Entorno Urbano` es un corte anual `2024`, no una serie mensual o trimestral observada.
 - `01_itt_roosevelt.ipynb` ya fue adaptado con la estructura de Barrio Obrero y usa `ref_min/ref_max` fijos.
-- `04_comparativo_itt_zonas.ipynb` sigue como base de trabajo y depende de resultados homologos exportados.
+- `05_comparativo_itt_zonas.ipynb` sigue como base de trabajo y depende de resultados homologos exportados.
 
 ## Metodo vigente
 
@@ -61,7 +64,8 @@ itt-transformacion-territorial/
 |   |-- 01_itt_roosevelt.ipynb
 |   |-- 02_itt_avenida_ciudad_de_cali.ipynb
 |   |-- 03_itt_barrio_obrero.ipynb
-|   `-- 04_comparativo_itt_zonas.ipynb
+|   |-- 04_itt_pulmon_oriente_2026.ipynb
+|   `-- 05_comparativo_itt_zonas.ipynb
 |
 |-- outputs/
 |   |-- itt_roosevelt/
@@ -93,8 +97,9 @@ itt-transformacion-territorial/
 
 - Roosevelt ya cuenta con notebook implementado y alineado con la metodologia de `ref_min/ref_max` fijos.
 - La data de Roosevelt ya esta disponible en `data/itt_roosevelt/` mediante ZIP y carpeta descomprimida de trabajo.
-- Se agregaron Excel de vivienda en `data/referencia/` para evaluar un reemplazo futuro del referente fijo de `Entorno Urbano`.
-- El analisis preliminar indica que `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` es el mejor candidato como proxy territorial de `Entorno Urbano`.
+- Se agregaron Excel de vivienda en `data/referencia/` para evaluar mejoras en `Entorno Urbano`.
+- `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` ya se esta usando en `03_itt_barrio_obrero.ipynb` como proxy experimental de `Entorno Urbano` para `Comuna 9 / Barrio Obrero`.
+- El notebook de Barrio Obrero ahora incluye una visualizacion `heatmap` de componentes del deficit cualitativo 2024 para explicar ese proxy.
 
 ## Recomendacion operativa
 

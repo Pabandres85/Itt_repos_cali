@@ -17,7 +17,8 @@ Calcular el ITT para zonas de intervencion urbana en Cali y comparar resultados 
 - `01_itt_roosevelt.ipynb`: implementado con estructura homologada a Barrio Obrero y `ref_min/ref_max` fijos.
 - `02_itt_avenida_ciudad_de_cali.ipynb`: implementado, pero aun usa min-max relativo en la normalizacion de indicadores reales.
 - `03_itt_barrio_obrero.ipynb`: implementado y alineado con `ref_min/ref_max` fijos.
-- `04_comparativo_itt_zonas.ipynb`: plantilla comparativa.
+- `04_itt_pulmon_oriente_2026.ipynb`: salida parcial de seguimiento.
+- `05_comparativo_itt_zonas.ipynb`: plantilla comparativa.
 
 ## Regla metodologica para agentes
 
@@ -50,3 +51,5 @@ El agente debe diferenciar entre:
 - Roosevelt ya dispone de datos fuente en `data/itt_roosevelt/`.
 - Se revisaron errores de consistencia por `ano` y `año`; la convencion vigente en Roosevelt es `año`.
 - Se agregaron Excel de vivienda en `data/referencia/` para evaluar si `Entorno Urbano` puede dejar de depender de un referente fijo.
+- `03_itt_barrio_obrero.ipynb` ya usa experimentalmente `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` para recalcular `Entorno Urbano` con `Comuna 9` como proxy territorial.
+- Ese insumo de `Entorno Urbano` es un corte anual `2024`; la visualizacion reciente recomendada es un `heatmap` de componentes del deficit cualitativo.

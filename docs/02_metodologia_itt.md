@@ -69,6 +69,11 @@ Mientras una zona no tenga datos propios para ciertas dimensiones, el proyecto u
 
 Estos valores deben quedar marcados como provisionales en resultados y documentacion.
 
+Nota importante:
+
+- En `notebooks/03_itt_barrio_obrero.ipynb`, `Entorno Urbano` ya puede sobrescribir el valor `39.2` con un proxy experimental basado en `deficit habitacional 2024` para `Comuna 9`.
+- Ese override aplica a Barrio Obrero y no debe asumirse automaticamente como regla homologada para todas las zonas.
+
 ## Clasificacion
 
 | Rango | Nivel |
@@ -83,14 +88,18 @@ Estos valores deben quedar marcados como provisionales en resultados y documenta
 - `01_itt_roosevelt.ipynb` ya sigue este metodo y replica la estructura operativa de Barrio Obrero adaptada a un corredor.
 - `03_itt_barrio_obrero.ipynb` ya sigue este metodo.
 - `02_itt_avenida_ciudad_de_cali.ipynb` aun debe migrarse a este metodo.
+- `04_itt_pulmon_oriente_2026.ipynb` es parcial y no reemplaza el flujo principal de comparacion entre zonas.
 
 ## Referencias de vivienda en analisis
 
-En `data/referencia/` se agregaron nuevos Excel de vivienda para evaluar un reemplazo futuro del score fijo de `Entorno Urbano`.
+En `data/referencia/` se agregaron nuevos Excel de vivienda para fortalecer la lectura de `Entorno Urbano`.
 
 Lectura preliminar:
 
 - `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` es el candidato mas fuerte como proxy de calidad del entorno residencial.
+- En `03_itt_barrio_obrero.ipynb` ya se usa experimentalmente para recalcular `REF_ENTORNO_U` con `Comuna 9` como proxy territorial.
+- Ese archivo solo aporta un corte anual `2024`; no contiene periodicidad mensual ni trimestral observada.
+- La visualizacion recomendada para ese insumo es un `heatmap` de componentes del deficit cualitativo 2024.
 - `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` y `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` describen mejor intervencion institucional que estado fisico del entorno.
 - Aun no deben incorporarse al calculo sin resolver primero la equivalencia territorial entre comuna, barrio y corredor buffer.
 

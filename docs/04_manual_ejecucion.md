@@ -57,6 +57,13 @@ Nota operativa para Roosevelt:
 - Mantener la convencion `año` en las tablas del notebook para evitar inconsistencias entre celdas.
 - Si se ejecuta en Colab despues de cambios locales, conviene reiniciar entorno y correr desde la celda que construye `base`.
 
+Nota operativa para Barrio Obrero:
+
+- En Colab, el flujo reciente ha sido clonar el repo en `/content/itt_repos_cali`.
+- Luego se descomprime `data/itt_barrio_obrero/obrero.zip` a `/content/obrero`.
+- La ruta base de trabajo resultante queda en `/content/obrero/obrero/Geojson_Barrio_Obrero/`.
+- El notebook incluye `Celda 3B` para recalcular `Entorno Urbano` con `deficit habitacional` y `Celda 3C` para visualizar sus componentes 2024.
+
 ## 4. Criterio metodologico
 
 Metodo vigente:
@@ -64,6 +71,8 @@ Metodo vigente:
 - Usar `ref_min/ref_max` fijos por indicador.
 - Mantener como provisionales las dimensiones con referentes de Pulmon de Oriente.
 - No usar min-max relativo para la muestra de una zona pequena.
+- En Barrio Obrero, `Entorno Urbano` puede sobrescribir el referente fijo con un proxy experimental de `Comuna 9` usando `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`.
+- Ese proxy de `Entorno Urbano` es anual `2024`; no debe presentarse como serie mensual o trimestral observada.
 
 Referencia principal:
 
@@ -88,7 +97,7 @@ Hoy el repo no contiene outputs generados; solo la estructura base.
 Luego ejecutar:
 
 ```text
-notebooks/04_comparativo_itt_zonas.ipynb
+notebooks/05_comparativo_itt_zonas.ipynb
 ```
 
 Condicion para que tenga sentido:

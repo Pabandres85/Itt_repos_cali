@@ -20,5 +20,8 @@ Ademas de referencias generales, esta carpeta ya contiene Excel de vivienda y me
 ## Uso previsto
 
 - El archivo de deficit habitacional es el principal candidato para evaluar un proxy de `Entorno Urbano`.
+- Ese archivo ya se usa de forma experimental en `notebooks/03_itt_barrio_obrero.ipynb` para recalcular `REF_ENTORNO_U` con `Comuna 9` como proxy territorial de `Barrio Obrero`.
+- La lectura correcta de ese insumo es anual `2024`; no ofrece serie mensual ni trimestral observada.
+- La visualizacion recomendada en el notebook para ese insumo es un `heatmap` de componentes del deficit cualitativo 2024.
 - Los archivos de predios titulados y subsidios de mejoramiento se consideran insumos complementarios de intervencion institucional.
-- Ninguno de estos archivos hace parte aun del calculo oficial del ITT en los notebooks.
+- `Predios titulados` y `subsidios de mejoramiento` aun no hacen parte del calculo actual de `Entorno Urbano` en los notebooks.

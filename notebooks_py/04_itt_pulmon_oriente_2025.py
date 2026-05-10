@@ -1,14 +1,14 @@
 """
 ITT Pulmon de Oriente — Cali
-Indice de Transformacion Territorial · 5 Dimensiones · 2023-2025
+Indice de Transformacion Territorial · 5 Dimensiones · 2023-2026
 
 Zona: Pulmon de Oriente (zona agregada, multiples comunas)
-Normalizacion: ref_min / ref_max fijos por indicador
+Normalizacion: ref_min / ref_max fijos por indicador (trimestral)
 Dimensiones: Seguridad (30%) · Movilidad (25% ref) · Entorno Urbano (20% ref) · Educ y Des (13% ref) · Cohesion Social (12%)
-Periodo: 2023 - 2025
+Periodo: 2023 - 2026 (2026 solo T1 disponible)
 
-Datos reales: Homicidios, Hurtos (ZIP 2026), VIF (ZIP 2025)
-Referentes provisionales: Movilidad=35.0, Entorno Urbano=39.2, Educacion=54.9, Vulnerabilidad=54.1, Rinas=23.6
+Datos reales: Homicidios, Hurtos, VIF, Comparendos/Rinas (ZIP consolidado 2026)
+Referentes provisionales: Movilidad=35.0, Entorno Urbano=39.2, Educacion=54.9, Vulnerabilidad=54.1
 
 Ejecutar con:
     uv run notebooks_py/04_itt_pulmon_oriente_2025.py
@@ -86,21 +86,23 @@ def find_file(base_dir: Path, pattern: str) -> Path | None:
                 return Path(root) / f
     return None
 
-# ZIP 2026: homicidios y hurtos
-path_homicidios = find_file(DATA_DIR, r'homicidios.*pulmon|DATIC_homicidios')
-path_hurtos = find_file(DATA_DIR, r'hurtos.*pulmon|DATIC_hurtos')
-
-# ZIP 2025: VIF, poligono, arboles, sedes, CAI
+# ZIP 2026 (consolidado): homicidios, hurtos, VIF, comparendos
+path_homicidios = find_file(DATA_DIR, r'DATIC_homicidios.*Pulmon_O')
+path_hurtos = find_file(DATA_DIR, r'DATIC_hurtos.*Pulmon_O')
 path_vif = find_file(DATA_DIR, r'VIOLENCIA_INTRAFAMILIAR|DATIC_violencia_intrafamiliar')
-path_poligono = find_file(EXTRACT_2025, r'poligonos\.geojson')
-path_arboles = find_file(EXTRACT_2025, r'ARBOLES')
-path_sedes = find_file(EXTRACT_2025, r'Sedes_educativas')
-path_cai = find_file(EXTRACT_2025, r'CAI_MECAL')
+path_comparendos = find_file(DATA_DIR, r'DATIC_comparendos.*Pulmon_O')
+
+# Datos estaticos (poligono, arboles, sedes, CAI)
+path_poligono = find_file(DATA_DIR, r'poligonos\.geojson')
+path_arboles = find_file(DATA_DIR, r'ARBOLES')
+path_sedes = find_file(DATA_DIR, r'Sedes_educativas')
+path_cai = find_file(DATA_DIR, r'CAI_MECAL')
 
 print('\nArchivos encontrados:')
 for nombre, path in [('Homicidios', path_homicidios), ('Hurtos', path_hurtos),
-                     ('VIF', path_vif), ('Poligono', path_poligono),
-                     ('Arboles', path_arboles), ('Sedes', path_sedes), ('CAI', path_cai)]:
+                     ('VIF', path_vif), ('Comparendos', path_comparendos),
+                     ('Poligono', path_poligono), ('Arboles', path_arboles),
+                     ('Sedes', path_sedes), ('CAI', path_cai)]:
     print(f'  {nombre:12s}: {"OK" if path else "NO ENCONTRADO"} — {path}')
 
 # Validar minimos
@@ -111,7 +113,7 @@ for nombre, path in [('Homicidios', path_homicidios), ('Hurtos', path_hurtos), (
 # ══════════════════════════════════════════════════════════
 # Parametros
 # ══════════════════════════════════════════════════════════
-ANIOS = [2023, 2024, 2025]
+ANIOS = [2023, 2024, 2025, 2026]
 ZONA_NOMBRE = 'Pulmon de Oriente — Cali'
 
 PESOS = {
@@ -124,14 +126,17 @@ REFS = {
     'homicidios':     (5,   50,  True, 'Homicidios trimestrales'),
     'hurtos':         (200, 450, True, 'Hurtos trimestrales'),
     'vif':            (60,  200, True, 'VIF trimestral'),
+    'rinas':          (20,  160, True, 'Rinas trimestral'),
 }
+
+# Trimestres con datos reales (2026 solo tiene T1)
+TRIM_CON_DATOS = {2023: [1,2,3,4], 2024: [1,2,3,4], 2025: [1,2,3,4], 2026: [1]}
 
 # Referentes provisionales (dimensiones sin datos propios completos)
 REF_MOVILIDAD = 35.0       # Score Movilidad Pulmon de Oriente T4-2025
 REF_ENTORNO_U = 39.2       # Score Entorno Urbano
 REF_EDUC_DES = 54.9        # Score Educacion y Desarrollo
 REF_VULNERABILIDAD = 54.1  # Concentracion vulnerabilidad (indicador Cohesion)
-REF_RINAS = 23.6           # Score Rinas T4-2025 (no hay datos de comparendos en ZIP)
 
 print(f'\nPeriodo: {ANIOS[0]}-{ANIOS[-1]}')
 print('Pesos:', ' | '.join(f'{k}={v:.0%}' for k, v in PESOS.items()))
@@ -147,6 +152,7 @@ def load_gj(path):
 raw_hom = load_gj(path_homicidios)
 raw_hur = load_gj(path_hurtos)
 raw_vif = load_gj(path_vif)
+raw_comp = load_gj(path_comparendos) if path_comparendos else {'features': []}
 
 if path_poligono:
     gdf_zona = gpd.read_file(path_poligono)
@@ -172,6 +178,12 @@ def pick_col(df, candidates):
 
 def procesar(raw, nombre):
     df = pd.DataFrame([f['properties'] for f in raw['features']])
+    # Eliminar duplicados exactos
+    n_antes = len(df)
+    df = df.drop_duplicates()
+    n_dupes = n_antes - len(df)
+    if n_dupes > 0:
+        print(f'  {nombre}: {n_dupes} duplicados eliminados')
     col_fecha = pick_col(df, FECHA_CANDIDATES)
     if col_fecha is None:
         raise ValueError(f'No se encontro columna de fecha en {nombre}. Columnas: {list(df.columns)[:15]}')
@@ -187,16 +199,30 @@ def agg_anual(df):
 
 def agg_trim(df):
     idx = pd.MultiIndex.from_product([ANIOS, [1, 2, 3, 4]], names=['año', 'trimestre'])
-    return df.groupby(['año', 'trimestre']).size().reindex(idx, fill_value=0)
+    serie = df.groupby(['año', 'trimestre']).size().reindex(idx)
+    # Solo rellenar con 0 los trimestres que SI tienen datos
+    for anio in ANIOS:
+        for trim in TRIM_CON_DATOS.get(anio, []):
+            if pd.isna(serie.loc[(anio, trim)]):
+                serie.loc[(anio, trim)] = 0
+    return serie
 
 df_hom = procesar(raw_hom, 'Homicidios')
 df_hur = procesar(raw_hur, 'Hurtos')
 df_vif = procesar(raw_vif, 'VIF')
 
+# Rinas: filtrar de comparendos donde agrupado empieza con 'RI'
+if raw_comp['features']:
+    df_comp = procesar(raw_comp, 'Comparendos')
+    df_rin = df_comp[df_comp['agrupado'].astype(str).str.upper().str.startswith('RI')].copy()
+else:
+    df_rin = pd.DataFrame(columns=['año', 'trimestre'])
+print(f'Rinas filtradas: {len(df_rin)} registros')
+
 # Tabla trimestral
 idx_t = pd.MultiIndex.from_product([ANIOS, [1, 2, 3, 4]], names=['año', 'trimestre'])
 corr_trim = pd.DataFrame(index=idx_t).reset_index()
-for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif)]:
+for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif), ('rinas', df_rin)]:
     ser = agg_trim(df_src).reset_index()
     ser.columns = ['año', 'trimestre', nombre]
     corr_trim = corr_trim.merge(ser, on=['año', 'trimestre'], how='left').fillna({nombre: 0})
@@ -204,7 +230,7 @@ corr_trim['periodo'] = corr_trim['año'].astype(str) + '-Q' + corr_trim['trimest
 
 # Tabla anual
 base = pd.DataFrame({'año': ANIOS})
-for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif)]:
+for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif), ('rinas', df_rin)]:
     base[nombre] = agg_anual(df_src).values
 
 print('\nIndicadores anuales:')
@@ -226,7 +252,7 @@ for ind, (rmin, rmax, inv, desc) in REFS.items():
     corr_trim[f'score_{ind}'] = corr_trim[ind].apply(lambda v, rm=rmin, rx=rmax, i=inv: score_ref(v, rm, rx, i))
 
 corr_trim['score_seguridad'] = (corr_trim['score_homicidios'] + corr_trim['score_hurtos']) / 2
-corr_trim['score_cohesion'] = (corr_trim['score_vif'] + REF_RINAS + REF_VULNERABILIDAD) / 3
+corr_trim['score_cohesion'] = (corr_trim['score_vif'] + corr_trim['score_rinas'] + REF_VULNERABILIDAD) / 3
 corr_trim['score_movilidad'] = REF_MOVILIDAD
 corr_trim['score_entorno_u'] = REF_ENTORNO_U
 corr_trim['score_educ_des'] = REF_EDUC_DES
@@ -333,7 +359,7 @@ plt.close()
 # Evolucion trimestral Seguridad (barras)
 # ══════════════════════════════════════════════════════════
 x = np.arange(4); n = len(ANIOS); w = 0.8 / n
-COLORES = ['#42A5F5', '#1B4F8A', '#E53935']
+COLORES = ['#42A5F5', '#1B4F8A', '#E53935', '#FF6F00']
 
 fig, axes = plt.subplots(1, 2, figsize=(16, 5), facecolor=BG)
 fig.suptitle('Dimension Seguridad - Evolucion Trimestral | Pulmon de Oriente', fontsize=13, fontweight='bold', color='#1B2631')
@@ -356,7 +382,7 @@ plt.close()
 # ══════════════════════════════════════════════════════════
 fig, axes = plt.subplots(1, 2, figsize=(16, 6), facecolor=BG)
 fig.suptitle('ITT Global — Pulmon de Oriente', fontsize=13, fontweight='bold', color='#1B2631')
-COLORES_ITT = ['#42A5F5', '#2E7D32', '#E53935']
+COLORES_ITT = ['#42A5F5', '#2E7D32', '#E53935', '#FF6F00']
 band_configs = [(0, 40, '#FFCDD2', 'Emergencia'), (40, 60, '#FFE0B2', 'Consolidacion'), (60, 80, '#C8E6C9', 'Avance'), (80, 100, '#BBDEFB', 'Transformacion')]
 
 ax1 = axes[0]
@@ -390,7 +416,7 @@ plt.close()
 DIMS_LBL = ['Seguridad', 'Movilidad\n(ref)', 'Cohesion\nSocial', 'Entorno\nUrbano (ref)', 'Educ y\nDes (ref)']
 N_DIMS = 5
 angles = [i / N_DIMS * 2 * np.pi for i in range(N_DIMS)] + [0]
-COLORES_R = ['#42A5F5', '#2E7D32', '#E53935']
+COLORES_R = ['#42A5F5', '#2E7D32', '#E53935', '#FF6F00']
 
 fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True), facecolor=BG)
 fig.suptitle('Radar ITT — Pulmon de Oriente | 5 Dimensiones', fontsize=13, fontweight='bold', color='#1B2631')

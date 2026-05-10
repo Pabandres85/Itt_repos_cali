@@ -11,11 +11,13 @@ venv/
 # Data temp
 *.tmp
 
-# Archivos descomprimidos (solo se versiona el ZIP)
+# Archivos descomprimidos (solo se versiona el ZIP/7z)
 data/itt_barrio_obrero/obrero/
 data/itt_roosevelt/Roosevelt/
 data/itt_roosevelt/Roosevelt_unzipped/
 data/itt_pulmon_oriente/Pulmon_De_Oriente_2026/
+data/itt_pulmon_oriente/Pulmon_De_Oriente_2025/
+data/itt_avenida_ciudad_de_cali/Geojson_Ciudad_de_Cali/
 
 # OS
 .DS_Store

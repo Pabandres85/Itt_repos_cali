@@ -1,0 +1,239 @@
+================================================================================
+CONSOLIDADO ITT — ESTADO DE ZONAS POR DIMENSION Y PERIODO
+Proyecto: Indice de Transformacion Territorial — Cali, Colombia
+Fecha de generacion: Mayo 2026
+================================================================================
+
+RESUMEN EJECUTIVO
+-----------------
+El proyecto calcula el ITT (0-100) para zonas de intervencion urbana.
+Metodologia: ref_min/ref_max fijos por indicador, 5 dimensiones ponderadas.
+
+Pesos oficiales:
+  Seguridad:           30%
+  Movilidad:           25%
+  Entorno Urbano:      20%
+  Educacion y Des.:    13%
+  Cohesion Social:     12%
+
+================================================================================
+ZONA 1: BARRIO OBRERO — Comuna 9
+================================================================================
+Notebook:  03_itt_barrio_obrero.ipynb
+Script:    notebooks_py/03_itt_barrio_obrero.py
+Estado:    IMPLEMENTADO — Referencia metodologica del proyecto
+Periodo:   2023-2025 (anual y trimestral)
+Unidad:    Poligono unico (~5K hab)
+
+DIMENSIONES:
++---------------------+----------+------------------+---------------------------+
+| Dimension           | Estado   | Indicadores      | Observaciones             |
++---------------------+----------+------------------+---------------------------+
+| Seguridad (30%)     | COMPLETA | Homicidios       | Datos reales 2023-2025    |
+|                     |          | Hurtos           |                           |
++---------------------+----------+------------------+---------------------------+
+| Movilidad (25%)     | COMPLETA | Siniestralidad   | Datos reales 2023-2025    |
+|                     |          | Lesionados       |                           |
+|                     |          | Mortales         |                           |
++---------------------+----------+------------------+---------------------------+
+| Entorno Urbano (20%)| PROXY    | Deficit habit.   | Proxy experimental con    |
+|                     |          | Comuna 9         | BD_DEFICIT_HABITACIONAL   |
+|                     |          |                  | Corte anual 2024          |
+|                     |          |                  | Ref fijo si no hay Excel: |
+|                     |          |                  | 39.2                      |
++---------------------+----------+------------------+---------------------------+
+| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
+|                     |          |                  | Fuente: Pulmon de Oriente |
++---------------------+----------+------------------+---------------------------+
+| Cohesion Social(12%)| COMPLETA | VIF              | Datos reales 2023-2025    |
+|                     |          | Rinas            | Vulnerabilidad: ref 54.1  |
++---------------------+----------+------------------+---------------------------+
+
+DATOS POR AÑO:
+  2023: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Ref | Cohesion OK
+  2024: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Ref | Cohesion OK
+  2025: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Ref | Cohesion OK
+
+FALTA:
+  - Datos propios de Educacion y Desarrollo (matricula, desercion, etc.)
+  - Datos propios de Entorno Urbano (NDVI, area verde) — solo tiene proxy
+
+================================================================================
+ZONA 2: CORREDOR ROOSEVELT
+================================================================================
+Notebook:  01_itt_roosevelt_v2.ipynb
+Script:    notebooks_py/01_itt_roosevelt.py
+Estado:    IMPLEMENTADO — Alineado con metodologia vigente
+Periodo:   2023-2025 (anual y trimestral)
+Unidad:    Corredor con buffer 100m (~50K-100K hab)
+
+DIMENSIONES:
++---------------------+----------+------------------+---------------------------+
+| Dimension           | Estado   | Indicadores      | Observaciones             |
++---------------------+----------+------------------+---------------------------+
+| Seguridad (30%)     | COMPLETA | Homicidios       | Datos reales 2023-2025    |
+|                     |          | Hurtos           |                           |
++---------------------+----------+------------------+---------------------------+
+| Movilidad (25%)     | COMPLETA | Siniestralidad   | Datos reales 2023-2025    |
+|                     |          | Lesionados       |                           |
+|                     |          | Mortales         |                           |
++---------------------+----------+------------------+---------------------------+
+| Entorno Urbano (20%)| REFERENTE| —                | Score fijo: 39.2          |
+|                     |          |                  | Fuente: Pulmon de Oriente |
++---------------------+----------+------------------+---------------------------+
+| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
+|                     |          |                  | Fuente: Pulmon de Oriente |
++---------------------+----------+------------------+---------------------------+
+| Cohesion Social(12%)| COMPLETA | VIF              | Datos reales 2023-2025    |
+|                     |          | Rinas            | Vulnerabilidad: ref 54.1  |
++---------------------+----------+------------------+---------------------------+
+
+DATOS POR AÑO:
+  2023: Seguridad OK | Movilidad OK | Entorno Ref | Educacion Ref | Cohesion OK
+  2024: Seguridad OK | Movilidad OK | Entorno Ref | Educacion Ref | Cohesion OK
+  2025: Seguridad OK | Movilidad OK | Entorno Ref | Educacion Ref | Cohesion OK
+
+FALTA:
+  - Datos propios de Entorno Urbano (NDVI, area verde, deficit)
+  - Datos propios de Educacion y Desarrollo
+
+================================================================================
+ZONA 3: AVENIDA CIUDAD DE CALI
+================================================================================
+Notebook:  02_itt_avenida_ciudad_de_cali.ipynb (sin v2)
+Script:    No tiene .py
+Estado:    IMPLEMENTADO pero NO HOMOLOGADO (usa min-max relativo)
+Periodo:   2023-2025
+Unidad:    8 tramos buffer 100m (spatial join)
+
+DIMENSIONES:
++---------------------+----------+------------------+---------------------------+
+| Dimension           | Estado   | Indicadores      | Observaciones             |
++---------------------+----------+------------------+---------------------------+
+| Seguridad (30%)     | COMPLETA | Homicidios       | Datos reales 2023-2025    |
+|                     |          | Hurtos           | NORMALIZACION INCORRECTA  |
+|                     |          |                  | (usa min-max relativo)    |
++---------------------+----------+------------------+---------------------------+
+| Movilidad (25%)     | COMPLETA | Siniestralidad   | Datos reales 2023-2025    |
+|                     |          | Lesionados       | NORMALIZACION INCORRECTA  |
+|                     |          | Mortales         |                           |
++---------------------+----------+------------------+---------------------------+
+| Entorno Urbano (20%)| REFERENTE| —                | Score fijo: 39.2          |
++---------------------+----------+------------------+---------------------------+
+| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
++---------------------+----------+------------------+---------------------------+
+| Cohesion Social(12%)| PARCIAL  | VIF              | Datos reales 2023-2025    |
+|                     |          | Rinas            | SIN Vulnerabilidad ref    |
++---------------------+----------+------------------+---------------------------+
+
+DATOS POR AÑO:
+  2023: Seguridad OK* | Movilidad OK* | Entorno Ref | Educacion Ref | Cohesion Parcial
+  2024: Seguridad OK* | Movilidad OK* | Entorno Ref | Educacion Ref | Cohesion Parcial
+  2025: Seguridad OK* | Movilidad OK* | Entorno Ref | Educacion Ref | Cohesion Parcial
+  * = datos reales pero normalizacion incorrecta (min-max relativo)
+
+FALTA:
+  - MIGRAR normalizacion a ref_min/ref_max fijos (deuda principal del repo)
+  - Datos propios de Entorno Urbano y Educacion
+  - Agregar Vulnerabilidad a Cohesion
+  - Datos fuente NO versionados en el repo (depende de carga manual)
+  - No tiene version v2 ni script .py
+
+================================================================================
+ZONA 4: PULMON DE ORIENTE
+================================================================================
+Notebook:  04_itt_pulmon_oriente_2026_v2.ipynb
+Script:    notebooks_py/04_itt_pulmon_oriente_2025.py
+Estado:    IMPLEMENTADO — Zona de referencia metodologica
+Periodo:   2023-2026 (2026 solo T1 disponible, T2-T4 = NaN)
+Unidad:    Zona agregada multiples comunas (>200K hab)
+
+DIMENSIONES:
++---------------------+----------+------------------+---------------------------+
+| Dimension           | Estado   | Indicadores      | Observaciones             |
++---------------------+----------+------------------+---------------------------+
+| Seguridad (30%)     | COMPLETA | Homicidios       | Datos reales 2023-2026T1  |
+|                     |          | Hurtos           | Duplicados eliminados     |
++---------------------+----------+------------------+---------------------------+
+| Movilidad (25%)     | REFERENTE| —                | Score fijo: 35.0          |
+|                     |          |                  | No hay siniestros en ZIP  |
++---------------------+----------+------------------+---------------------------+
+| Entorno Urbano (20%)| REFERENTE| —                | Score fijo: 39.2          |
++---------------------+----------+------------------+---------------------------+
+| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
++---------------------+----------+------------------+---------------------------+
+| Cohesion Social(12%)| PARCIAL  | VIF              | Datos reales 2023-2026T1  |
+|                     |          | Rinas            | Datos reales (comparendos)|
+|                     |          |                  | Vulnerabilidad: ref 54.1  |
+|                     |          |                  | Duplicados eliminados     |
++---------------------+----------+------------------+---------------------------+
+
+DATOS POR AÑO:
+  2023: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
+  2024: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
+  2025: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
+  2026: Solo T1      | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Solo T1
+
+DUPLICADOS EN DATA:
+  Homicidios:   0 duplicados
+  Hurtos:       896 duplicados (eliminados automaticamente)
+  VIF:          5,257 duplicados (eliminados automaticamente)
+  Comparendos:  385 duplicados (eliminados automaticamente)
+
+FALTA:
+  - Datos de Movilidad (siniestros viales) — no estan en el ZIP
+  - Datos propios de Entorno Urbano (NDVI, area verde)
+  - Datos propios de Educacion y Desarrollo
+  - Dato de Vulnerabilidad propio (usa referente)
+  - Datos completos de 2026 (solo T1 disponible)
+
+================================================================================
+RESUMEN COMPARATIVO — COMPLETITUD POR DIMENSION
+================================================================================
+
++---------------------+---------------+------------+----------+----------------+
+| Dimension           | Barrio Obrero | Roosevelt  | Av. Cali | Pulmon Oriente |
++---------------------+---------------+------------+----------+----------------+
+| Seguridad (30%)     | COMPLETA      | COMPLETA   | COMPLETA*| COMPLETA       |
+| Movilidad (25%)     | COMPLETA      | COMPLETA   | COMPLETA*| REFERENTE      |
+| Entorno Urbano (20%)| PROXY         | REFERENTE  | REFERENTE| REFERENTE      |
+| Educacion (13%)     | REFERENTE     | REFERENTE  | REFERENTE| REFERENTE      |
+| Cohesion Social(12%)| COMPLETA      | COMPLETA   | PARCIAL  | PARCIAL        |
++---------------------+---------------+------------+----------+----------------+
+* Av. Ciudad de Cali usa min-max relativo (no homologado)
+
+PERIODO DISPONIBLE:
++---------------------+---------------+------------+----------+----------------+
+| Año                 | Barrio Obrero | Roosevelt  | Av. Cali | Pulmon Oriente |
++---------------------+---------------+------------+----------+----------------+
+| 2023                | Completo      | Completo   | Completo | Completo       |
+| 2024                | Completo      | Completo   | Completo | Completo       |
+| 2025                | Completo      | Completo   | Completo | Completo       |
+| 2026                | —             | —          | —        | Solo T1        |
++---------------------+---------------+------------+----------+----------------+
+
+ARCHIVOS DISPONIBLES EN EL REPO:
++---------------------+---------------+------------+----------+----------------+
+| Recurso             | Barrio Obrero | Roosevelt  | Av. Cali | Pulmon Oriente |
++---------------------+---------------+------------+----------+----------------+
+| ZIP datos           | SI            | SI         | SI       | SI             |
+| Notebook original   | SI            | SI         | SI       | SI             |
+| Notebook v2 (Colab) | SI (es el og) | SI         | NO       | SI             |
+| Script .py (uv)     | SI            | SI         | NO       | SI             |
+| Imagenes generadas  | SI (12)       | SI (9)     | NO       | SI (11)        |
+| Excel exportado     | SI            | SI         | NO       | SI             |
+| Doc estructura .md  | SI            | SI         | NO       | SI             |
++---------------------+---------------+------------+----------+----------------+
+
+================================================================================
+PRIORIDADES PENDIENTES
+================================================================================
+
+1. MIGRAR Avenida Ciudad de Cali a ref_min/ref_max fijos (deuda principal)
+2. Obtener datos de Movilidad (siniestros) para Pulmon de Oriente
+3. Obtener datos propios de Educacion para todas las zonas
+4. Obtener datos propios de Entorno Urbano (NDVI, area verde) para todas las zonas
+5. Completar datos 2026 para Pulmon de Oriente (T2-T4)
+6. Crear v2 y .py para Avenida Ciudad de Cali
+
+================================================================================

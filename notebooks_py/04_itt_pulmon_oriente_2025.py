@@ -91,7 +91,7 @@ path_homicidios = find_file(DATA_DIR, r'homicidios.*pulmon|DATIC_homicidios')
 path_hurtos = find_file(DATA_DIR, r'hurtos.*pulmon|DATIC_hurtos')
 
 # ZIP 2025: VIF, poligono, arboles, sedes, CAI
-path_vif = find_file(EXTRACT_2025, r'VIOLENCIA_INTRAFAMILIAR')
+path_vif = find_file(DATA_DIR, r'VIOLENCIA_INTRAFAMILIAR|DATIC_violencia_intrafamiliar')
 path_poligono = find_file(EXTRACT_2025, r'poligonos\.geojson')
 path_arboles = find_file(EXTRACT_2025, r'ARBOLES')
 path_sedes = find_file(EXTRACT_2025, r'Sedes_educativas')

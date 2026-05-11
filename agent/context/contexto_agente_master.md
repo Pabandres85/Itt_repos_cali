@@ -104,17 +104,19 @@ Conclusion importante:
 
 ### Pulmon de Oriente 2026
 
-- `notebooks/04_itt_pulmon_oriente_2026.ipynb`
+- `notebooks/04_itt_pulmon_oriente_2026_v2.ipynb`
 
 Estado:
 
 - No es el notebook comparativo del proyecto.
-- Es una salida parcial para `Seguridad T1 2026`.
-- Debe tratarse como notebook de seguimiento, no como referencia integral del flujo principal.
+- Es una salida completa para Seguridad y Cohesion Social 2023-2026.
+- 2026 solo tiene datos reales de T1; Q2, Q3 y Q4 se estiman con valores Proxy (promedio historico trimestral 2023-2025).
+- Los valores Proxy se marcan con doble asterisco (`**`).
+- Incluye deduplicacion automatica por fecha+coordenada.
 
 Rol en el proyecto:
 
-- Sirve como referencia parcial de seguimiento.
+- Sirve como referencia de seguimiento con serie temporal completa (real + Proxy).
 - Pulmon de Oriente tambien es la base de los referentes provisionales usados por otras zonas.
 
 ### Comparativo entre zonas
@@ -213,8 +215,11 @@ Para responder bien sobre este repo, un agente debe leer en este orden:
   - dato observado real
   - score normalizado
   - referente provisional
+  - valor Proxy estimado (marcado con `**`)
   - resultado exportado
 - No presentar el proxy de `Entorno Urbano` de Barrio Obrero como serie mensual o trimestral observada.
+- Los valores Proxy de 2026 Q2-Q4 deben identificarse siempre con doble asterisco (`**`) y no deben presentarse como datos reales observados.
+- Cuando se reemplacen valores Proxy por datos reales, actualizar simultaneamente todos los `.md` del proyecto.
 
 ## 11. Resumen ejecutivo para handoff rapido
 

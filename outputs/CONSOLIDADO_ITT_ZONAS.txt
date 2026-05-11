@@ -172,7 +172,21 @@ DATOS POR AÑO:
   2023: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
   2024: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
   2025: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
-  2026: Solo T1      | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Solo T1
+  2026: T1 Real, T2-T4 Proxy** | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion T1 Real, T2-T4 Proxy**
+
+VALORES PROXY 2026 (Q2, Q3, Q4):
+  Homicidios:   Q2=19.7**  Q3=24.3**  Q4=29.3**
+  Hurtos:       Q2=346.0** Q3=340.3** Q4=283.0**
+  VIF:          Q2=134.7** Q3=150.3** Q4=106.3**
+  Rinas:        Q2=92.7**  Q3=83.0**  Q4=114.0**
+  Metodo: Promedio historico trimestral 2023-2025
+  ** = Valor estimado (Proxy), no observado directamente
+
+NOTA METODOLOGICA:
+  Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026
+  fueron estimados mediante valores Proxy calculados a partir de la linea
+  base historica de los años 2023-2025, con el fin de normalizar la
+  informacion y garantizar comparabilidad estadistica y visual en el analisis.
 
 DUPLICADOS EN DATA:
   Homicidios:   0 duplicados
@@ -185,7 +199,7 @@ FALTA:
   - Datos propios de Entorno Urbano (NDVI, area verde)
   - Datos propios de Educacion y Desarrollo
   - Dato de Vulnerabilidad propio (usa referente)
-  - Datos completos de 2026 (solo T1 disponible)
+  - Datos reales de 2026 T2-T4 (actualmente estimados con Proxy**)
 
 ================================================================================
 RESUMEN COMPARATIVO — COMPLETITUD POR DIMENSION
@@ -209,8 +223,10 @@ PERIODO DISPONIBLE:
 | 2023                | Completo      | Completo   | Completo | Completo       |
 | 2024                | Completo      | Completo   | Completo | Completo       |
 | 2025                | Completo      | Completo   | Completo | Completo       |
-| 2026                | —             | —          | —        | Solo T1        |
+| 2026                | —             | —          | —        | T1 Real +      |
+|                     |               |            |          | T2-T4 Proxy**  |
 +---------------------+---------------+------------+----------+----------------+
+** Valores estimados mediante promedio historico trimestral 2023-2025
 
 ARCHIVOS DISPONIBLES EN EL REPO:
 +---------------------+---------------+------------+----------+----------------+
@@ -233,7 +249,17 @@ PRIORIDADES PENDIENTES
 2. Obtener datos de Movilidad (siniestros) para Pulmon de Oriente
 3. Obtener datos propios de Educacion para todas las zonas
 4. Obtener datos propios de Entorno Urbano (NDVI, area verde) para todas las zonas
-5. Completar datos 2026 para Pulmon de Oriente (T2-T4)
+5. Reemplazar valores Proxy 2026 T2-T4 por datos reales cuando esten disponibles
 6. Crear v2 y .py para Avenida Ciudad de Cali
 
+================================================================================
+NOTA METODOLOGICA GENERAL
+================================================================================
+Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron
+estimados mediante valores Proxy calculados a partir de la linea base historica
+de los años 2023-2025, con el fin de normalizar la informacion y garantizar
+comparabilidad estadistica y visual en el analisis.
+
+Los valores Proxy se identifican con doble asterisco (**) en tablas y graficos.
+Referencia completa: docs/05_nota_metodologica_proxy_2026.md
 ================================================================================

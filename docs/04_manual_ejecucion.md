@@ -126,3 +126,18 @@ Minimo recomendado para agentes:
 - Metodologia vigente.
 - Fuentes disponibles y faltantes.
 - Resultados exportados.
+
+## 8. Valores Proxy 2026
+
+Para Pulmon de Oriente, los trimestres Q2, Q3 y Q4 de 2026 no tienen datos reales. El notebook `04_itt_pulmon_oriente_2026_v2.ipynb` genera automaticamente valores Proxy basados en el promedio historico trimestral de 2023-2025.
+
+Reglas:
+- Los valores Proxy se marcan con doble asterisco (`**`) en todas las salidas.
+- Deben reemplazarse por datos reales en cuanto esten disponibles.
+- La logica de calculo esta en `notebooks/celda6_procesamiento_dedup.py`.
+
+> **Nota metodologica:** Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025, con el fin de normalizar la informacion y garantizar comparabilidad estadistica y visual en el analisis.
+
+## 9. Sincronizacion de documentacion
+
+Los archivos `.md` son la fuente principal de documentacion del proyecto. Cada ajuste implementado en calculos, tablas o graficos debe reflejarse inmediatamente en los `.md`. No debe existir informacion desactualizada entre los datos procesados y la documentacion.

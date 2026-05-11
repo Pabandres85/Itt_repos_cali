@@ -100,6 +100,10 @@ itt-transformacion-territorial/
 - Se agregaron Excel de vivienda en `data/referencia/` para evaluar mejoras en `Entorno Urbano`.
 - `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` ya se esta usando en `03_itt_barrio_obrero.ipynb` como proxy experimental de `Entorno Urbano` para `Comuna 9 / Barrio Obrero`.
 - El notebook de Barrio Obrero ahora incluye una visualizacion `heatmap` de componentes del deficit cualitativo 2024 para explicar ese proxy.
+- Pulmon de Oriente 2026 (`04_itt_pulmon_oriente_2026_v2.ipynb`) implementa deduplicacion por fecha+coordenada y genera valores Proxy para Q2, Q3 y Q4 de 2026 basados en promedio historico trimestral 2023-2025.
+- Los valores Proxy se marcan con doble asterisco (`**`) en todas las salidas para distinguirlos de datos reales.
+
+> **Nota metodologica:** Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025, con el fin de normalizar la informacion y garantizar comparabilidad estadistica y visual en el analisis.
 
 ## Recomendacion operativa
 

@@ -47,9 +47,12 @@ Los duplicados se concentran en 2026 y se eliminan automaticamente con `drop_dup
 ### Periodo y trimestres
 
 - `ANIOS = [2023, 2024, 2025, 2026]`
-- 2026 solo tiene datos de T1
-- T2, T3, T4 de 2026 quedan como NaN (no como 0)
-- Se usa `TRIM_CON_DATOS` para distinguir trimestres con datos reales
+- 2026 solo tiene datos reales de T1
+- T2, T3, T4 de 2026 se estiman con **valores Proxy** (promedio historico trimestral 2023-2025)
+- Los valores Proxy se marcan con doble asterisco (`**`) en todas las salidas
+- Se usa `TRIM_CON_DATOS` para distinguir trimestres con datos reales vs estimados
+
+> **Nota metodologica:** Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025, con el fin de normalizar la informacion y garantizar comparabilidad estadistica y visual en el analisis.
 
 ---
 
@@ -78,7 +81,7 @@ Ruta de imagenes: `/content/itt_repos_cali/outputs/IMAGENES_POR_ITT/itt_pulmon_o
 |---|---|
 | Celda 4 | Carga GeoJSON (homicidios, hurtos, VIF, comparendos, arboles, sedes, CAI) |
 | Celda 5 | Mapa Folium con todas las capas (desactivadas por defecto, usuario activa manualmente) |
-| Celda 6 | Procesa indicadores: elimina duplicados, parsea fechas, filtra rinas de comparendos, agrega conteos |
+| Celda 6 | Procesa indicadores: elimina duplicados por fecha+coordenada, parsea fechas, filtra rinas de comparendos, agrega conteos, **genera valores Proxy para Q2-Q4 2026** |
 
 ### Bloque 4 — Calculo del ITT
 
@@ -192,8 +195,9 @@ El usuario activa manualmente las capas que quiera ver desde el control de capas
 2. **Comparendos/Rinas agregados** — filtro `agrupado.str.startswith('RI')`
 3. **VIF integrado** — archivo `DATIC_violencia_intrafamiliar_2023_2026T1.geojson`
 4. **Periodo extendido** — `ANIOS = [2023, 2024, 2025, 2026]`
-5. **Duplicados** — `drop_duplicates()` en `procesar()` con reporte de cuantos se eliminan
-6. **NaN en trimestres sin datos** — 2026 T2-T4 quedan vacios, no como 0
-7. **4 colores** — naranja (`#FF6F00`) agregado para 2026 en todas las graficas
-8. **Mapa completo** — todas las capas en FeatureGroup con `show=False`
-9. **Celda push** — condicional (solo en Colab, en local solo valida)
+5. **Duplicados** — `drop_duplicates()` por fecha+coordenada en `procesar()` con reporte de cuantos se eliminan
+6. **Valores Proxy 2026** — Q2, Q3, Q4 estimados con promedio historico trimestral 2023-2025, marcados con `**`
+7. **NaN en trimestres sin datos** — reemplazados por valores Proxy (ya no quedan vacios)
+8. **4 colores** — naranja (`#FF6F00`) agregado para 2026 en todas las graficas
+9. **Mapa completo** — todas las capas en FeatureGroup con `show=False`
+10. **Celda push** — condicional (solo en Colab, en local solo valida)

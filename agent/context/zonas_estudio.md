@@ -37,3 +37,20 @@
 - Periodicidad real del proxy de Entorno Urbano: anual `2024`, no mensual ni trimestral observada.
 - Visualizacion interna reciente: `heatmap` de componentes del deficit cualitativo 2024.
 - Datos en repo: `obrero.zip` presente; capas se cargan por descompresion o Colab.
+
+## ITT Pulmon de Oriente
+
+- Estado: implementado.
+- Notebook: `notebooks/04_itt_pulmon_oriente_2026_v2.ipynb`
+- Unidad de analisis: zona agregada multiples comunas (>200K hab).
+- Metodo espacial: no requiere spatial join (eventos ya filtrados a la zona).
+- Periodo: 2023-2026.
+- Metodologia: usa `ref_min/ref_max` fijos trimestrales (zona grande, guia metodologica seccion 4.1).
+- Referentes provisionales: Movilidad 35.0, Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Datos en repo: `Pulmon_De_Oriente_2026.zip` presente con ZIP consolidado.
+- Deduplicacion: automatica por fecha+coordenada (elimina duplicados en hurtos, VIF y comparendos).
+- Periodo 2026: solo T1 tiene datos reales; Q2, Q3 y Q4 se estiman con valores Proxy.
+- Valores Proxy: calculados como promedio historico trimestral de 2023-2025.
+- Marcado: todos los valores Proxy se identifican con doble asterisco (`**`).
+
+> **Nota metodologica:** Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025, con el fin de normalizar la informacion y garantizar comparabilidad estadistica y visual en el analisis.

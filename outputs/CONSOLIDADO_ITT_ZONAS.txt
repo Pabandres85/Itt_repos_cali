@@ -176,9 +176,11 @@ RESULTADOS ITT POR AÑO (scores por dimension, promedio trimestral):
 | 2023 |      41.0 |      35.0 |     63.2 |    39.2 |   54.9 | 43.6 | Consolidacion |
 | 2024 |      51.7 |      35.0 |     57.5 |    39.2 |   54.9 | 46.2 | Consolidacion |
 | 2025 |      64.7 |      35.0 |     39.6 |    39.2 |   54.9 | 47.9 | Consolidacion |
-| 2026 |      89.9 |      35.0 |     73.2 |    39.2 |   54.9 | 59.5 | Consolidacion |
+| 2026**|     56.7 |      35.0 |     55.8 |    39.2 |   54.9 | 47.5 | Consolidacion |
 +------+-----------+-----------+----------+---------+--------+------+---------------+
-Nota: 2026 incluye valores Proxy** para Q2-Q4. ITT anual = promedio 4 trimestres.
+** 2026 incluye valores Proxy para Q2-Q4. ITT anual = promedio 4 trimestres.
+   Los scores se recalcularan al ejecutar el notebook con la logica Proxy completa.
+   Valores actuales pendientes de re-ejecucion en Colab.
 
 CONTEO TRIMESTRAL (valores unicos, deduplicados por fecha+coordenada):
 +------+-----+------------+--------+-----+-------+
@@ -228,13 +230,23 @@ VALORES PROXY 2026 (Q2, Q3, Q4):
   Metodo: Promedio historico trimestral 2023-2025
   ** = Valor estimado (Proxy), no observado directamente
 
+VISUALIZACION EN GRAFICOS:
+  Todos los graficos del notebook muestran ** en valores Proxy 2026:
+  - Cards metricas: valores 2026 con ** (ej: "99**", "59.5**")
+  - Heatmaps: celdas Q2, Q3, Q4 de 2026 con ** (ej: "134**", "149**")
+  - Barras trimestrales: etiquetas Q2**, Q3**, Q4** en eje X y valores con **
+  - Leyendas: "2026**" para distinguir del dato real
+  - ITT Global: etiqueta "2026**" en eje X y valor con **
+  - Radar: leyenda "2026**"
+  - Nota al pie en todos los graficos: "** Valores Proxy Q2-Q4 2026"
+
 NOTA METODOLOGICA:
   Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026
   fueron estimados mediante valores Proxy calculados a partir de la linea
   base historica de los años 2023-2025, con el fin de normalizar la
   informacion y garantizar comparabilidad estadistica y visual en el analisis.
   En los graficos, los valores Proxy se identifican con ** en etiquetas,
-  leyendas y notas al pie.
+  leyendas, rotulos, anotaciones y notas al pie.
 
 DUPLICADOS EN DATA (eliminados por fecha+coordenada):
   Homicidios:   313 total -> 313 unicos (0 duplicados)

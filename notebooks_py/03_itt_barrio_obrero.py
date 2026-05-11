@@ -91,7 +91,7 @@ PATHS = {
     'cai':         BASE + 'CAI_MECAL_CALI_OBRERO.geojson',
 }
 
-ANIOS = [2023, 2024, 2025]
+ANIOS = [2023, 2024, 2025, 2026]
 ZONA_NOMBRE = 'Barrio Obrero — Comuna 9, Cali'
 
 PESOS = {
@@ -319,6 +319,33 @@ for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('siniestrali
     ser.columns = ['año', 'trimestre', nombre]
     corr_trim = corr_trim.merge(ser, on=['año', 'trimestre'], how='left').fillna({nombre: 0})
 corr_trim['periodo'] = corr_trim['año'].astype(str) + '-Q' + corr_trim['trimestre'].astype(str)
+
+# ══════════════════════════════════════════════════════════
+# VALORES PROXY 2026 (Q1-Q4)
+# No hay datos reales de 2026 para Barrio Obrero.
+# Se estiman TODOS los trimestres con promedio historico 2023-2025.
+# ══════════════════════════════════════════════════════════
+indicadores_all = [c for c in base.columns if c != 'año']
+hist_anual = base[base['año'].isin([2023, 2024, 2025])]
+proxy_anual = hist_anual[indicadores_all].mean().round(1)
+row_2026 = {'año': 2026}
+row_2026.update(proxy_anual.to_dict())
+base = pd.concat([base, pd.DataFrame([row_2026])], ignore_index=True)
+
+# Proxy trimestral
+hist_trim = corr_trim[corr_trim['año'].isin([2023, 2024, 2025])]
+indicadores_trim = [c for c in corr_trim.columns if c not in ['año', 'trimestre', 'periodo']]
+for trim in [1, 2, 3, 4]:
+    trim_hist = hist_trim[hist_trim['trimestre'] == trim]
+    proxy_row = {'año': 2026, 'trimestre': trim}
+    for ind in indicadores_trim:
+        proxy_row[ind] = round(trim_hist[ind].mean(), 1)
+    proxy_row['periodo'] = f'2026-Q{trim}'
+    corr_trim = pd.concat([corr_trim, pd.DataFrame([proxy_row])], ignore_index=True)
+
+corr_trim['es_proxy'] = corr_trim['año'] == 2026
+print('\nVALORES PROXY 2026** (promedio historico 2023-2025, sin datos reales):')
+print('  ', {k: f'{v:.1f}**' for k, v in proxy_anual.items()})
 
 print('\nIndicadores anuales:')
 print(base.to_string(index=False))

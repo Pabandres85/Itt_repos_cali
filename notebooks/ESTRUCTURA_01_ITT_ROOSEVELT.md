@@ -6,6 +6,8 @@ Calcula el ITT para el Corredor Roosevelt (buffer 100m) en Cali. Disenado para e
 
 El archivo original `01_itt_roosevelt.ipynb` se conserva intacto. Todos los cambios operativos van en la version `_v2`.
 
+Periodo: 2023-2026 (2026 = Proxy**, promedio historico 2023-2025, sin datos reales).
+
 ## Flujo completo
 
 ```

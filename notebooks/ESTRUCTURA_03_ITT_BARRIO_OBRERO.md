@@ -4,6 +4,8 @@
 
 Este notebook calcula el ITT (Indice de Transformacion Territorial) para Barrio Obrero, Comuna 9, Cali. Esta disenado para ejecutarse en **Google Colab** usando la extension de Colab en Kiro/VS Code.
 
+Periodo: 2023-2026 (2026 = Proxy**, promedio historico 2023-2025, sin datos reales).
+
 ## Flujo completo de ejecucion
 
 ```

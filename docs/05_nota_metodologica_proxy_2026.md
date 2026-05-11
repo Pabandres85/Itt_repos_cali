@@ -71,12 +71,25 @@ Esto permite distinguir visualmente entre:
 
 ## Alcance
 
-Esta metodologia aplica exclusivamente a:
-- Zona: Pulmon de Oriente
+Esta metodologia aplica a:
+
+### Pulmon de Oriente
 - Periodo: Q2, Q3 y Q4 de 2026
 - Indicadores: Homicidios, Hurtos, VIF, Rinas
+- Q1 2026 tiene datos reales; Q2-Q4 son Proxy
 
-Las demas zonas (Roosevelt, Barrio Obrero, Avenida Ciudad de Cali) no tienen datos de 2026 y por tanto no requieren valores Proxy.
+### Roosevelt (v2)
+- Periodo: Q1, Q2, Q3 y Q4 de 2026 (completo)
+- Indicadores: Homicidios, Hurtos, Siniestralidad, Lesionados, Mortales, VIF, Rinas
+- No hay datos reales de 2026; todos los trimestres son Proxy
+
+### Barrio Obrero
+- Periodo: Q1, Q2, Q3 y Q4 de 2026 (completo)
+- Indicadores: Homicidios, Hurtos, Siniestralidad, Lesionados, Mortales, VIF, Rinas
+- No hay datos reales de 2026; todos los trimestres son Proxy
+
+### Avenida Ciudad de Cali
+- No aplica (pendiente de migracion a ref_min/ref_max fijos)
 
 ## Limitaciones
 

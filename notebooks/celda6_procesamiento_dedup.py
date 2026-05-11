@@ -4,9 +4,11 @@
 # Copiar este contenido completo en la Celda 6 del notebook
 # 04_itt_pulmon_oriente_2026_v2.ipynb en Colab
 #
-# IMPORTANTE: Despues de aplicar esta celda, el mapa (Celda 5) y la
-# exportacion (Celda 15) deben usar los DataFrames deduplicados.
-# Ver instrucciones al final de este archivo.
+# ESTRATEGIA DE DEDUPLICACION:
+# Un registro se considera duplicado si tiene la MISMA FECHA y la MISMA
+# COORDENADA (lon, lat) que otro registro. Esto captura eventos que aparecen
+# repetidos en el GeoJSON aunque tengan algun campo diferente (ej: un ID
+# autogenerado distinto).
 # =============================================================================
 
 FECHA_CANDIDATES = ['fechah', 'fecha_hech', 'fecha_hecho', 'fecha', 'FECHA_HECH']
@@ -19,7 +21,7 @@ def pick_col(df, candidates):
     return None
 
 def dedup_raw(raw, nombre):
-    """Deduplica features de un GeoJSON: mismos atributos + misma coordenada = duplicado."""
+    """Deduplica features de un GeoJSON por coordenada (para datos estaticos sin fecha)."""
     registros = []
     for feat in raw['features']:
         row = dict(feat['properties'])
@@ -38,10 +40,9 @@ def dedup_raw(raw, nombre):
     df = pd.DataFrame(registros)
     n_total = len(df)
 
-    # Eliminar duplicados: mismos atributos + misma coordenada
-    cols_dedup = [c for c in df.columns if c not in ['_lon', '_lat']]
-    cols_dedup_con_coords = cols_dedup + ['_lon', '_lat']
-    df = df.drop_duplicates(subset=cols_dedup_con_coords, keep='first').reset_index(drop=True)
+    # Para datos estaticos: deduplicar por todos los atributos + coordenada
+    cols_dedup = [c for c in df.columns]
+    df = df.drop_duplicates(subset=cols_dedup, keep='first').reset_index(drop=True)
     n_unicos = len(df)
     n_dupes = n_total - n_unicos
 
@@ -49,13 +50,41 @@ def dedup_raw(raw, nombre):
     return df, n_dupes
 
 def procesar(raw, nombre):
-    """Procesa GeoJSON: deduplica + extrae fecha + filtra periodo."""
-    df, n_dupes = dedup_raw(raw, nombre)
+    """Procesa GeoJSON: extrae properties + coordenadas, deduplica por FECHA + COORDENADA,
+    filtra por periodo."""
+    registros = []
+    for feat in raw['features']:
+        row = dict(feat['properties'])
+        if feat.get('geometry') and feat['geometry'].get('coordinates'):
+            coords = feat['geometry']['coordinates']
+            row['_lon'] = coords[0]
+            row['_lat'] = coords[1]
+        elif 'x' in row and 'y' in row:
+            row['_lon'] = row['x']
+            row['_lat'] = row['y']
+        else:
+            row['_lon'] = None
+            row['_lat'] = None
+        registros.append(row)
 
-    # Procesar fecha
+    df = pd.DataFrame(registros)
+    n_total = len(df)
+
+    # Identificar columna de fecha
     col_fecha = pick_col(df, FECHA_CANDIDATES)
     if col_fecha is None:
         raise ValueError(f'No se encontro columna de fecha en {nombre}')
+
+    # Deduplicar por FECHA + COORDENADA (misma fecha, mismo punto = mismo evento)
+    df['_fecha_str'] = df[col_fecha].astype(str).str.strip()
+    cols_dedup = ['_fecha_str', '_lon', '_lat']
+    df = df.drop_duplicates(subset=cols_dedup, keep='first').reset_index(drop=True)
+    n_unicos = len(df)
+    n_dupes = n_total - n_unicos
+
+    print(f'  {nombre:15s}: {n_total:>5} total -> {n_unicos:>5} unicos ({n_dupes} duplicados eliminados)')
+
+    # Procesar fecha y filtrar periodo
     df['_fecha'] = pd.to_datetime(df[col_fecha], errors='coerce')
     df['año'] = df['_fecha'].dt.year
     df['trimestre'] = df['_fecha'].dt.quarter
@@ -77,7 +106,7 @@ def agg_trim(df):
     return serie
 
 # --- Deduplicar datos de indicadores ---
-print('Deduplicacion de registros:')
+print('Deduplicacion de registros (por fecha + coordenada):')
 print('='*60)
 df_hom = procesar(raw_hom, 'Homicidios')
 df_hur = procesar(raw_hur, 'Hurtos')

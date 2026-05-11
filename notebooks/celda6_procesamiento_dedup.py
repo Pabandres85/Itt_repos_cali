@@ -3,6 +3,10 @@
 # =============================================================================
 # Copiar este contenido completo en la Celda 6 del notebook
 # 04_itt_pulmon_oriente_2026_v2.ipynb en Colab
+#
+# IMPORTANTE: Despues de aplicar esta celda, el mapa (Celda 5) y la
+# exportacion (Celda 15) deben usar los DataFrames deduplicados.
+# Ver instrucciones al final de este archivo.
 # =============================================================================
 
 FECHA_CANDIDATES = ['fechah', 'fecha_hech', 'fecha_hecho', 'fecha', 'FECHA_HECH']
@@ -14,12 +18,11 @@ def pick_col(df, candidates):
             return cols_lower[cand.lower()]
     return None
 
-def procesar(raw, nombre):
-    """Procesa GeoJSON: extrae properties + coordenadas, elimina duplicados exactos."""
+def dedup_raw(raw, nombre):
+    """Deduplica features de un GeoJSON: mismos atributos + misma coordenada = duplicado."""
     registros = []
     for feat in raw['features']:
         row = dict(feat['properties'])
-        # Extraer coordenadas para detectar duplicados espaciales
         if feat.get('geometry') and feat['geometry'].get('coordinates'):
             coords = feat['geometry']['coordinates']
             row['_lon'] = coords[0]
@@ -31,19 +34,24 @@ def procesar(raw, nombre):
             row['_lon'] = None
             row['_lat'] = None
         registros.append(row)
-    
+
     df = pd.DataFrame(registros)
     n_total = len(df)
-    
+
     # Eliminar duplicados: mismos atributos + misma coordenada
     cols_dedup = [c for c in df.columns if c not in ['_lon', '_lat']]
     cols_dedup_con_coords = cols_dedup + ['_lon', '_lat']
     df = df.drop_duplicates(subset=cols_dedup_con_coords, keep='first').reset_index(drop=True)
     n_unicos = len(df)
     n_dupes = n_total - n_unicos
-    
+
     print(f'  {nombre:15s}: {n_total:>5} total -> {n_unicos:>5} unicos ({n_dupes} duplicados eliminados)')
-    
+    return df, n_dupes
+
+def procesar(raw, nombre):
+    """Procesa GeoJSON: deduplica + extrae fecha + filtra periodo."""
+    df, n_dupes = dedup_raw(raw, nombre)
+
     # Procesar fecha
     col_fecha = pick_col(df, FECHA_CANDIDATES)
     if col_fecha is None:
@@ -68,6 +76,7 @@ def agg_trim(df):
                 serie.loc[(anio, trim)] = 0
     return serie
 
+# --- Deduplicar datos de indicadores ---
 print('Deduplicacion de registros:')
 print('='*60)
 df_hom = procesar(raw_hom, 'Homicidios')
@@ -81,14 +90,21 @@ if raw_comp['features']:
 else:
     df_rin = pd.DataFrame(columns=['año', 'trimestre'])
 print(f'  Rinas filtradas: {len(df_rin)} registros')
+
+# --- Deduplicar datos estaticos ---
+print()
+print('Datos estaticos (deduplicados):')
+df_arb, _ = dedup_raw(raw_arb, 'Arboles') if raw_arb['features'] else (pd.DataFrame(), 0)
+df_sed, _ = dedup_raw(raw_sed, 'Sedes Educ') if raw_sed['features'] else (pd.DataFrame(), 0)
+df_cai, _ = dedup_raw(raw_cai, 'CAI/MECAL') if raw_cai['features'] else (pd.DataFrame(), 0)
 print('='*60)
 
-# Tabla anual
+# --- Tabla anual ---
 base = pd.DataFrame({'año': ANIOS})
 for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif), ('rinas', df_rin)]:
     base[nombre] = agg_anual(df_src).values
 
-# Tabla trimestral
+# --- Tabla trimestral ---
 idx_t = pd.MultiIndex.from_product([ANIOS,[1,2,3,4]], names=['año','trimestre'])
 corr_trim = pd.DataFrame(index=idx_t).reset_index()
 for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif), ('rinas', df_rin)]:

@@ -40,7 +40,7 @@ No necesitas crear un entorno virtual manualmente. `uv run` lo gestiona por ti.
 |---|---|---|---|
 | `01_itt_roosevelt.py` | Corredor Roosevelt | ITT completo (5 dimensiones) | 9 PNG + Excel |
 | `03_itt_barrio_obrero.py` | Barrio Obrero, Comuna 9 | ITT completo + proxy Entorno Urbano | 12 PNG + Excel |
-| `04_itt_pulmon_oriente_2025.py` | Pulmon de Oriente | Parcial (solo Seguridad, T1 2023-2026) | 3 PNG + Excel |
+| `04_itt_pulmon_oriente_2025.py` | Pulmon de Oriente | ITT completo con Proxy** Q2-Q4 2026 | 7 PNG + Excel |
 
 ## Scripts auxiliares en notebooks/
 

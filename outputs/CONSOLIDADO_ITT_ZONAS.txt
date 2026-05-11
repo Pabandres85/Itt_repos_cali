@@ -145,7 +145,7 @@ ZONA 4: PULMON DE ORIENTE
 Notebook:  04_itt_pulmon_oriente_2026_v2.ipynb
 Script:    notebooks_py/04_itt_pulmon_oriente_2025.py
 Estado:    IMPLEMENTADO — Zona de referencia metodologica
-Periodo:   2023-2026 (2026 solo T1 disponible, T2-T4 = NaN)
+Periodo:   2023-2026 (2026 T1 real + T2-T4 Proxy**)
 Unidad:    Zona agregada multiples comunas (>200K hab)
 
 DIMENSIONES:
@@ -153,7 +153,8 @@ DIMENSIONES:
 | Dimension           | Estado   | Indicadores      | Observaciones             |
 +---------------------+----------+------------------+---------------------------+
 | Seguridad (30%)     | COMPLETA | Homicidios       | Datos reales 2023-2026T1  |
-|                     |          | Hurtos           | Duplicados eliminados     |
+|                     |          | Hurtos           | Q2-Q4 2026 = Proxy**      |
+|                     |          |                  | Duplicados eliminados     |
 +---------------------+----------+------------------+---------------------------+
 | Movilidad (25%)     | REFERENTE| —                | Score fijo: 35.0          |
 |                     |          |                  | No hay siniestros en ZIP  |
@@ -163,21 +164,66 @@ DIMENSIONES:
 | Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| PARCIAL  | VIF              | Datos reales 2023-2026T1  |
-|                     |          | Rinas            | Datos reales (comparendos)|
+|                     |          | Rinas            | Q2-Q4 2026 = Proxy**      |
 |                     |          |                  | Vulnerabilidad: ref 54.1  |
 |                     |          |                  | Duplicados eliminados     |
 +---------------------+----------+------------------+---------------------------+
+
+RESULTADOS ITT POR AÑO (scores por dimension, promedio trimestral):
++------+-----------+-----------+----------+---------+--------+------+---------------+
+| Año  | Seguridad | Movilidad | Cohesion | EntornoU| EducDes| ITT  | Nivel         |
++------+-----------+-----------+----------+---------+--------+------+---------------+
+| 2023 |      41.0 |      35.0 |     63.2 |    39.2 |   54.9 | 43.6 | Consolidacion |
+| 2024 |      51.7 |      35.0 |     57.5 |    39.2 |   54.9 | 46.2 | Consolidacion |
+| 2025 |      64.7 |      35.0 |     39.6 |    39.2 |   54.9 | 47.9 | Consolidacion |
+| 2026 |      89.9 |      35.0 |     73.2 |    39.2 |   54.9 | 59.5 | Consolidacion |
++------+-----------+-----------+----------+---------+--------+------+---------------+
+Nota: 2026 incluye valores Proxy** para Q2-Q4. ITT anual = promedio 4 trimestres.
+
+CONTEO TRIMESTRAL (valores unicos, deduplicados por fecha+coordenada):
++------+-----+------------+--------+-----+-------+
+| Año  | Trim| Homicidios | Hurtos | VIF | Rinas |
++------+-----+------------+--------+-----+-------+
+| 2023 | Q1  |         24 |    431 | 106 |    70 |
+| 2023 | Q2  |         24 |    373 | 138 |    67 |
+| 2023 | Q3  |         38 |    378 | 125 |    50 |
+| 2023 | Q4  |         31 |    259 |  88 |    37 |
+| 2024 | Q1  |         18 |    375 |  98 |    86 |
+| 2024 | Q2  |         21 |    353 | 123 |    91 |
+| 2024 | Q3  |         26 |    349 | 136 |    55 |
+| 2024 | Q4  |         20 |    327 | 126 |    62 |
+| 2025 | Q1  |         25 |    287 | 126 |    92 |
+| 2025 | Q2  |         14 |    306 | 142 |   120 |
+| 2025 | Q3  |          9 |    291 | 189 |   144 |
+| 2025 | Q4  |         37 |    260 | 105 |   243 |
+| 2026 | Q1  |         26 |    286 | 113 |   202 |
+| 2026 | Q2**|       19.7 |  344.0 |134.3|  92.7 |
+| 2026 | Q3**|       24.3 |  339.3 |150.0|  83.0 |
+| 2026 | Q4**|       29.3 |  282.0 |106.3| 114.0 |
++------+-----+------------+--------+-----+-------+
+** = Valor Proxy (promedio historico trimestral 2023-2025)
+
+CONTEO ANUAL (con Proxy 2026):
++------+------------+--------+-----+-------+
+| Año  | Homicidios | Hurtos | VIF | Rinas |
++------+------------+--------+-----+-------+
+| 2023 |        117 |  1,441 | 457 |   224 |
+| 2024 |         85 |  1,404 | 483 |   294 |
+| 2025 |         85 |  1,144 | 562 |   599 |
+| 2026 |         99 |  1,251 | 503 |   492 |
++------+------------+--------+-----+-------+
+Nota: Anual 2026 = Q1 real + Q2-Q4 Proxy**
 
 DATOS POR AÑO:
   2023: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
   2024: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
   2025: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
-  2026: T1 Real, T2-T4 Proxy** | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion T1 Real, T2-T4 Proxy**
+  2026: T1 Real + T2-T4 Proxy** | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion T1 Real + T2-T4 Proxy**
 
 VALORES PROXY 2026 (Q2, Q3, Q4):
   Homicidios:   Q2=19.7**  Q3=24.3**  Q4=29.3**
-  Hurtos:       Q2=346.0** Q3=340.3** Q4=283.0**
-  VIF:          Q2=134.7** Q3=150.3** Q4=106.3**
+  Hurtos:       Q2=344.0** Q3=339.3** Q4=282.0**
+  VIF:          Q2=134.3** Q3=150.0** Q4=106.3**
   Rinas:        Q2=92.7**  Q3=83.0**  Q4=114.0**
   Metodo: Promedio historico trimestral 2023-2025
   ** = Valor estimado (Proxy), no observado directamente
@@ -187,12 +233,14 @@ NOTA METODOLOGICA:
   fueron estimados mediante valores Proxy calculados a partir de la linea
   base historica de los años 2023-2025, con el fin de normalizar la
   informacion y garantizar comparabilidad estadistica y visual en el analisis.
+  En los graficos, los valores Proxy se identifican con ** en etiquetas,
+  leyendas y notas al pie.
 
-DUPLICADOS EN DATA:
-  Homicidios:   0 duplicados
-  Hurtos:       896 duplicados (eliminados automaticamente)
-  VIF:          5,257 duplicados (eliminados automaticamente)
-  Comparendos:  385 duplicados (eliminados automaticamente)
+DUPLICADOS EN DATA (eliminados por fecha+coordenada):
+  Homicidios:   313 total -> 313 unicos (0 duplicados)
+  Hurtos:       5,171 total -> 4,275 unicos (896 duplicados eliminados)
+  VIF:          25,769 total -> 20,512 unicos (5,257 duplicados eliminados)
+  Comparendos:  29,485 total -> 29,100 unicos (385 duplicados eliminados)
 
 FALTA:
   - Datos de Movilidad (siniestros viales) — no estan en el ZIP

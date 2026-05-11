@@ -4,14 +4,12 @@
 # Copiar este contenido completo en la Celda 6 del notebook
 # 04_itt_pulmon_oriente_2026_v2.ipynb en Colab
 #
-# ESTRATEGIA DE DEDUPLICACION:
-# Un registro se considera duplicado si tiene la MISMA FECHA y la MISMA
-# COORDENADA (lon, lat) que otro registro.
+# IMPORTANTE: Este script genera los valores Proxy ANTES de la normalizacion.
+# La Celda 7 (normalizacion) debe usar el corr_trim que sale de aqui,
+# que ya incluye Q2, Q3, Q4 de 2026 con valores estimados.
 #
-# VALORES PROXY 2026:
-# Para Q2, Q3 y Q4 de 2026 se generan valores estimados a partir del
-# promedio historico trimestral de 2023-2025. Estos valores se marcan
-# con doble asterisco (**) en las salidas.
+# CAMBIO CLAVE: Se elimina TRIM_CON_DATOS y se rellenan TODOS los trimestres
+# de 2026 (Q1 con datos reales, Q2-Q4 con Proxy).
 # =============================================================================
 
 FECHA_CANDIDATES = ['fechah', 'fecha_hech', 'fecha_hecho', 'fecha', 'FECHA_HECH']
@@ -92,10 +90,10 @@ def agg_anual(df):
     return df.groupby('año').size().reindex(ANIOS, fill_value=0)
 
 def agg_trim(df):
+    """Agrega por trimestre. Rellena con 0 TODOS los trimestres de TODOS los años."""
     serie = df.groupby(['año','trimestre']).size()
     for anio in ANIOS:
-        trims = [1,2,3,4] if anio < 2026 else [1]
-        for trim in trims:
+        for trim in [1, 2, 3, 4]:
             if (anio, trim) not in serie.index:
                 serie.loc[(anio, trim)] = 0
     return serie
@@ -122,12 +120,8 @@ df_sed, _ = dedup_raw(raw_sed, 'Sedes Educ') if raw_sed['features'] else (pd.Dat
 df_cai, _ = dedup_raw(raw_cai, 'CAI/MECAL') if raw_cai['features'] else (pd.DataFrame(), 0)
 print('='*60)
 
-# --- Tabla anual ---
-base = pd.DataFrame({'año': ANIOS})
-for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif), ('rinas', df_rin)]:
-    base[nombre] = agg_anual(df_src).values
-
-# --- Tabla trimestral ---
+# --- Tabla trimestral (Q1 2026 = real, Q2-Q4 2026 = 0 por ahora) ---
+indicadores = ['homicidios', 'hurtos', 'vif', 'rinas']
 idx_t = pd.MultiIndex.from_product([ANIOS,[1,2,3,4]], names=['año','trimestre'])
 corr_trim = pd.DataFrame(index=idx_t).reset_index()
 for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('vif', df_vif), ('rinas', df_rin)]:
@@ -139,7 +133,6 @@ corr_trim = corr_trim.fillna(0)
 # =============================================================================
 # VALORES PROXY PARA Q2, Q3, Q4 DE 2026
 # Metodologia: Promedio historico trimestral de 2023-2025
-# Nota: Los valores Proxy se marcan con ** en las salidas
 # =============================================================================
 print()
 print('='*60)
@@ -149,7 +142,6 @@ print('='*60)
 
 # Calcular promedios historicos por trimestre (solo años 2023-2025)
 historico = corr_trim[corr_trim['año'].isin([2023, 2024, 2025])]
-indicadores = ['homicidios', 'hurtos', 'vif', 'rinas']
 
 proxy_values = {}
 for trim in [2, 3, 4]:
@@ -159,7 +151,7 @@ for trim in [2, 3, 4]:
         promedio = trim_hist[ind].mean()
         proxy_values[trim][ind] = round(promedio, 1)
 
-# Aplicar Proxy a la tabla trimestral
+# Aplicar Proxy a la tabla trimestral (reemplazar los 0 de Q2-Q4 2026)
 for trim in [2, 3, 4]:
     mask = (corr_trim['año'] == 2026) & (corr_trim['trimestre'] == trim)
     for ind in indicadores:
@@ -169,10 +161,15 @@ for trim in [2, 3, 4]:
 corr_trim['es_proxy'] = False
 corr_trim.loc[(corr_trim['año'] == 2026) & (corr_trim['trimestre'].isin([2,3,4])), 'es_proxy'] = True
 
-# Recalcular anual 2026 incluyendo Proxy
+# Agregar columna periodo para visualizacion
+corr_trim['periodo'] = corr_trim.apply(lambda r: f"{int(r['año'])}-Q{int(r['trimestre'])}", axis=1)
+
+# --- Tabla anual (recalcular 2026 con Proxy incluido) ---
+base = pd.DataFrame({'año': ANIOS})
 for ind in indicadores:
-    total_2026 = corr_trim[corr_trim['año'] == 2026][ind].sum()
-    base.loc[base['año'] == 2026, ind] = total_2026
+    for anio in ANIOS:
+        total = corr_trim[corr_trim['año'] == anio][ind].sum()
+        base.loc[base['año'] == anio, ind] = total
 
 # Mostrar Proxy generados
 print()
@@ -190,8 +187,7 @@ print('='*60)
 print('Conteo anual (con Proxy 2026):')
 print(base.to_string(index=False))
 print()
-print('Conteo trimestral (con Proxy 2026 Q2-Q4 marcados **):')
-# Mostrar con marcador **
+print('Conteo trimestral completo:')
 for _, row in corr_trim.iterrows():
     marca = '**' if row['es_proxy'] else '  '
     print(f"  {int(row['año'])}  Q{int(row['trimestre'])}  "

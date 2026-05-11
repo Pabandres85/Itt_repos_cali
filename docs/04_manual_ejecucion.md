@@ -92,6 +92,22 @@ outputs/itt_barrio_obrero/
 
 Hoy el repo no contiene outputs generados; solo la estructura base.
 
+## 5.1 Aplicar scripts auxiliares en Colab (Pulmon de Oriente)
+
+Para el notebook `04_itt_pulmon_oriente_2026_v2.ipynb`, los scripts auxiliares en `notebooks/` contienen la logica actualizada:
+
+1. Ejecutar el notebook hasta Celda 5 normalmente
+2. Reemplazar **Celda 6** con el contenido de `notebooks/celda6_procesamiento_dedup.py`
+3. Reemplazar **Celda 7** con el contenido de `notebooks/celda7_normalizacion_itt.py`
+4. Re-ejecutar desde Celda 6 en adelante
+5. Los graficos mostraran 4 trimestres completos para 2026 (Q1 real + Q2-Q4 Proxy**)
+
+Estos scripts garantizan:
+- Deduplicacion por fecha+coordenada
+- Generacion de valores Proxy para Q2-Q4 2026
+- Normalizacion con 4 trimestres completos
+- Visualizaciones con serie temporal continua
+
 ## 6. Ejecutar comparativo
 
 Luego ejecutar:

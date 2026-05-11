@@ -89,4 +89,15 @@ Las demas zonas (Roosevelt, Barrio Obrero, Avenida Ciudad de Cali) no tienen dat
 
 Este documento forma parte de la documentacion metodologica del proyecto ITT y debe mantenerse sincronizado con los calculos implementados en:
 - `notebooks/04_itt_pulmon_oriente_2026_v2.ipynb`
-- `notebooks/celda6_procesamiento_dedup.py`
+- `notebooks/celda6_procesamiento_dedup.py` — logica de deduplicacion y generacion de Proxy
+- `notebooks/celda7_normalizacion_itt.py` — normalizacion con 4 trimestres completos 2026
+- `notebooks/correcciones_celdas_5_y_15.py` — correcciones para mapa y exportacion
+
+## Instrucciones de aplicacion en Colab
+
+1. Ejecutar el notebook hasta Celda 5 normalmente
+2. Reemplazar **Celda 6** con el contenido de `celda6_procesamiento_dedup.py`
+3. Reemplazar **Celda 7** con el contenido de `celda7_normalizacion_itt.py`
+4. Re-ejecutar desde Celda 6 en adelante
+5. Los graficos mostraran los 4 trimestres de 2026 (Q1 real + Q2-Q4 Proxy)
+6. Los valores Proxy aparecen marcados con `**` en las salidas de texto

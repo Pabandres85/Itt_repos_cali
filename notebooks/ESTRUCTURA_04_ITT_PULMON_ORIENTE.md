@@ -81,13 +81,13 @@ Ruta de imagenes: `/content/itt_repos_cali/outputs/IMAGENES_POR_ITT/itt_pulmon_o
 |---|---|
 | Celda 4 | Carga GeoJSON (homicidios, hurtos, VIF, comparendos, arboles, sedes, CAI) |
 | Celda 5 | Mapa Folium con todas las capas (desactivadas por defecto, usuario activa manualmente) |
-| Celda 6 | Procesa indicadores: elimina duplicados por fecha+coordenada, parsea fechas, filtra rinas de comparendos, agrega conteos, **genera valores Proxy para Q2-Q4 2026** |
+| Celda 6 | Procesa indicadores: elimina duplicados por fecha+coordenada, parsea fechas, filtra rinas de comparendos, agrega conteos, **genera valores Proxy para Q2-Q4 2026 en corr_trim** |
 
 ### Bloque 4 — Calculo del ITT
 
 | Celda | Funcion |
 |---|---|
-| Celda 7 | Normaliza trimestralmente con ref_min/ref_max, calcula scores por dimension, ITT trimestral y anual |
+| Celda 7 | Normaliza trimestralmente con ref_min/ref_max (4 trimestres completos para 2026 incluyendo Proxy), calcula scores por dimension, ITT trimestral y anual |
 
 ### Bloque 5 — Visualizaciones
 
@@ -176,8 +176,19 @@ El usuario activa manualmente las capas que quiera ver desde el control de capas
 
 - `04_itt_pulmon_oriente_2026.ipynb` — original intacto (no tocar)
 - `04_itt_pulmon_oriente_2026_v2.ipynb` — version operativa con flujo Colab + push
+- `notebooks/celda6_procesamiento_dedup.py` — codigo fuente de la Celda 6 (dedup + Proxy)
+- `notebooks/celda7_normalizacion_itt.py` — codigo fuente de la Celda 7 (normalizacion + ITT)
+- `notebooks/correcciones_celdas_5_y_15.py` — correcciones para mapa y exportacion Excel
 - `notebooks_py/04_itt_pulmon_oriente_2025.py` — version local ejecutable con `uv run` (periodo 2023-2025)
-- `notebooks_py/04_itt_pulmon_oriente_2026.py` — version local parcial (solo Seguridad T1)
+
+### Como aplicar los scripts .py al notebook en Colab
+
+1. Ejecutar el notebook hasta la Celda 5 (mapa) normalmente
+2. En la **Celda 6**: reemplazar el contenido completo con `celda6_procesamiento_dedup.py`
+3. En la **Celda 7**: reemplazar el contenido completo con `celda7_normalizacion_itt.py`
+4. Re-ejecutar desde Celda 6 en adelante
+5. Los graficos (Celdas 8-14) veran los 4 trimestres de 2026 con datos completos
+6. Los valores Proxy (Q2-Q4 2026) se marcan con `**` en las salidas de texto
 
 ---
 

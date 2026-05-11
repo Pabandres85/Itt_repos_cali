@@ -40,7 +40,27 @@ No necesitas crear un entorno virtual manualmente. `uv run` lo gestiona por ti.
 |---|---|---|---|
 | `01_itt_roosevelt.py` | Corredor Roosevelt | ITT completo (5 dimensiones) | 9 PNG + Excel |
 | `03_itt_barrio_obrero.py` | Barrio Obrero, Comuna 9 | ITT completo + proxy Entorno Urbano | 12 PNG + Excel |
-| `04_itt_pulmon_oriente_2026.py` | Pulmon de Oriente | Parcial (solo Seguridad, T1 2023-2026) | 3 PNG + Excel |
+| `04_itt_pulmon_oriente_2025.py` | Pulmon de Oriente | Parcial (solo Seguridad, T1 2023-2026) | 3 PNG + Excel |
+
+## Scripts auxiliares en notebooks/
+
+Ademas de los scripts ejecutables, existen scripts auxiliares en `notebooks/` que contienen el codigo fuente para reemplazar celdas del notebook de Colab:
+
+| Script | Funcion | Aplica a |
+|---|---|---|
+| `notebooks/celda6_procesamiento_dedup.py` | Deduplicacion + generacion de valores Proxy Q2-Q4 2026 | Celda 6 de `04_itt_pulmon_oriente_2026_v2.ipynb` |
+| `notebooks/celda7_normalizacion_itt.py` | Normalizacion con 4 trimestres completos 2026 (Proxy incluido) | Celda 7 de `04_itt_pulmon_oriente_2026_v2.ipynb` |
+| `notebooks/correcciones_celdas_5_y_15.py` | Mapa y exportacion usando DataFrames deduplicados | Celdas 5 y 15 de `04_itt_pulmon_oriente_2026_v2.ipynb` |
+
+### Como aplicar en Colab
+
+1. Ejecutar el notebook hasta Celda 5 normalmente
+2. Reemplazar **Celda 6** con `celda6_procesamiento_dedup.py`
+3. Reemplazar **Celda 7** con `celda7_normalizacion_itt.py`
+4. Re-ejecutar desde Celda 6 en adelante
+5. Los graficos mostraran 4 trimestres completos para 2026 (Q1 real + Q2-Q4 Proxy**)
+
+> **Nota metodologica:** Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025. Se identifican con doble asterisco (`**`).
 
 ## Donde se guardan las salidas
 

@@ -15,9 +15,9 @@ El proyecto esta organizado para trabajar con:
 
 | Notebook | Zona | Estado |
 |---|---|---|
-| `notebooks/01_itt_roosevelt.ipynb` | ITT Roosevelt | Implementado |
+| `notebooks/01_itt_roosevelt.ipynb` | ITT Roosevelt | Implementado (Proxy** 2026) |
 | `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` | Avenida Ciudad de Cali | Implementado |
-| `notebooks/03_itt_barrio_obrero.ipynb` | Barrio Obrero | Implementado |
+| `notebooks/03_itt_barrio_obrero.ipynb` | Barrio Obrero | Implementado (Proxy** 2026) |
 | `notebooks/04_itt_pulmon_oriente_2026.ipynb` | Pulmon de Oriente 2026 | Implementado (Proxy**) |
 | `notebooks/05_comparativo_itt_zonas.ipynb` | Comparativo | Plantilla |
 

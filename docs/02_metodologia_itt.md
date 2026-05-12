@@ -57,17 +57,17 @@ ITT = 0.30*Seguridad
     + 0.12*Cohesion_Social
 ```
 
-## Referentes provisionales actuales
+## Valores Proxy actuales
 
-Mientras una zona no tenga datos propios para ciertas dimensiones, el proyecto usa scores referentes del ITT Pulmon de Oriente:
+Mientras una zona no tenga datos propios para ciertas dimensiones, el proyecto usa scores Proxy del ITT Pulmon de Oriente:
 
-| Elemento | Valor referente |
+| Elemento | Valor Proxy |
 |---|---:|
 | Entorno Urbano | 39.2 |
 | Educacion y Desarrollo | 54.9 |
 | Vulnerabilidad en Cohesion | 54.1 |
 
-Estos valores deben quedar marcados como provisionales en resultados y documentacion.
+Estos valores deben quedar marcados como Proxy en resultados y documentacion.
 
 Nota importante:
 

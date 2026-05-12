@@ -14,7 +14,7 @@ La metodologia vigente del proyecto exige:
 
 - Usar `ref_min/ref_max` fijos por indicador.
 - No usar min-max relativo calculado desde la propia muestra de la zona cuando el territorio es pequeno o los conteos son bajos.
-- Diferenciar entre datos reales, referentes provisionales y resultados efectivamente calculados.
+- Diferenciar entre datos reales, valores Proxy y resultados efectivamente calculados.
 
 La fuente metodologica principal y prioritaria es:
 
@@ -34,7 +34,7 @@ El ITT vigente usa 5 dimensiones:
 
 La suma de los pesos debe ser `1.0`.
 
-## 4. Referentes provisionales actuales
+## 4. Valores Proxy actuales
 
 Mientras una zona no tenga datos propios para ciertas dimensiones o indicadores, el proyecto usa referentes de `Pulmon de Oriente`.
 
@@ -84,7 +84,7 @@ Estado:
 - Implementado.
 - Ya migrado a `ref_min/ref_max` fijos.
 - Replica la estructura de Barrio Obrero, adaptada a corredor con buffer.
-- Usa referentes provisionales para `Entorno Urbano`, `Educacion y Desarrollo` y `Vulnerabilidad`.
+- Usa valores Proxy para `Entorno Urbano`, `Educacion y Desarrollo` y `Vulnerabilidad`.
 
 ### Avenida Ciudad de Cali
 
@@ -117,7 +117,7 @@ Estado:
 Rol en el proyecto:
 
 - Sirve como referencia de seguimiento con serie temporal completa (real + Proxy).
-- Pulmon de Oriente tambien es la base de los referentes provisionales usados por otras zonas.
+- Pulmon de Oriente tambien es la base de los valores Proxy usados por otras zonas.
 
 ### Comparativo entre zonas
 
@@ -214,7 +214,7 @@ Para responder bien sobre este repo, un agente debe leer en este orden:
 - Distinguir siempre entre:
   - dato observado real
   - score normalizado
-  - referente provisional
+  - valor Proxy
   - valor Proxy estimado (marcado con `**`)
   - resultado exportado
 - No presentar el proxy de `Entorno Urbano` de Barrio Obrero como serie mensual o trimestral observada.
@@ -229,4 +229,4 @@ Este repo ya tiene una metodologia definida y parcialmente consolidada. `Barrio 
 
 Puedes iniciar a otro agente con este texto:
 
-> Este repo calcula el ITT de zonas urbanas de Cali. La metodologia vigente exige `ref_min/ref_max` fijos por indicador y esta documentada en `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`. `notebooks/03_itt_barrio_obrero.ipynb` es la referencia operativa principal; `notebooks/01_itt_roosevelt.ipynb` ya esta alineado a esa logica; `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` sigue funcional pero aun usa min-max relativo y debe tratarse como implementacion pendiente de homologacion. Los referentes provisionales actuales provenientes de Pulmon de Oriente son `Entorno Urbano = 39.2`, `Educacion y Desarrollo = 54.9` y `Vulnerabilidad = 54.1`, pero en Barrio Obrero `Entorno Urbano` ya puede sobrescribirse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`. Ese proxy no tiene periodicidad mensual o trimestral observada; su visualizacion adecuada hoy es el `heatmap` de componentes del deficit cualitativo 2024. Distingue siempre entre datos reales, scores provisionales y metodologia vigente. No inventes outputs no versionados ni asumas que el comparativo ya esta completo.
+> Este repo calcula el ITT de zonas urbanas de Cali. La metodologia vigente exige `ref_min/ref_max` fijos por indicador y esta documentada en `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`. `notebooks/03_itt_barrio_obrero.ipynb` es la referencia operativa principal; `notebooks/01_itt_roosevelt.ipynb` ya esta alineado a esa logica; `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` sigue funcional pero aun usa min-max relativo y debe tratarse como implementacion pendiente de homologacion. Los valores Proxy actuales provenientes de Pulmon de Oriente son `Entorno Urbano = 39.2`, `Educacion y Desarrollo = 54.9` y `Vulnerabilidad = 54.1`, pero en Barrio Obrero `Entorno Urbano` ya puede sobrescribirse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`. Ese proxy no tiene periodicidad mensual o trimestral observada; su visualizacion adecuada hoy es el `heatmap` de componentes del deficit cualitativo 2024. Distingue siempre entre datos reales, scores provisionales y metodologia vigente. No inventes outputs no versionados ni asumas que el comparativo ya esta completo.

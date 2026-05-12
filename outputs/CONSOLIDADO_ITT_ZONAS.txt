@@ -39,20 +39,20 @@ DIMENSIONES:
 | Entorno Urbano (20%)| PROXY    | Deficit habit.   | Proxy experimental con    |
 |                     |          | Comuna 9         | BD_DEFICIT_HABITACIONAL   |
 |                     |          |                  | Corte anual 2024          |
-|                     |          |                  | Ref fijo si no hay Excel: |
+|                     |          |                  | Proxy fijo si no hay Excel: |
 |                     |          |                  | 39.2                      |
 +---------------------+----------+------------------+---------------------------+
-| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
+| Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
 |                     |          |                  | Fuente: Pulmon de Oriente |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| COMPLETA | VIF              | Datos reales 2023-2025    |
-|                     |          | Rinas            | Vulnerabilidad: ref 54.1  |
+|                     |          | Rinas            | Vulnerabilidad: proxy 54.1  |
 +---------------------+----------+------------------+---------------------------+
 
 DATOS POR AÑO:
-  2023: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Ref | Cohesion OK
-  2024: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Ref | Cohesion OK
-  2025: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Ref | Cohesion OK
+  2023: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
+  2024: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
+  2025: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
 
 FALTA:
   - Datos propios de Educacion y Desarrollo (matricula, desercion, etc.)
@@ -78,20 +78,20 @@ DIMENSIONES:
 |                     |          | Lesionados       |                           |
 |                     |          | Mortales         |                           |
 +---------------------+----------+------------------+---------------------------+
-| Entorno Urbano (20%)| REFERENTE| —                | Score fijo: 39.2          |
+| Entorno Urbano (20%)| PROXY   | —                | Score fijo: 39.2          |
 |                     |          |                  | Fuente: Pulmon de Oriente |
 +---------------------+----------+------------------+---------------------------+
-| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
+| Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
 |                     |          |                  | Fuente: Pulmon de Oriente |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| COMPLETA | VIF              | Datos reales 2023-2025    |
-|                     |          | Rinas            | Vulnerabilidad: ref 54.1  |
+|                     |          | Rinas            | Vulnerabilidad: proxy 54.1  |
 +---------------------+----------+------------------+---------------------------+
 
 DATOS POR AÑO:
-  2023: Seguridad OK | Movilidad OK | Entorno Ref | Educacion Ref | Cohesion OK
-  2024: Seguridad OK | Movilidad OK | Entorno Ref | Educacion Ref | Cohesion OK
-  2025: Seguridad OK | Movilidad OK | Entorno Ref | Educacion Ref | Cohesion OK
+  2023: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
+  2024: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
+  2025: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
 
 FALTA:
   - Datos propios de Entorno Urbano (NDVI, area verde, deficit)
@@ -118,18 +118,18 @@ DIMENSIONES:
 |                     |          | Lesionados       | NORMALIZACION INCORRECTA  |
 |                     |          | Mortales         |                           |
 +---------------------+----------+------------------+---------------------------+
-| Entorno Urbano (20%)| REFERENTE| —                | Score fijo: 39.2          |
+| Entorno Urbano (20%)| PROXY   | —                | Score fijo: 39.2          |
 +---------------------+----------+------------------+---------------------------+
-| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
+| Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| PARCIAL  | VIF              | Datos reales 2023-2025    |
 |                     |          | Rinas            | SIN Vulnerabilidad ref    |
 +---------------------+----------+------------------+---------------------------+
 
 DATOS POR AÑO:
-  2023: Seguridad OK* | Movilidad OK* | Entorno Ref | Educacion Ref | Cohesion Parcial
-  2024: Seguridad OK* | Movilidad OK* | Entorno Ref | Educacion Ref | Cohesion Parcial
-  2025: Seguridad OK* | Movilidad OK* | Entorno Ref | Educacion Ref | Cohesion Parcial
+  2023: Seguridad OK* | Movilidad OK* | Entorno Proxy | Educacion Proxy | Cohesion Parcial
+  2024: Seguridad OK* | Movilidad OK* | Entorno Proxy | Educacion Proxy | Cohesion Parcial
+  2025: Seguridad OK* | Movilidad OK* | Entorno Proxy | Educacion Proxy | Cohesion Parcial
   * = datos reales pero normalizacion incorrecta (min-max relativo)
 
 FALTA:
@@ -156,16 +156,16 @@ DIMENSIONES:
 |                     |          | Hurtos           | Q2-Q4 2026 = Proxy**      |
 |                     |          |                  | Duplicados eliminados     |
 +---------------------+----------+------------------+---------------------------+
-| Movilidad (25%)     | REFERENTE| —                | Score fijo: 35.0          |
+| Movilidad (25%)     | PROXY   | —                | Score fijo: 35.0          |
 |                     |          |                  | No hay siniestros en ZIP  |
 +---------------------+----------+------------------+---------------------------+
-| Entorno Urbano (20%)| REFERENTE| —                | Score fijo: 39.2          |
+| Entorno Urbano (20%)| PROXY   | —                | Score fijo: 39.2          |
 +---------------------+----------+------------------+---------------------------+
-| Educacion (13%)     | REFERENTE| —                | Score fijo: 54.9          |
+| Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| PARCIAL  | VIF              | Datos reales 2023-2026T1  |
 |                     |          | Rinas            | Q2-Q4 2026 = Proxy**      |
-|                     |          |                  | Vulnerabilidad: ref 54.1  |
+|                     |          |                  | Vulnerabilidad: proxy 54.1  |
 |                     |          |                  | Duplicados eliminados     |
 +---------------------+----------+------------------+---------------------------+
 
@@ -217,10 +217,10 @@ CONTEO ANUAL (con Proxy 2026):
 Nota: Anual 2026 = Q1 real + Q2-Q4 Proxy**
 
 DATOS POR AÑO:
-  2023: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
-  2024: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
-  2025: Seguridad OK | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion Parcial
-  2026: T1 Real + T2-T4 Proxy** | Movilidad Ref | Entorno Ref | Educacion Ref | Cohesion T1 Real + T2-T4 Proxy**
+  2023: Seguridad OK | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion Parcial
+  2024: Seguridad OK | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion Parcial
+  2025: Seguridad OK | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion Parcial
+  2026: T1 Real + T2-T4 Proxy** | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion T1 Real + T2-T4 Proxy**
 
 VALORES PROXY 2026 (Q2, Q3, Q4):
   Homicidios:   Q2=19.7**  Q3=24.3**  Q4=29.3**
@@ -269,9 +269,9 @@ RESUMEN COMPARATIVO — COMPLETITUD POR DIMENSION
 | Dimension           | Barrio Obrero | Roosevelt  | Av. Cali | Pulmon Oriente |
 +---------------------+---------------+------------+----------+----------------+
 | Seguridad (30%)     | COMPLETA      | COMPLETA   | COMPLETA*| COMPLETA       |
-| Movilidad (25%)     | COMPLETA      | COMPLETA   | COMPLETA*| REFERENTE      |
-| Entorno Urbano (20%)| PROXY         | REFERENTE  | REFERENTE| REFERENTE      |
-| Educacion (13%)     | REFERENTE     | REFERENTE  | REFERENTE| REFERENTE      |
+| Movilidad (25%)     | COMPLETA      | COMPLETA   | COMPLETA*| PROXY         |
+| Entorno Urbano (20%)| PROXY         | PROXY     | PROXY   | PROXY         |
+| Educacion (13%)     | PROXY        | PROXY     | PROXY   | PROXY         |
 | Cohesion Social(12%)| COMPLETA      | COMPLETA   | PARCIAL  | PARCIAL        |
 +---------------------+---------------+------------+----------+----------------+
 * Av. Ciudad de Cali usa min-max relativo (no homologado)

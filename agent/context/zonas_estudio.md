@@ -8,7 +8,7 @@
 - Metodo espacial: uso de capa buffer y eventos territoriales de la zona.
 - Periodo: 2023-2025.
 - Metodologia: usa `ref_min/ref_max` fijos y la estructura funcional de Barrio Obrero.
-- Referentes provisionales: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Valores Proxy: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
 - Datos en repo: `Roosevelt.zip` presente y carpeta descomprimida de trabajo disponible.
 - Observacion: notebook operativo, pendiente de afinacion futura de referentes si se incorporan nuevos indicadores de entorno.
 
@@ -20,7 +20,7 @@
 - Metodo espacial: spatial join de eventos a tramos.
 - Periodo: 2023-2025.
 - Metodologia: funcional, pero pendiente de migracion a `ref_min/ref_max` fijos.
-- Referentes provisionales: Entorno Urbano 39.2, Educacion y Desarrollo 54.9.
+- Valores Proxy: Entorno Urbano 39.2, Educacion y Desarrollo 54.9.
 - Datos en repo: estructura creada, pero insumos fuente no versionados.
 
 ## ITT Barrio Obrero
@@ -31,7 +31,7 @@
 - Metodo espacial: no requiere spatial join por tramo.
 - Periodo: 2023-2025.
 - Metodologia: usa `ref_min/ref_max` fijos por indicador.
-- Referentes provisionales de base: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Valores Proxy de base: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
 - Estado actual de Entorno Urbano: el notebook ya puede sobrescribir `39.2` con un proxy experimental usando `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`.
 - Base territorial del proxy: `Comuna 9` como aproximacion a Barrio Obrero.
 - Periodicidad real del proxy de Entorno Urbano: anual `2024`, no mensual ni trimestral observada.
@@ -46,7 +46,7 @@
 - Metodo espacial: no requiere spatial join (eventos ya filtrados a la zona).
 - Periodo: 2023-2026.
 - Metodologia: usa `ref_min/ref_max` fijos trimestrales (zona grande, guia metodologica seccion 4.1).
-- Referentes provisionales: Movilidad 35.0, Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Valores Proxy: Movilidad 35.0, Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
 - Datos en repo: `Pulmon_De_Oriente_2026.zip` presente con ZIP consolidado.
 - Deduplicacion: automatica por fecha+coordenada (elimina duplicados en hurtos, VIF y comparendos).
 - Periodo 2026: solo T1 tiene datos reales; Q2, Q3 y Q4 se estiman con valores Proxy.

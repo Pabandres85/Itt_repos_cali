@@ -46,7 +46,7 @@ El repositorio esta pensado para:
 
 - Analisis sobre corredor con buffer de 100 m y eventos 2023-2025.
 - El notebook ya fue implementado siguiendo la estructura funcional de Barrio Obrero.
-- Usa `ref_min/ref_max` fijos y referentes provisionales para Entorno Urbano, Educacion y Desarrollo, y Vulnerabilidad.
+- Usa `ref_min/ref_max` fijos y valores Proxy para Entorno Urbano, Educacion y Desarrollo, y Vulnerabilidad.
 - La data ya esta disponible en `data/itt_roosevelt/` como ZIP y carpeta descomprimida de trabajo.
 
 ## Avances recientes

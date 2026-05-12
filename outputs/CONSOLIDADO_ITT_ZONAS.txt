@@ -43,7 +43,7 @@ DIMENSIONES:
 |                     |          |                  | 39.2                      |
 +---------------------+----------+------------------+---------------------------+
 | Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
-|                     |          |                  | Fuente: Pulmon de Oriente |
+|                     |          |                  | Referente: Pulmon de Oriente |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| COMPLETA | VIF              | Datos reales 2023-2025    |
 |                     |          | Rinas            | Vulnerabilidad: proxy 54.1  |
@@ -79,10 +79,10 @@ DIMENSIONES:
 |                     |          | Mortales         |                           |
 +---------------------+----------+------------------+---------------------------+
 | Entorno Urbano (20%)| PROXY   | —                | Score fijo: 39.2          |
-|                     |          |                  | Fuente: Pulmon de Oriente |
+|                     |          |                  | Referente: Pulmon de Oriente |
 +---------------------+----------+------------------+---------------------------+
 | Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
-|                     |          |                  | Fuente: Pulmon de Oriente |
+|                     |          |                  | Referente: Pulmon de Oriente |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| COMPLETA | VIF              | Datos reales 2023-2025    |
 |                     |          | Rinas            | Vulnerabilidad: proxy 54.1  |

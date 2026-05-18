@@ -518,6 +518,61 @@ plt.savefig(IMG_DIR + 'itt_obrero_heatmap_coh.png', dpi=150, bbox_inches='tight'
 plt.close()
 
 # ══════════════════════════════════════════════════════════
+# Matricula por comuna - Oficial vs No Oficial (Celda 11B)
+# ══════════════════════════════════════════════════════════
+_mat_path = PROJECT_ROOT / 'data' / 'referencia' / 'data_Observatorio_de_Educación' / 'Fuentes de datos' / 'Reporte de matrícula' / '01_Matricula_2026.xlsx'
+if not _mat_path.exists():
+    # Intentar sin tilde
+    import glob
+    matches = glob.glob(str(PROJECT_ROOT / 'data' / 'referencia' / '**' / '01_Matricula_2026.xlsx'), recursive=True)
+    _mat_path = Path(matches[0]) if matches else None
+
+if _mat_path and _mat_path.exists():
+    df_mat = pd.read_excel(_mat_path, sheet_name='Por comuna')
+    df_mat = df_mat[df_mat['comuna'].str.contains('Comuna', na=False)].copy()
+    df_mat['num_comuna'] = df_mat['comuna'].str.extract(r'(\d+)').astype(int)
+    df_mat = df_mat[df_mat['num_comuna'].between(1, 22)].sort_values('num_comuna')
+
+    fig, ax = plt.subplots(figsize=(14, 6), facecolor=BG)
+    x = np.arange(len(df_mat))
+    w = 0.35
+
+    bars1 = ax.bar(x - w/2, df_mat['Oficial'], w, label='Oficial', color='#1565C0', edgecolor='white', alpha=0.85)
+    bars2 = ax.bar(x + w/2, df_mat['No oficial'], w, label='No oficial', color='#FF8F00', edgecolor='white', alpha=0.85)
+
+    for bar in bars1:
+        h = bar.get_height()
+        ax.text(bar.get_x()+bar.get_width()/2, h+100, f'{int(h):,}', ha='center', fontsize=6, fontweight='bold', color='#1565C0')
+    for bar in bars2:
+        h = bar.get_height()
+        ax.text(bar.get_x()+bar.get_width()/2, h+100, f'{int(h):,}', ha='center', fontsize=6, fontweight='bold', color='#FF8F00')
+
+    idx_c9 = list(df_mat['num_comuna']).index(9)
+    ax.axvspan(idx_c9-0.5, idx_c9+0.5, alpha=0.15, color='#E53935', label='Comuna 9 (Barrio Obrero)')
+
+    c9 = df_mat[df_mat['num_comuna']==9].iloc[0]
+    ax.annotate(f'C9 Total: {int(c9.Total):,}',
+               xy=(idx_c9, max(c9['Oficial'], c9['No oficial'])),
+               xytext=(idx_c9+3, 28000),
+               fontsize=9, color='#E53935', fontweight='bold',
+               arrowprops=dict(arrowstyle='->', color='#E53935'))
+
+    comunas_label = [f'C{int(i)}' for i in df_mat['num_comuna']]
+    ax.set_xticks(x)
+    ax.set_xticklabels(comunas_label, fontsize=9)
+    ax.set_xlabel('Comuna')
+    ax.set_ylabel('Estudiantes matriculados')
+    ax.set_title('Matricula por comuna — Oficial vs No Oficial | Cali 2026', fontsize=13, fontweight='bold')
+    ax.legend(fontsize=10)
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'{int(x):,}'))
+    plt.tight_layout()
+    plt.savefig(IMG_DIR + 'itt_obrero_educ_matricula_comuna.png', dpi=150, bbox_inches='tight', facecolor=BG)
+    plt.close()
+    print(f'Matricula Comuna 9: Oficial={int(c9.Oficial):,} | No oficial={int(c9["No oficial"]):,} | Total={int(c9.Total):,}')
+else:
+    print('Archivo 01_Matricula_2026.xlsx no encontrado. Saltando grafico educacion.')
+
+# ══════════════════════════════════════════════════════════
 # Evolucion trimestral (barras agrupadas)
 # Incluye 2026 Q1 real con 4to color naranja (#FF6F00)
 # ══════════════════════════════════════════════════════════

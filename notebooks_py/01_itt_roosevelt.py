@@ -89,7 +89,7 @@ PATHS = {
     'sedes':       BASE + 'Sedes_educativas_oficiales_Roosevelt.geojson',
 }
 
-ANIOS = [2023, 2024, 2025, 2026]
+ANIOS = [2023, 2024, 2025]
 ZONA_NOMBRE = 'Corredor Roosevelt — Cali'
 
 PESOS = {

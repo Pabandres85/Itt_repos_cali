@@ -20,9 +20,9 @@
 
 | Zona | Notebook | Script .py | Periodo |
 |---|---|---|---|
-| Roosevelt | 01_itt_roosevelt_v2.ipynb | notebooks_py/01_itt_roosevelt.py | 2023-2026 (2026 Proxy**) |
+| Roosevelt | 01_itt_roosevelt_v2.ipynb | notebooks_py/01_itt_roosevelt.py | 2023-2025 (datos reales) |
 | Av. Ciudad de Cali | 02_itt_avenida_ciudad_de_cali.ipynb | — | 2023-2025 |
-| Barrio Obrero | 03_itt_barrio_obrero.ipynb | notebooks_py/03_itt_barrio_obrero.py | 2023-2026 (2026 Proxy**) |
+| Barrio Obrero | 03_itt_barrio_obrero.ipynb | notebooks_py/03_itt_barrio_obrero.py | 2023-2025 (datos reales) |
 | Pulmon de Oriente | 04_itt_pulmon_oriente_2026_v2.ipynb | notebooks_py/04_itt_pulmon_oriente_2025.py | 2023-2026 (Q1 real, Q2-Q4 Proxy**) |
 
 ## Terminologia unificada

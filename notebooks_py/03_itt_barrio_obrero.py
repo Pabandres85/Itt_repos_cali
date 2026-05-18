@@ -91,7 +91,7 @@ PATHS = {
     'cai':         BASE + 'CAI_MECAL_CALI_OBRERO.geojson',
 }
 
-ANIOS = [2023, 2024, 2025, 2026]
+ANIOS = [2023, 2024, 2025]
 ZONA_NOMBRE = 'Barrio Obrero — Comuna 9, Cali'
 
 PESOS = {

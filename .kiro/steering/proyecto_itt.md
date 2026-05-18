@@ -56,3 +56,10 @@
 - **Roosevelt:** Solo 2023-2025 (no tiene datos 2026). Sin Proxy.
 - **Barrio Obrero:** 2023-2026 (Q1 2026 real, sin Proxy). Analisis anual solo 2023-2025; serie trimestral incluye Q1 2026 real. Heatmaps y barras trimestrales usan 4to color naranja (#FF6F00) para 2026.
 - **Pulmon de Oriente:** 2023-2025 anual completo + serie trimestral 2023-2026 (Q1 real, Q2-Q4 Proxy**).
+
+## Colores para graficos trimestrales (Barrio Obrero)
+
+- **Seguridad (Celda 12):** Gama azul claro a oscuro: `['#90CAF9', '#42A5F5', '#1565C0', '#003366']` (2023=claro, 2026=oscuro)
+- **Movilidad:** Gama naranja/rojo
+- **Cohesion:** Gama purpura/rosa
+- Siempre usar `COLORES[idx]` (no `idx%3`) para que cada año tenga su color unico

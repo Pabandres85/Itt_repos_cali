@@ -42,18 +42,20 @@ DIMENSIONES:
 |                     |          |                  | Proxy fijo si no hay Excel: |
 |                     |          |                  | 39.2                      |
 +---------------------+----------+------------------+---------------------------+
-| Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
-|                     |          |                  | Referente: Pulmon de Oriente |
+| Educacion (13%)     | PARCIAL  | Matricula,       | Proxy 54.9 (2023-2025)    |
+|                     |          | Repitencia,      | Real 31.5 (Q1 2026,       |
+|                     |          | Est/Docente,     | Comuna 9, SIMAT 2026)     |
+|                     |          | Est/Equipo       | Fuente: geojson_educacion  |
 +---------------------+----------+------------------+---------------------------+
 | Cohesion Social(12%)| COMPLETA | VIF              | Datos reales 2023-2025    |
 |                     |          | Rinas            | Vulnerabilidad: proxy 54.1  |
 +---------------------+----------+------------------+---------------------------+
 
 DATOS POR AÑO:
-  2023: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
-  2024: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
-  2025: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
-  2026: Solo Q1 real (Seg, Coh) | Movilidad solo 2023-2025 | Entorno Proxy | Educacion Proxy
+  2023: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy (54.9) | Cohesion OK
+  2024: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy (54.9) | Cohesion OK
+  2025: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy (54.9) | Cohesion OK
+  2026 Q1: Seguridad OK | Movilidad - | Entorno Proxy | Educacion Real (31.5) | Cohesion OK
         NO se generan Proxy para Q2-Q4 2026 en esta zona.
 
 ARCHIVOS DATIC (datos hasta 2026 Q1):
@@ -289,7 +291,7 @@ RESUMEN COMPARATIVO — COMPLETITUD POR DIMENSION
 | Seguridad (30%)     | COMPLETA      | COMPLETA   | COMPLETA*| COMPLETA       |
 | Movilidad (25%)     | COMPLETA      | COMPLETA   | COMPLETA*| PROXY         |
 | Entorno Urbano (20%)| PROXY         | PROXY     | PROXY   | PROXY         |
-| Educacion (13%)     | PROXY        | PROXY     | PROXY   | PROXY         |
+| Educacion (13%)     | PARCIAL      | PROXY     | PROXY   | PROXY         |
 | Cohesion Social(12%)| COMPLETA      | COMPLETA   | PARCIAL  | PARCIAL        |
 +---------------------+---------------+------------+----------+----------------+
 * Av. Ciudad de Cali usa min-max relativo (no homologado)

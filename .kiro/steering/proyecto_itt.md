@@ -48,6 +48,7 @@
 - Distinguir siempre entre dato real, valor Proxy y resultado calculado
 - **Cada vez que se ajuste un notebook .ipynb (Colab), actualizar tambien:** los .md de estructura, el contexto del agente, el CONSOLIDADO_ITT_ZONAS.txt, el script .py equivalente, y el steering si aplica. No dejar documentacion desactualizada.
 - **Siempre hacer push al final de cada ajuste.** No dejar cambios sin commitear ni pushear.
+- **Archivos _patch_*.py:** Son scripts temporales para modificar notebooks programaticamente. Una vez aplicados, se eliminan. No deben quedar en el repo.
 
 ## Regla de periodos y Proxy
 

@@ -221,6 +221,8 @@ Para responder bien sobre este repo, un agente debe leer en este orden:
 - No asumir que todo notebook implementado ya esta metodologicamente homologado.
 - No confundir `04_itt_pulmon_oriente_2026.ipynb` con el comparativo entre zonas.
 - No asumir que `outputs/` ya contiene resultados versionados listos para consolidacion.
+- Los archivos `_patch_*.py` son scripts temporales para modificar notebooks. Una vez aplicados, se eliminan del repo. No deben quedar versionados.
+- Cada vez que se ajuste un notebook, actualizar tambien: .md de estructura, contexto del agente, CONSOLIDADO, script .py equivalente, y steering.
 - Tratar con cuidado textos con problemas de codificacion como `año`, `T1`, o caracteres especiales en algunos `.md` y notebooks.
 - Distinguir siempre entre:
   - dato observado real

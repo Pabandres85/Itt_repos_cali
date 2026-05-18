@@ -46,3 +46,10 @@
 - Remote origin: `https://github.com/j0rg3c45/Itt_repos_cali.git`
 - No usar min-max relativo para normalizar indicadores
 - Distinguir siempre entre dato real, valor Proxy y resultado calculado
+
+## Regla de periodos y Proxy
+
+- **Informacion general (anual):** Solo mostrar años con datos completos reales. No incluir un año si no tiene datos reales completos para esa zona.
+- **Indicadores por trimestre:** Cuando una zona tenga datos reales de algun trimestre de un año (ej: Pulmon de Oriente con Q1 2026), mostrar la serie trimestral completa con los datos disponibles + Proxy** para los faltantes. Tablas y graficos de tendencia claros.
+- **Barrio Obrero y Roosevelt:** Solo 2023-2025 (no tienen datos 2026). Sin Proxy.
+- **Pulmon de Oriente:** 2023-2025 anual completo + serie trimestral 2023-2026 (Q1 real, Q2-Q4 Proxy**).

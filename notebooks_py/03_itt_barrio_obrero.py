@@ -81,17 +81,17 @@ print(f'Imagenes se guardaran en: {IMG_DIR}')
 # ══════════════════════════════════════════════════════════
 PATHS = {
     'poligono':    BASE + 'Geojson_Barrio_Obrero.geojson',
-    'homicidios':  BASE + 'HOMICIDIOS_2023_2025_Obrero.geojson',
-    'hurtos':      BASE + 'HURTOS_2023_2025_OBRERO.geojson',
+    'homicidios':  BASE + 'DATIC_homicidios_2023_2026T1_Barrio_O.geojson',
+    'hurtos':      BASE + 'DATIC_hurtos_2023_2026T1_Barrio_O.geojson',
     'siniestros':  BASE + 'BD_SINIESTROS_2023_2025_COMUNA_BARRIO_OBRERO.geojson',
-    'vif':         BASE + 'VIOLENCIA_INTRAFAMILIAR_2023_2025_OBRERO.geojson',
-    'comparendos': BASE + 'COMPARENDOS_2023_2025_OBRERO.geojson',
+    'vif':         BASE + 'DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson',
+    'comparendos': BASE + 'DATIC_comparendos_2023_2026T1_Barrio_O.geojson',
     'arboles':     BASE + 'Arboles_Dagma_OBRERO.geojson',
     'sedes':       BASE + 'Sedes_educativas_oficiales_OBRERO.geojson',
     'cai':         BASE + 'CAI_MECAL_CALI_OBRERO.geojson',
 }
 
-ANIOS = [2023, 2024, 2025]
+ANIOS = [2023, 2024, 2025, 2026]
 ZONA_NOMBRE = 'Barrio Obrero — Comuna 9, Cali'
 
 PESOS = {
@@ -480,7 +480,7 @@ plt.close()
 # Evolucion trimestral (barras agrupadas)
 # ══════════════════════════════════════════════════════════
 x = np.arange(4); n = len(ANIOS); w = 0.8 / n
-COLORES = ['#42A5F5', '#1B4F8A', '#E53935']
+COLORES = ['#42A5F5', '#1B4F8A', '#E53935', '#FF6F00']
 
 # Seguridad
 fig, axes = plt.subplots(1, 2, figsize=(16, 5), facecolor=BG)

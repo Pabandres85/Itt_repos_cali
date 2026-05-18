@@ -22,7 +22,7 @@
 |---|---|---|---|
 | Roosevelt | 01_itt_roosevelt_v2.ipynb | notebooks_py/01_itt_roosevelt.py | 2023-2025 (datos reales) |
 | Av. Ciudad de Cali | 02_itt_avenida_ciudad_de_cali.ipynb | — | 2023-2025 |
-| Barrio Obrero | 03_itt_barrio_obrero.ipynb | notebooks_py/03_itt_barrio_obrero.py | 2023-2025 (datos reales) |
+| Barrio Obrero | 03_itt_barrio_obrero.ipynb | notebooks_py/03_itt_barrio_obrero.py | 2023-2026 (Q1 2026 real, sin Proxy) |
 | Pulmon de Oriente | 04_itt_pulmon_oriente_2026_v2.ipynb | notebooks_py/04_itt_pulmon_oriente_2025.py | 2023-2026 (Q1 real, Q2-Q4 Proxy**) |
 
 ## Terminologia unificada
@@ -51,5 +51,6 @@
 
 - **Informacion general (anual):** Solo mostrar años con datos completos reales. No incluir un año si no tiene datos reales completos para esa zona.
 - **Indicadores por trimestre:** Cuando una zona tenga datos reales de algun trimestre de un año (ej: Pulmon de Oriente con Q1 2026), mostrar la serie trimestral completa con los datos disponibles + Proxy** para los faltantes. Tablas y graficos de tendencia claros.
-- **Barrio Obrero y Roosevelt:** Solo 2023-2025 (no tienen datos 2026). Sin Proxy.
+- **Roosevelt:** Solo 2023-2025 (no tiene datos 2026). Sin Proxy.
+- **Barrio Obrero:** 2023-2026 (Q1 2026 real, sin Proxy). Analisis anual solo 2023-2025; serie trimestral incluye Q1 2026 real. Heatmaps y barras trimestrales usan 4to color naranja (#FF6F00) para 2026.
 - **Pulmon de Oriente:** 2023-2025 anual completo + serie trimestral 2023-2026 (Q1 real, Q2-Q4 Proxy**).

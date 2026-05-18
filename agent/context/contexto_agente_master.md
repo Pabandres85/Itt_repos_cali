@@ -62,6 +62,8 @@ Este notebook es la referencia operativa mas importante del repo porque:
 - Tiene la estructura metodologica vigente.
 - Es el mejor punto de partida para revisar logica de calculo, normalizacion, pesos, series anuales y trimestrales, y exportacion.
 - Ademas, ya documenta un caso real de reemplazo parcial del referente fijo de `Entorno Urbano` mediante un proxy territorial.
+- Periodo: 2023-2026 Q1 (anual solo 2023-2025; trimestral incluye Q1 2026 real, sin Proxy).
+- Archivos DATIC: `DATIC_*_2023_2026T1_Barrio_O.geojson` (homicidios, hurtos, VIF, comparendos).
 
 ### Detalle actual de Entorno Urbano en Barrio Obrero
 
@@ -137,6 +139,11 @@ Estado:
 - No requiere `spatial join` por tramo.
 - Caso mas limpio para entender la metodologia vigente.
 - Caso actual mas importante para entender el uso experimental de `deficit habitacional` dentro de `Entorno Urbano`.
+- Periodo: 2023-2026 (Q1 2026 real, sin Proxy).
+- Analisis anual (base): solo 2023-2025 (años completos).
+- Serie trimestral: incluye Q1 2026 real; NO se generan Proxy para Q2-Q4 2026.
+- Archivos DATIC: `DATIC_homicidios_2023_2026T1_Barrio_O.geojson`, `DATIC_hurtos_2023_2026T1_Barrio_O.geojson`, `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson`, `DATIC_comparendos_2023_2026T1_Barrio_O.geojson`.
+- Heatmaps y barras trimestrales: 4to color naranja (#FF6F00) para 2026.
 
 ### Roosevelt
 
@@ -223,7 +230,7 @@ Para responder bien sobre este repo, un agente debe leer en este orden:
 
 ## 11. Resumen ejecutivo para handoff rapido
 
-Este repo ya tiene una metodologia definida y parcialmente consolidada. `Barrio Obrero` es la referencia operativa vigente. `Roosevelt` ya esta alineado con esa metodologia. `Avenida Ciudad de Cali` sigue funcional, pero pendiente de migrar desde min-max relativo hacia `ref_min/ref_max` fijos. `Pulmon de Oriente` es la referencia metodologica de fondo y la fuente de los scores provisionales usados en otras zonas. Los datos versionados existen para Roosevelt, Barrio Obrero y Pulmon de Oriente, pero no para Avenida Ciudad de Cali. En Barrio Obrero, `Entorno Urbano` ya puede recalcularse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`, explicado con un `heatmap` de componentes del deficit cualitativo 2024.
+Este repo ya tiene una metodologia definida y parcialmente consolidada. `Barrio Obrero` es la referencia operativa vigente (periodo 2023-2026 Q1 real, sin Proxy). `Roosevelt` ya esta alineado con esa metodologia. `Avenida Ciudad de Cali` sigue funcional, pero pendiente de migrar desde min-max relativo hacia `ref_min/ref_max` fijos. `Pulmon de Oriente` es la referencia metodologica de fondo y la fuente de los scores provisionales usados en otras zonas. Los datos versionados existen para Roosevelt, Barrio Obrero y Pulmon de Oriente, pero no para Avenida Ciudad de Cali. En Barrio Obrero, `Entorno Urbano` ya puede recalcularse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`, explicado con un `heatmap` de componentes del deficit cualitativo 2024. Barrio Obrero ahora tiene archivos DATIC con datos hasta 2026 Q1; el analisis anual usa solo 2023-2025 y la serie trimestral incluye Q1 2026 real con 4to color naranja (#FF6F00) en heatmaps y barras.
 
 ## 12. Prompt sugerido para otro agente
 

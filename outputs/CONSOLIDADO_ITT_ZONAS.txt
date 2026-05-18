@@ -22,7 +22,7 @@ ZONA 1: BARRIO OBRERO — Comuna 9
 Notebook:  03_itt_barrio_obrero.ipynb
 Script:    notebooks_py/03_itt_barrio_obrero.py
 Estado:    IMPLEMENTADO — Referencia metodologica del proyecto
-Periodo:   2023-2025 (anual y trimestral)
+Periodo:   2023-2026 Q1 (anual solo 2023-2025; trimestral incluye Q1 2026 real, sin Proxy)
 Unidad:    Poligono unico (~5K hab)
 
 DIMENSIONES:
@@ -53,6 +53,18 @@ DATOS POR AÑO:
   2023: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
   2024: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
   2025: Seguridad OK | Movilidad OK | Entorno Proxy | Educacion Proxy | Cohesion OK
+  2026: Solo Q1 real (Seg, Coh) | Movilidad solo 2023-2025 | Entorno Proxy | Educacion Proxy
+        NO se generan Proxy para Q2-Q4 2026 en esta zona.
+
+ARCHIVOS DATIC (datos hasta 2026 Q1):
+  DATIC_homicidios_2023_2026T1_Barrio_O.geojson
+  DATIC_hurtos_2023_2026T1_Barrio_O.geojson
+  DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson
+  DATIC_comparendos_2023_2026T1_Barrio_O.geojson
+
+VISUALIZACION:
+  - Cards, ITT Global, Radar: solo 2023-2025 (años completos).
+  - Heatmaps y barras trimestrales: incluyen Q1 2026 real con 4to color naranja (#FF6F00).
 
 FALTA:
   - Datos propios de Educacion y Desarrollo (matricula, desercion, etc.)
@@ -283,10 +295,10 @@ PERIODO DISPONIBLE:
 | 2023                | Completo      | Completo   | Completo | Completo       |
 | 2024                | Completo      | Completo   | Completo | Completo       |
 | 2025                | Completo      | Completo   | Completo | Completo       |
-| 2026                | —             | —          | —        | T1 Real +      |
-|                     |               |            |          | T2-T4 Proxy**  |
+| 2026                | Q1 Real       | —          | —        | T1 Real +      |
+|                     | (sin Proxy)   |            |          | T2-T4 Proxy**  |
 +---------------------+---------------+------------+----------+----------------+
-** Valores estimados mediante promedio historico trimestral 2023-2025
+** Valores estimados mediante promedio historico trimestral 2023-2025 (solo Pulmon de Oriente)
 
 ARCHIVOS DISPONIBLES EN EL REPO:
 +---------------------+---------------+------------+----------+----------------+

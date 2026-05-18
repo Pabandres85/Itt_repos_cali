@@ -4,7 +4,14 @@
 
 Este notebook calcula el ITT (Indice de Transformacion Territorial) para Barrio Obrero, Comuna 9, Cali. Esta disenado para ejecutarse en **Google Colab** usando la extension de Colab en Kiro/VS Code.
 
-Periodo: 2023-2026 (2026 = Proxy**, promedio historico 2023-2025, sin datos reales).
+Periodo: 2023-2026 (Q1 2026 = dato real; NO hay Proxy para esta zona).
+
+## Logica de periodos
+
+- **base (anual):** Solo 2023-2025 (años completos con datos reales).
+- **corr_trim (trimestral):** 2023 Q1-Q4, 2024 Q1-Q4, 2025 Q1-Q4, 2026 Q1 (solo dato real, sin Proxy).
+- **Cards, ITT Global, Radar:** Solo 2023-2025 (años completos).
+- **Heatmaps, Barras trimestrales:** Incluyen Q1 2026 real con 4to color naranja (#FF6F00).
 
 ## Flujo completo de ejecucion
 
@@ -33,7 +40,7 @@ Despues del push, haces `git pull` en tu maquina local y las imagenes aparecen e
 
 | Celda | Funcion |
 |---|---|
-| **Celda 3** | Define `BASE` (ruta datos), `PATHS` (archivos GeoJSON), `ANIOS`, `PESOS`, `REFS` (umbrales ref_min/ref_max), `REF_ENTORNO_U`, `REF_EDUC_DES`, `REF_VULNERABILIDAD`, `IMG_DIR` (carpeta de salida de imagenes) |
+| **Celda 3** | Define `BASE` (ruta datos), `PATHS` (archivos GeoJSON con nombres DATIC_*_2023_2026T1_Barrio_O.geojson), `ANIOS=[2023,2024,2025,2026]`, `PESOS`, `REFS` (umbrales ref_min/ref_max), `REF_ENTORNO_U`, `REF_EDUC_DES`, `REF_VULNERABILIDAD`, `IMG_DIR` (carpeta de salida de imagenes) |
 
 Aqui se define `IMG_DIR = '/content/itt_repos_cali/outputs/IMAGENES_POR_ITT/itt_barrio_obrero/'` que es donde se guardan todas las graficas.
 
@@ -52,7 +59,7 @@ Aqui se define `IMG_DIR = '/content/itt_repos_cali/outputs/IMAGENES_POR_ITT/itt_
 |---|---|
 | **Celda 4** | Carga todos los GeoJSON (homicidios, hurtos, siniestros, VIF, comparendos, arboles, sedes, CAI) |
 | **Celda 5** | Mapa interactivo Folium con todas las capas (no genera PNG) |
-| **Celda 6** | Procesa indicadores: parsea fechas, extrae ano/trimestre, agrega conteos anuales y trimestrales |
+| **Celda 6** | Procesa indicadores: parsea fechas, extrae ano/trimestre, agrega conteos anuales y trimestrales. Base anual solo 2023-2025; corr_trim incluye Q1 2026 real (sin Proxy Q2-Q4) |
 
 ### Bloque 5 — Calculo del ITT
 
@@ -143,3 +150,6 @@ El archivo `notebooks_py/03_itt_barrio_obrero.py` es la version local equivalent
 - Hace lo mismo pero corre en Windows con `uv run`
 - No necesita Colab ni push (guarda directo en disco)
 - No incluye el mapa Folium interactivo
+- Periodo: base anual 2023-2025; trimestral incluye Q1 2026 real
+- NO genera valores Proxy para Q2-Q4 2026 (solo Pulmon de Oriente usa Proxy)
+- Heatmaps y barras trimestrales usan 4to color naranja (#FF6F00) para 2026

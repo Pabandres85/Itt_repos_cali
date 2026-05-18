@@ -29,7 +29,9 @@
 - Notebook: `notebooks/03_itt_barrio_obrero.ipynb`
 - Unidad de analisis: poligono unico del barrio.
 - Metodo espacial: no requiere spatial join por tramo.
-- Periodo: 2023-2025.
+- Periodo: 2023-2026 (Q1 2026 real, sin Proxy).
+- Periodo anual (base): solo 2023-2025 (años completos con datos reales).
+- Periodo trimestral (corr_trim): 2023 Q1-Q4, 2024 Q1-Q4, 2025 Q1-Q4, 2026 Q1 (solo dato real, NO Proxy).
 - Metodologia: usa `ref_min/ref_max` fijos por indicador.
 - Valores Proxy de base: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
 - Estado actual de Entorno Urbano: el notebook ya puede sobrescribir `39.2` con un proxy experimental usando `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`.
@@ -37,6 +39,10 @@
 - Periodicidad real del proxy de Entorno Urbano: anual `2024`, no mensual ni trimestral observada.
 - Visualizacion interna reciente: `heatmap` de componentes del deficit cualitativo 2024.
 - Datos en repo: `obrero.zip` presente; capas se cargan por descompresion o Colab.
+- Archivos GeoJSON DATIC: `DATIC_homicidios_2023_2026T1_Barrio_O.geojson`, `DATIC_hurtos_2023_2026T1_Barrio_O.geojson`, `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson`, `DATIC_comparendos_2023_2026T1_Barrio_O.geojson`.
+- Visualizacion trimestral: heatmaps y barras incluyen Q1 2026 real con 4to color naranja (#FF6F00).
+- Cards, ITT Global, Radar: solo 2023-2025 (años completos).
+- NO se usan valores Proxy para Q2-Q4 2026 en esta zona (solo Pulmon de Oriente usa Proxy).
 
 ## ITT Pulmon de Oriente
 

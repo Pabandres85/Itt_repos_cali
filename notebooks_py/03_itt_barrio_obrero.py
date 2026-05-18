@@ -1,11 +1,11 @@
 """
 ITT Barrio Obrero — Comuna 9, Cali
-Indice de Transformacion Territorial · 5 Dimensiones · 2023-2025
+Indice de Transformacion Territorial · 5 Dimensiones · 2023-2026 Q1
 
 Zona: Barrio Obrero (poligono unico, sin tramos)
 Normalizacion: ref_min / ref_max fijos por indicador (juicio experto)
 Dimensiones: Seguridad (30%) · Movilidad (25%) · Entorno Urbano (20% ref) · Educ y Des (13% ref) · Cohesion Social (12%)
-Periodo: 2023 - 2025
+Periodo: 2023-2026 Q1 (anual solo 2023-2025; trimestral incluye Q1 2026 real, sin Proxy)
 
 Ejecutar con:
     uv run notebooks_py/03_itt_barrio_obrero.py
@@ -321,31 +321,22 @@ for nombre, df_src in [('homicidios', df_hom), ('hurtos', df_hur), ('siniestrali
 corr_trim['periodo'] = corr_trim['año'].astype(str) + '-Q' + corr_trim['trimestre'].astype(str)
 
 # ══════════════════════════════════════════════════════════
-# VALORES PROXY 2026 (Q1-Q4)
-# No hay datos reales de 2026 para Barrio Obrero.
-# Se estiman TODOS los trimestres con promedio historico 2023-2025.
+# PERIODO: base anual solo 2023-2025, trimestral incluye Q1 2026 real
+# NO hay Proxy para Barrio Obrero (solo Pulmon de Oriente usa Proxy).
 # ══════════════════════════════════════════════════════════
-indicadores_all = [c for c in base.columns if c != 'año']
-hist_anual = base[base['año'].isin([2023, 2024, 2025])]
-proxy_anual = hist_anual[indicadores_all].mean().round(1)
-row_2026 = {'año': 2026}
-row_2026.update(proxy_anual.to_dict())
-base = pd.concat([base, pd.DataFrame([row_2026])], ignore_index=True)
+ANIOS_BASE = [2023, 2024, 2025]  # Solo años completos para base anual
+base = base[base['año'].isin(ANIOS_BASE)].reset_index(drop=True)
 
-# Proxy trimestral
-hist_trim = corr_trim[corr_trim['año'].isin([2023, 2024, 2025])]
-indicadores_trim = [c for c in corr_trim.columns if c not in ['año', 'trimestre', 'periodo']]
-for trim in [1, 2, 3, 4]:
-    trim_hist = hist_trim[hist_trim['trimestre'] == trim]
-    proxy_row = {'año': 2026, 'trimestre': trim}
-    for ind in indicadores_trim:
-        proxy_row[ind] = round(trim_hist[ind].mean(), 1)
-    proxy_row['periodo'] = f'2026-Q{trim}'
-    corr_trim = pd.concat([corr_trim, pd.DataFrame([proxy_row])], ignore_index=True)
+# Trimestral: solo trimestres con datos reales (2023 Q1-Q4, 2024 Q1-Q4, 2025 Q1-Q4, 2026 Q1)
+corr_trim = corr_trim[
+    (corr_trim['año'].isin([2023, 2024, 2025])) |
+    ((corr_trim['año'] == 2026) & (corr_trim['trimestre'] == 1))
+].reset_index(drop=True)
+corr_trim['es_proxy'] = False  # Todo es dato real
 
-corr_trim['es_proxy'] = corr_trim['año'] == 2026
-print('\nVALORES PROXY 2026** (promedio historico 2023-2025, sin datos reales):')
-print('  ', {k: f'{v:.1f}**' for k, v in proxy_anual.items()})
+print('\nPeriodo base anual: 2023-2025 (años completos)')
+print('Periodo trimestral: 2023 Q1-Q4, 2024 Q1-Q4, 2025 Q1-Q4, 2026 Q1 (solo dato real)')
+print('NO se generan valores Proxy para Q2-Q4 2026 en Barrio Obrero.')
 
 print('\nIndicadores anuales:')
 print(base.to_string(index=False))
@@ -400,7 +391,7 @@ def arrow(pct, inv=True):
     if inv: return (f'V {abs(pct):.1f}%', '#2E7D32') if pct < 0 else (f'A {abs(pct):.1f}%', '#C62828')
     else: return (f'A {abs(pct):.1f}%', '#2E7D32') if pct > 0 else (f'V {abs(pct):.1f}%', '#C62828')
 
-año_ini, año_ant, año_ult = ANIOS[0], ANIOS[-2], ANIOS[-1]
+año_ini, año_ant, año_ult = ANIOS_BASE[0], ANIOS_BASE[-2], ANIOS_BASE[-1]
 d_ini = base[base['año'] == año_ini].iloc[0]
 d_ant = base[base['año'] == año_ant].iloc[0]
 d_ult = base[base['año'] == año_ult].iloc[0]
@@ -478,18 +469,20 @@ plt.close()
 
 # ══════════════════════════════════════════════════════════
 # Evolucion trimestral (barras agrupadas)
+# Incluye 2026 Q1 real con 4to color naranja (#FF6F00)
 # ══════════════════════════════════════════════════════════
-x = np.arange(4); n = len(ANIOS); w = 0.8 / n
-COLORES = ['#42A5F5', '#1B4F8A', '#E53935', '#FF6F00']
+ANIOS_TRIM = [2023, 2024, 2025, 2026]  # Años para graficos trimestrales
+x = np.arange(4); n = len(ANIOS_TRIM); w = 0.8 / n
+COLORES = ['#42A5F5', '#1B4F8A', '#E53935', '#FF6F00']  # 4to color naranja para 2026
 
 # Seguridad
 fig, axes = plt.subplots(1, 2, figsize=(16, 5), facecolor=BG)
 fig.suptitle('Dimension Seguridad - Evolucion Trimestral | Barrio Obrero', fontsize=13, fontweight='bold', color='#1B2631')
 for ax, col, tp in [(axes[0], 'homicidios', 'Homicidios'), (axes[1], 'hurtos', 'Hurtos')]:
-    for idx, año in enumerate(ANIOS):
+    for idx, año in enumerate(ANIOS_TRIM):
         vals = corr_trim[corr_trim['año'] == año][col].values
         offset = (idx - n / 2 + 0.5) * w
-        b = ax.bar(x + offset, vals, w, label=str(año), color=COLORES[idx % 3], alpha=0.85, edgecolor='white')
+        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=COLORES[idx], alpha=0.85, edgecolor='white')
         for bar in b:
             h = bar.get_height()
             if h > 0: ax.text(bar.get_x() + bar.get_width() / 2, h + 0.05, str(int(h)), ha='center', va='bottom', fontsize=7, fontweight='bold')
@@ -502,13 +495,13 @@ plt.close()
 # Movilidad
 fig, axes = plt.subplots(1, 3, figsize=(20, 5), facecolor=BG)
 fig.suptitle('Dimension Movilidad - Evolucion Trimestral | Barrio Obrero', fontsize=13, fontweight='bold', color='#1B2631')
-CMOV = [['#F5A742', '#D95F2B', '#B71C1C'], ['#F5A742', '#D95F2B', '#B71C1C'], ['#FF8A80', '#E53935', '#7F0000']]
+CMOV = [['#F5A742', '#D95F2B', '#B71C1C', '#FF6F00'], ['#F5A742', '#D95F2B', '#B71C1C', '#FF6F00'], ['#FF8A80', '#E53935', '#7F0000', '#FF6F00']]
 for pi, (ax, col, tp) in enumerate([(axes[0], 'siniestralidad', 'Siniestralidad'), (axes[1], 'lesionados', 'Lesionados'), (axes[2], 'mortales', 'Mortales')]):
     c = CMOV[pi]
-    for idx, año in enumerate(ANIOS):
+    for idx, año in enumerate(ANIOS_TRIM):
         vals = corr_trim[corr_trim['año'] == año][col].values
         offset = (idx - n / 2 + 0.5) * w
-        b = ax.bar(x + offset, vals, w, label=str(año), color=c[idx % 3], alpha=0.85, edgecolor='white')
+        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=c[idx], alpha=0.85, edgecolor='white')
         for bar in b:
             h = bar.get_height()
             if h > 0: ax.text(bar.get_x() + bar.get_width() / 2, h + 0.05, str(int(h)), ha='center', va='bottom', fontsize=7, fontweight='bold')
@@ -521,12 +514,12 @@ plt.close()
 # Cohesion
 fig, axes = plt.subplots(1, 2, figsize=(16, 5), facecolor=BG)
 fig.suptitle('Dimension Cohesion Social - Evolucion Trimestral | Barrio Obrero', fontsize=13, fontweight='bold', color='#1B2631')
-CVIF = ['#CE93D8', '#7B1FA2', '#4A148C']; CRIN = ['#F48FB1', '#D81B60', '#880E4F']
+CVIF = ['#CE93D8', '#7B1FA2', '#4A148C', '#FF6F00']; CRIN = ['#F48FB1', '#D81B60', '#880E4F', '#FF6F00']
 for ax, col, colores, tp in [(axes[0], 'vif', CVIF, 'VIF'), (axes[1], 'rinas', CRIN, 'Rinas')]:
-    for idx, año in enumerate(ANIOS):
+    for idx, año in enumerate(ANIOS_TRIM):
         vals = corr_trim[corr_trim['año'] == año][col].values
         offset = (idx - n / 2 + 0.5) * w
-        b = ax.bar(x + offset, vals, w, label=str(año), color=colores[idx % 3], alpha=0.85, edgecolor='white')
+        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=colores[idx], alpha=0.85, edgecolor='white')
         for bar in b:
             h = bar.get_height()
             if h > 0: ax.text(bar.get_x() + bar.get_width() / 2, h + 0.05, str(int(h)), ha='center', va='bottom', fontsize=7, fontweight='bold')
@@ -537,7 +530,7 @@ plt.savefig(IMG_DIR + 'itt_obrero_coh_trim.png', dpi=150, bbox_inches='tight', f
 plt.close()
 
 # ══════════════════════════════════════════════════════════
-# ITT Global y composicion por dimension
+# ITT Global y composicion por dimension (solo años completos 2023-2025)
 # ══════════════════════════════════════════════════════════
 fig, axes = plt.subplots(1, 2, figsize=(16, 6), facecolor=BG)
 fig.suptitle('ITT Global — Barrio Obrero', fontsize=13, fontweight='bold', color='#1B2631')
@@ -545,32 +538,32 @@ COLORES_ITT = ['#42A5F5', '#2E7D32', '#E53935']
 band_configs = [(0, 40, '#FFCDD2', 'Emergencia'), (40, 60, '#FFE0B2', 'Consolidacion'), (60, 80, '#C8E6C9', 'Avance'), (80, 100, '#BBDEFB', 'Transformacion')]
 
 ax1 = axes[0]
-bars = ax1.bar(ANIOS, base['ITT'], color=COLORES_ITT, alpha=0.85, edgecolor='white', width=0.5)
+bars = ax1.bar(ANIOS_BASE, base['ITT'], color=COLORES_ITT, alpha=0.85, edgecolor='white', width=0.5)
 for bar, val, nivel in zip(bars, base['ITT'], base['nivel']):
     ax1.text(bar.get_x() + bar.get_width() / 2, val + 1, f'{val:.1f}\n{nivel}', ha='center', va='bottom', fontsize=10, fontweight='bold', color=NIVEL_COLORS.get(nivel, '#1B2631'))
 for y0, y1, c, l in band_configs: ax1.axhspan(y0, y1, alpha=0.15, color=c)
-ax1.set_title('ITT por Ano', fontweight='bold', pad=10); ax1.set_ylim(0, 115); ax1.set_ylabel('ITT (0-100)'); ax1.set_xticks(ANIOS)
+ax1.set_title('ITT por Ano', fontweight='bold', pad=10); ax1.set_ylim(0, 115); ax1.set_ylabel('ITT (0-100)'); ax1.set_xticks(ANIOS_BASE)
 
 ax2 = axes[1]
 dims = ['score_seguridad', 'score_movilidad', 'score_entorno_u', 'score_educ_des', 'score_cohesion']
 dim_lbl = ['Seguridad', 'Movilidad', 'EntornoU (ref)', 'EducDes (ref)', 'Cohesion']
 dim_p = [PESOS['Seguridad'], PESOS['Movilidad'], PESOS['EntornoU'], PESOS['EducDes'], PESOS['Cohesion']]
 dim_c = [C_SEG, C_MOV, '#43A047', '#FB8C00', C_COH]
-bottom = np.zeros(len(ANIOS))
+bottom = np.zeros(len(ANIOS_BASE))
 for dim, lbl, peso, col in zip(dims, dim_lbl, dim_p, dim_c):
     vals = base[dim].values * peso
-    ax2.bar(ANIOS, vals, bottom=bottom, label=f'{lbl} ({peso:.0%})', color=col, alpha=0.8, edgecolor='white', width=0.5)
+    ax2.bar(ANIOS_BASE, vals, bottom=bottom, label=f'{lbl} ({peso:.0%})', color=col, alpha=0.8, edgecolor='white', width=0.5)
     bottom += vals
-ax2.plot(ANIOS, base['ITT'], 'D-', color='black', linewidth=2, markersize=8, label='ITT Total', zorder=5)
+ax2.plot(ANIOS_BASE, base['ITT'], 'D-', color='black', linewidth=2, markersize=8, label='ITT Total', zorder=5)
 for y0, y1, c, l in band_configs: ax2.axhspan(y0, y1, alpha=0.1, color=c)
-ax2.set_title('Composicion ITT', fontweight='bold', pad=10); ax2.set_ylim(0, 115); ax2.set_ylabel('Score ponderado'); ax2.set_xticks(ANIOS)
+ax2.set_title('Composicion ITT', fontweight='bold', pad=10); ax2.set_ylim(0, 115); ax2.set_ylabel('Score ponderado'); ax2.set_xticks(ANIOS_BASE)
 ax2.legend(loc='upper right', fontsize=7)
 plt.tight_layout()
 plt.savefig(IMG_DIR + 'itt_obrero_global.png', dpi=150, bbox_inches='tight', facecolor=BG)
 plt.close()
 
 # ══════════════════════════════════════════════════════════
-# Radar ITT: 5 dimensiones
+# Radar ITT: 5 dimensiones (solo años completos 2023-2025)
 # ══════════════════════════════════════════════════════════
 DIMS_LBL = ['Seguridad', 'Movilidad', 'Cohesion\nSocial', 'Entorno\nUrbano', 'Educ y\nDesarrollo']
 N_DIMS = 5
@@ -585,7 +578,7 @@ ax.set_ylim(0, 100); ax.set_yticks([20, 40, 60, 80, 100])
 ax.set_yticklabels(['20', '40', '60', '80', '100'], fontsize=7, color='gray')
 ax.yaxis.grid(True, linestyle='--', alpha=0.4)
 
-for idx, año in enumerate(ANIOS):
+for idx, año in enumerate(ANIOS_BASE):
     row = base[base['año'] == año].iloc[0]
     vals = [row['score_seguridad'], row['score_movilidad'], row['score_cohesion'], row['score_entorno_u'], row['score_educ_des']]
     vals_c = vals + [vals[0]]

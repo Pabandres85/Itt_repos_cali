@@ -1,5 +1,5 @@
 """Fix Celda 8 (Cards) en Barrio Obrero.
-Metricas 2023 al 2025: valor actual 2025, comparacion vs 2024 y vs 2023.
+Filtrar base a solo 2023-2025 para que no se contamine con 2026 Proxy.
 """
 import json
 from pathlib import Path
@@ -21,13 +21,15 @@ new_source = [
     "    if inv: return (f'V {abs(pct):.1f}%','#2E7D32') if pct<0 else (f'A {abs(pct):.1f}%','#C62828')\n",
     "    else:  return (f'A {abs(pct):.1f}%','#2E7D32') if pct>0 else (f'V {abs(pct):.1f}%','#C62828')\n",
     "\n",
-    "# Metricas 2023 al 2025\n",
+    "# Solo datos reales 2023-2025 (excluir 2026 Proxy)\n",
+    "base_real = base[base['año'].isin([2023, 2024, 2025])].copy()\n",
+    "\n",
     "año_ini = 2023\n",
     "año_ant = 2024\n",
     "año_ult = 2025\n",
-    "d_ini = base[base['año']==año_ini].iloc[0]\n",
-    "d_ant = base[base['año']==año_ant].iloc[0]\n",
-    "d_ult = base[base['año']==año_ult].iloc[0]\n",
+    "d_ini = base_real[base_real['año']==año_ini].iloc[0]\n",
+    "d_ant = base_real[base_real['año']==año_ant].iloc[0]\n",
+    "d_ult = base_real[base_real['año']==año_ult].iloc[0]\n",
     "\n",
     "cards = [\n",
     "    ('Homicidios',int(d_ini['homicidios']),int(d_ant['homicidios']),int(d_ult['homicidios']),True),\n",
@@ -71,7 +73,6 @@ cells[26]['outputs'] = []
 with open(nb_path, 'w', encoding='utf-8') as f:
     json.dump(nb, f, ensure_ascii=False)
 
-print('Celda 8 (Cards) corregida: metricas 2023 al 2025')
-print('  - Valor principal: 2025')
-print('  - Comparacion 1: 2025 vs 2024')
-print('  - Comparacion 2: 2025 vs 2023')
+print('Celda 8 (Cards) corregida:')
+print('  - base_real filtra solo 2023-2025')
+print('  - No aparece 2026 en ningun rotulo ni valor')

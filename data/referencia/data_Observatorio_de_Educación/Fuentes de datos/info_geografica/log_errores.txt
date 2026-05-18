@@ -1,0 +1,6 @@
+LOG DE ERRORES - Conversión espacial
+Fecha: 2026-05-18 12:02:53
+Carpeta: C:\Users\Jorge\Documents\GOBIERNO_DE_DATOS\Data_Steward\Observatorio_de_Educación\data\Fuentes de datos\info_geografica
+======================================================================
+
+1. Error en ~$Información geográfica sedes.xlsx: [Errno 2] No such file or directory: 'C:\\Users\\Jorge\\Documents\\GOBIERNO_DE_DATOS\\Data_Steward\\Observatorio_de_Educación\\data\\Fuentes de datos\\info_geografica\\~$Información geográfica sedes.xlsx'

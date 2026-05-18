@@ -64,8 +64,13 @@ ARCHIVOS DATIC (datos hasta 2026 Q1):
 
 VISUALIZACION:
   - Cards, ITT Global, Radar: solo 2023-2025 (años completos).
-  - Heatmaps y barras trimestrales: incluyen Q1 2026 real con 4to color naranja (#FF6F00).
+  - Heatmaps y barras trimestrales: incluyen Q1 2026 real.
   - Trimestres sin datos (Q2-Q4 2026): muestran '-' en heatmaps con color base.
+  - 2026 solo dibuja barra en Q1 (no repite en Q2-Q4).
+  - Barras trimestrales usan gradiente claro a oscuro (2023=claro, 2026=oscuro):
+    Seguridad: ['#90CAF9', '#42A5F5', '#1565C0', '#003366'] (azul)
+    Movilidad: ['#FFCC80', '#FB8C00', '#E65100', '#4E2600'] (naranja)
+    Cohesion:  ['#CE93D8', '#8E24AA', '#4A148C', '#1A0033'] (purpura)
 
 FALTA:
   - Datos propios de Educacion y Desarrollo (matricula, desercion, etc.)

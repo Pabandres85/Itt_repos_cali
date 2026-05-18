@@ -11,7 +11,11 @@ Periodo: 2023-2026 (Q1 2026 = dato real; NO hay Proxy para esta zona).
 - **base (anual):** Solo 2023-2025 (años completos con datos reales).
 - **corr_trim (trimestral):** 2023 Q1-Q4, 2024 Q1-Q4, 2025 Q1-Q4, 2026 Q1 (solo dato real, sin Proxy).
 - **Cards, ITT Global, Radar:** Solo 2023-2025 (años completos).
-- **Heatmaps, Barras trimestrales:** Incluyen Q1 2026 real con 4to color naranja (#FF6F00). Trimestres sin datos (Q2-Q4 2026) muestran `-` en heatmaps.
+- **Heatmaps, Barras trimestrales:** Incluyen Q1 2026 real. Trimestres sin datos (Q2-Q4 2026) muestran `-` en heatmaps. Barras usan gradiente claro a oscuro:
+  - Seguridad: `['#90CAF9', '#42A5F5', '#1565C0', '#003366']` (azul)
+  - Movilidad: `['#FFCC80', '#FB8C00', '#E65100', '#4E2600']` (naranja)
+  - Cohesion: `['#CE93D8', '#8E24AA', '#4A148C', '#1A0033']` (purpura)
+  - 2026 solo dibuja barra en Q1 (no repite en Q2-Q4).
 
 ## Flujo completo de ejecucion
 

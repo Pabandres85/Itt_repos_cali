@@ -54,7 +54,7 @@ El agente debe diferenciar entre:
 - `03_itt_barrio_obrero.ipynb` ya usa experimentalmente `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` para recalcular `Entorno Urbano` con `Comuna 9` como proxy territorial.
 - Barrio Obrero ahora tiene datos DATIC hasta 2026 Q1: `DATIC_homicidios_2023_2026T1_Barrio_O.geojson`, `DATIC_hurtos_2023_2026T1_Barrio_O.geojson`, `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson`, `DATIC_comparendos_2023_2026T1_Barrio_O.geojson`.
 - Barrio Obrero: analisis anual solo 2023-2025; serie trimestral incluye Q1 2026 real; NO usa Proxy para Q2-Q4 2026.
-- Barrio Obrero: heatmaps y barras trimestrales usan 4to color naranja (#FF6F00) para 2026.
+- Barrio Obrero: heatmaps y barras trimestrales usan 4to color naranja (#FF6F00) para 2026. Trimestres sin datos (Q2-Q4 2026) muestran `-` en heatmaps.
 - Ese insumo de `Entorno Urbano` es un corte anual `2024`; la visualizacion reciente recomendada es un `heatmap` de componentes del deficit cualitativo.
 - Para Pulmon de Oriente 2026, se implemento deduplicacion por fecha+coordenada y generacion de valores Proxy para Q2, Q3 y Q4 basados en promedio historico trimestral 2023-2025.
 - Los valores Proxy se marcan con doble asterisco (`**`) en todas las salidas.

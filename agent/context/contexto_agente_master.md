@@ -143,7 +143,7 @@ Estado:
 - Analisis anual (base): solo 2023-2025 (años completos).
 - Serie trimestral: incluye Q1 2026 real; NO se generan Proxy para Q2-Q4 2026.
 - Archivos DATIC: `DATIC_homicidios_2023_2026T1_Barrio_O.geojson`, `DATIC_hurtos_2023_2026T1_Barrio_O.geojson`, `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson`, `DATIC_comparendos_2023_2026T1_Barrio_O.geojson`.
-- Heatmaps y barras trimestrales: 4to color naranja (#FF6F00) para 2026.
+- Heatmaps y barras trimestrales: 4to color naranja (#FF6F00) para 2026. Trimestres sin datos (Q2-Q4 2026) muestran `-` en heatmaps con color base (gris/claro).
 
 ### Roosevelt
 

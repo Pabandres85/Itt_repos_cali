@@ -40,7 +40,7 @@
 - Visualizacion interna reciente: `heatmap` de componentes del deficit cualitativo 2024.
 - Datos en repo: `obrero.zip` presente; capas se cargan por descompresion o Colab.
 - Archivos GeoJSON DATIC: `DATIC_homicidios_2023_2026T1_Barrio_O.geojson`, `DATIC_hurtos_2023_2026T1_Barrio_O.geojson`, `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson`, `DATIC_comparendos_2023_2026T1_Barrio_O.geojson`.
-- Visualizacion trimestral: heatmaps y barras incluyen Q1 2026 real con 4to color naranja (#FF6F00).
+- Visualizacion trimestral: heatmaps y barras incluyen Q1 2026 real con 4to color naranja (#FF6F00). Trimestres sin datos (Q2-Q4 2026) muestran `-` en heatmaps.
 - Cards, ITT Global, Radar: solo 2023-2025 (años completos).
 - NO se usan valores Proxy para Q2-Q4 2026 en esta zona (solo Pulmon de Oriente usa Proxy).
 

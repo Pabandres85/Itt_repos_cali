@@ -1,0 +1,12 @@
+{
+  "notebook.output.wordWrap": true,
+  "notebook.cellToolbarLocation": "right",
+  "security.workspace.trust.enabled": false,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingModuleSource": "none",
+    "reportGeneralClassIssues": "none"
+  },
+  "python.analysis.ignore": ["**/notebooks/**"],
+  "jupyter.runStartupCommands": [],
+  "python.linting.enabled": false
+}

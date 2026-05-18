@@ -92,6 +92,22 @@ outputs/itt_barrio_obrero/
 
 Hoy el repo no contiene outputs generados; solo la estructura base.
 
+## 5.1 Aplicar scripts auxiliares en Colab (Pulmon de Oriente)
+
+Para el notebook `04_itt_pulmon_oriente_2026_v2.ipynb`, los scripts auxiliares en `notebooks/` contienen la logica actualizada:
+
+1. Ejecutar el notebook hasta Celda 5 normalmente
+2. Reemplazar **Celda 6** con el contenido de `notebooks/celda6_procesamiento_dedup.py`
+3. Reemplazar **Celda 7** con el contenido de `notebooks/celda7_normalizacion_itt.py`
+4. Re-ejecutar desde Celda 6 en adelante
+5. Los graficos mostraran 4 trimestres completos para 2026 (Q1 real + Q2-Q4 Proxy**)
+
+Estos scripts garantizan:
+- Deduplicacion por fecha+coordenada
+- Generacion de valores Proxy para Q2-Q4 2026
+- Normalizacion con 4 trimestres completos
+- Visualizaciones con serie temporal continua
+
 ## 6. Ejecutar comparativo
 
 Luego ejecutar:
@@ -126,3 +142,18 @@ Minimo recomendado para agentes:
 - Metodologia vigente.
 - Fuentes disponibles y faltantes.
 - Resultados exportados.
+
+## 8. Valores Proxy 2026
+
+Para Pulmon de Oriente, los trimestres Q2, Q3 y Q4 de 2026 no tienen datos reales. El notebook `04_itt_pulmon_oriente_2026_v2.ipynb` genera automaticamente valores Proxy basados en el promedio historico trimestral de 2023-2025.
+
+Reglas:
+- Los valores Proxy se marcan con doble asterisco (`**`) en todas las salidas.
+- Deben reemplazarse por datos reales en cuanto esten disponibles.
+- La logica de calculo esta en `notebooks/celda6_procesamiento_dedup.py`.
+
+> **Nota metodologica:** Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025, con el fin de normalizar la informacion y garantizar comparabilidad estadistica y visual en el analisis.
+
+## 9. Sincronizacion de documentacion
+
+Los archivos `.md` son la fuente principal de documentacion del proyecto. Cada ajuste implementado en calculos, tablas o graficos debe reflejarse inmediatamente en los `.md`. No debe existir informacion desactualizada entre los datos procesados y la documentacion.

@@ -9,3 +9,6 @@
 | Spatial Join | Cruce espacial entre puntos y polígonos |
 | CRS | Sistema de referencia de coordenadas |
 | Indicador inverso | Indicador donde menor valor significa mejor resultado |
+| Valor Proxy | Valor estimado o heredado para una dimension/periodo sin datos reales propios. Incluye: scores fijos de Pulmon de Oriente, promedios historicos trimestrales, y calculos experimentales (deficit habitacional). Se marca con doble asterisco (`**`) |
+| Linea base historica | Datos observados de los años 2023-2025 usados como referencia para estimar valores Proxy |
+| Doble asterisco (`**`) | Convencion de marcado que identifica valores estimados (Proxy) en tablas y graficos |

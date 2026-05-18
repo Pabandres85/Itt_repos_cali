@@ -57,17 +57,17 @@ ITT = 0.30*Seguridad
     + 0.12*Cohesion_Social
 ```
 
-## Referentes provisionales actuales
+## Valores Proxy actuales
 
-Mientras una zona no tenga datos propios para ciertas dimensiones, el proyecto usa scores referentes del ITT Pulmon de Oriente:
+Mientras una zona no tenga datos propios para ciertas dimensiones, el proyecto usa scores Proxy del ITT Pulmon de Oriente:
 
-| Elemento | Valor referente |
+| Elemento | Valor Proxy |
 |---|---:|
 | Entorno Urbano | 39.2 |
 | Educacion y Desarrollo | 54.9 |
 | Vulnerabilidad en Cohesion | 54.1 |
 
-Estos valores deben quedar marcados como provisionales en resultados y documentacion.
+Estos valores deben quedar marcados como Proxy en resultados y documentacion.
 
 Nota importante:
 
@@ -102,6 +102,41 @@ Lectura preliminar:
 - La visualizacion recomendada para ese insumo es un `heatmap` de componentes del deficit cualitativo 2024.
 - `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` y `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` describen mejor intervencion institucional que estado fisico del entorno.
 - Aun no deben incorporarse al calculo sin resolver primero la equivalencia territorial entre comuna, barrio y corredor buffer.
+
+## Valores Proxy para trimestres sin datos (2026 Q2-Q4)
+
+Cuando un periodo trimestral no tiene datos reales disponibles (como ocurre con Q2, Q3 y Q4 de 2026 en Pulmon de Oriente), se generan **valores Proxy** para garantizar comparabilidad estadistica y continuidad analitica.
+
+### Metodologia de estimacion Proxy
+
+```
+Proxy_Q(t)_2026 = promedio(Q(t)_2023, Q(t)_2024, Q(t)_2025)
+```
+
+Criterios:
+- Se usa el promedio historico trimestral de los 3 años anteriores (2023-2025).
+- Los valores deben mantener coherencia con la tendencia historica.
+- Se evitan saltos abruptos respecto al Q1 2026 observado.
+
+### Convencion de marcado
+
+Todos los valores Proxy se identifican con **doble asterisco** (`**`):
+
+```
+Ejemplo: 346.0**
+```
+
+Esto permite distinguir entre datos reales (observados) y datos estimados (Proxy).
+
+### Nota metodologica obligatoria
+
+> Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025, con el fin de normalizar la informacion y garantizar comparabilidad estadistica y visual en el analisis.
+
+Esta nota debe aparecer en tablas, graficos, leyendas y secciones metodologicas donde se presenten datos trimestrales de 2026.
+
+### Documento de referencia detallado
+
+- `docs/05_nota_metodologica_proxy_2026.md`
 
 ## Referencia principal
 

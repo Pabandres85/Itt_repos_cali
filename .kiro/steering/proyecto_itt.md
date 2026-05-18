@@ -60,6 +60,7 @@
 ## Colores para graficos trimestrales (Barrio Obrero)
 
 - **Seguridad (Celda 12):** Gama azul claro a oscuro: `['#90CAF9', '#42A5F5', '#1565C0', '#003366']` (2023=claro, 2026=oscuro)
-- **Movilidad:** Gama naranja/rojo
-- **Cohesion:** Gama purpura/rosa
+- **Movilidad (Celda 13):** Gama naranja claro a oscuro: `['#FFCC80', '#FB8C00', '#E65100', '#4E2600']`
+- **Cohesion (Celda 14):** Gama purpura claro a oscuro: `['#CE93D8', '#8E24AA', '#4A148C', '#1A0033']`
 - Siempre usar `COLORES[idx]` (no `idx%3`) para que cada año tenga su color unico
+- 2026 solo dibuja barra en Q1 (`x[:len(vals)]`), no repite en Q2-Q4

@@ -1,5 +1,5 @@
 """Fix Celda 8 (Cards) en Barrio Obrero.
-Filtrar base a solo 2023-2025 para que no se contamine con 2026 Proxy.
+Simplificado: usa base directamente (ya es solo 2023-2025).
 """
 import json
 from pathlib import Path
@@ -21,15 +21,15 @@ new_source = [
     "    if inv: return (f'V {abs(pct):.1f}%','#2E7D32') if pct<0 else (f'A {abs(pct):.1f}%','#C62828')\n",
     "    else:  return (f'A {abs(pct):.1f}%','#2E7D32') if pct>0 else (f'V {abs(pct):.1f}%','#C62828')\n",
     "\n",
-    "# Solo datos reales 2023-2025 (excluir 2026 Proxy)\n",
-    "base_real = base[base['año'].isin([2023, 2024, 2025])].copy()\n",
+    "# base ya contiene solo 2023-2025 con scores calculados\n",
+    "print('Verificacion base para Cards:')\n",
+    "print(f'  Años en base: {sorted(base[\"año\"].unique())}')\n",
+    "print(f'  Columnas: {list(base.columns)}')\n",
+    "print()\n",
     "\n",
-    "año_ini = 2023\n",
-    "año_ant = 2024\n",
-    "año_ult = 2025\n",
-    "d_ini = base_real[base_real['año']==año_ini].iloc[0]\n",
-    "d_ant = base_real[base_real['año']==año_ant].iloc[0]\n",
-    "d_ult = base_real[base_real['año']==año_ult].iloc[0]\n",
+    "d_ini = base[base['año']==2023].iloc[0]\n",
+    "d_ant = base[base['año']==2024].iloc[0]\n",
+    "d_ult = base[base['año']==2025].iloc[0]\n",
     "\n",
     "cards = [\n",
     "    ('Homicidios',int(d_ini['homicidios']),int(d_ant['homicidios']),int(d_ult['homicidios']),True),\n",
@@ -43,7 +43,7 @@ new_source = [
     "]\n",
     "\n",
     "fig, axes = plt.subplots(2, 4, figsize=(18, 7), facecolor=BG)\n",
-    "fig.suptitle(f'ITT Barrio Obrero — Metricas Clave | {año_ini}-{año_ult}',\n",
+    "fig.suptitle('ITT Barrio Obrero — Metricas Clave | 2023-2025',\n",
     "             fontsize=14, fontweight='bold', color='#1B2631', y=0.98)\n",
     "for i, (titulo, v_ini, v_ant, v_ult, inv) in enumerate(cards):\n",
     "    ax = axes[i//4][i%4]; ax.set_xlim(0,1); ax.set_ylim(0,1); ax.axis('off')\n",
@@ -55,12 +55,12 @@ new_source = [
     "    ax.text(0.5,0.60, val_d, ha='center', va='center', fontsize=19, fontweight='bold', color='#1B2631')\n",
     "    pct1 = safe_pct(v_ult, v_ant)\n",
     "    ar1, col1 = arrow(pct1, inv)\n",
-    "    ax.text(0.5,0.38, f'{año_ult} vs {año_ant}: {ar1}', ha='center', fontsize=8, color=col1, fontweight='bold')\n",
+    "    ax.text(0.5,0.38, f'2025 vs 2024: {ar1}', ha='center', fontsize=8, color=col1, fontweight='bold')\n",
     "    pct2 = safe_pct(v_ult, v_ini)\n",
     "    ar2, col2 = arrow(pct2, inv)\n",
-    "    ax.text(0.5,0.22, f'vs {año_ini}: {ar2}', ha='center', fontsize=7.5, color=col2)\n",
+    "    ax.text(0.5,0.22, f'vs 2023: {ar2}', ha='center', fontsize=7.5, color=col2)\n",
     "    ref = f'{v_ini:.1f}' if isinstance(v_ini,float) else str(v_ini)\n",
-    "    ax.text(0.5,0.08, f'{año_ini}: {ref}', ha='center', fontsize=7, color='#ADB5BD')\n",
+    "    ax.text(0.5,0.08, f'2023: {ref}', ha='center', fontsize=7, color='#ADB5BD')\n",
     "\n",
     "plt.tight_layout(rect=[0,0,1,0.95])\n",
     "plt.savefig(IMG_DIR + 'itt_obrero_cards.png', dpi=150, bbox_inches='tight', facecolor=BG)\n",
@@ -73,6 +73,7 @@ cells[26]['outputs'] = []
 with open(nb_path, 'w', encoding='utf-8') as f:
     json.dump(nb, f, ensure_ascii=False)
 
-print('Celda 8 (Cards) corregida:')
-print('  - base_real filtra solo 2023-2025')
-print('  - No aparece 2026 en ningun rotulo ni valor')
+print('Celda 8 (Cards) simplificada:')
+print('  - Usa base directamente (ya es 2023-2025)')
+print('  - Agrega print de verificacion para debug')
+print('  - Titulos hardcoded a 2023-2025')

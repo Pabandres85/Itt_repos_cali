@@ -517,7 +517,7 @@ plt.close()
 # ══════════════════════════════════════════════════════════
 ANIOS_TRIM = [2023, 2024, 2025, 2026]  # Años para graficos trimestrales
 x = np.arange(4); n = len(ANIOS_TRIM); w = 0.8 / n
-COLORES_SEG = ['#90CAF9', '#42A5F5', '#1565C0', '#003366']  # 4to color naranja para 2026
+COLORES = ['#90CAF9', '#42A5F5', '#1565C0', '#003366']  # 4to color naranja para 2026
 
 # Seguridad
 fig, axes = plt.subplots(1, 2, figsize=(16, 5), facecolor=BG)
@@ -526,7 +526,7 @@ for ax, col, tp in [(axes[0], 'homicidios', 'Homicidios'), (axes[1], 'hurtos', '
     for idx, año in enumerate(ANIOS_TRIM):
         vals = corr_trim[corr_trim['año'] == año][col].values
         offset = (idx - n / 2 + 0.5) * w
-        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=COLORES_SEG[idx], alpha=0.85, edgecolor='white')
+        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=COLORES[idx], alpha=0.85, edgecolor='white')
         for bar in b:
             h = bar.get_height()
             if h > 0: ax.text(bar.get_x() + bar.get_width() / 2, h + 0.05, str(int(h)), ha='center', va='bottom', fontsize=7, fontweight='bold')
@@ -539,12 +539,12 @@ plt.close()
 # Movilidad
 fig, axes = plt.subplots(1, 3, figsize=(20, 5), facecolor=BG)
 fig.suptitle('Dimension Movilidad - Evolucion Trimestral | Barrio Obrero', fontsize=13, fontweight='bold', color='#1B2631')
-COLORES_MOV = ['#FFCC80', '#FB8C00', '#E65100', '#4E2600']
+CMOV = ['#FFCC80', '#FB8C00', '#E65100', '#4E2600']
 for pi, (ax, col, tp) in enumerate([(axes[0], 'siniestralidad', 'Siniestralidad'), (axes[1], 'lesionados', 'Lesionados'), (axes[2], 'mortales', 'Mortales')]):
     for idx, año in enumerate(ANIOS_TRIM):
         vals = corr_trim[corr_trim['año'] == año][col].values
         offset = (idx - n / 2 + 0.5) * w
-        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=COLORES_MOV[idx], alpha=0.85, edgecolor='white')
+        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=CMOV[idx], alpha=0.85, edgecolor='white')
         for bar in b:
             h = bar.get_height()
             if h > 0: ax.text(bar.get_x() + bar.get_width() / 2, h + 0.05, str(int(h)), ha='center', va='bottom', fontsize=7, fontweight='bold')
@@ -557,12 +557,12 @@ plt.close()
 # Cohesion
 fig, axes = plt.subplots(1, 2, figsize=(16, 5), facecolor=BG)
 fig.suptitle('Dimension Cohesion Social - Evolucion Trimestral | Barrio Obrero', fontsize=13, fontweight='bold', color='#1B2631')
-COLORES_COH = ['#CE93D8', '#8E24AA', '#4A148C', '#1A0033']
+CCOH = ['#CE93D8', '#8E24AA', '#4A148C', '#1A0033']
 for ax, col, tp in [(axes[0], 'vif', 'VIF'), (axes[1], 'rinas', 'Rinas')]:
     for idx, año in enumerate(ANIOS_TRIM):
         vals = corr_trim[corr_trim['año'] == año][col].values
         offset = (idx - n / 2 + 0.5) * w
-        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=COLORES_COH[idx], alpha=0.85, edgecolor='white')
+        b = ax.bar(x[:len(vals)] + offset, vals, w, label=str(año), color=CCOH[idx], alpha=0.85, edgecolor='white')
         for bar in b:
             h = bar.get_height()
             if h > 0: ax.text(bar.get_x() + bar.get_width() / 2, h + 0.05, str(int(h)), ha='center', va='bottom', fontsize=7, fontweight='bold')

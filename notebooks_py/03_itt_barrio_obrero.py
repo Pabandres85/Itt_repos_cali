@@ -111,6 +111,7 @@ REFS = {
 
 REF_ENTORNO_U = 39.2
 REF_EDUC_DES = 54.9
+REF_EDUC_DES_2026 = 31.5  # Score real Educacion Comuna 9 (fuente: SIMAT 2026)
 REF_VULNERABILIDAD = 54.1
 
 # Verificar archivos
@@ -374,7 +375,12 @@ base['score_seguridad'] = (base['score_homicidios'] + base['score_hurtos']) / 2
 base['score_movilidad'] = (base['score_siniestralidad'] + base['score_lesionados'] + base['score_mortales']) / 3
 base['score_cohesion'] = (base['score_vif'] + base['score_rinas'] + REF_VULNERABILIDAD) / 3
 base['score_entorno_u'] = REF_ENTORNO_U
+# Educacion: 54.9 (Proxy) para 2023-2025
 base['score_educ_des'] = REF_EDUC_DES
+
+# Para corr_trim: 2026 Q1 usa dato real de educacion
+corr_trim_educ = REF_EDUC_DES  # default proxy
+print(f'\nScore Educacion: 2023-2025 = {REF_EDUC_DES} (Proxy) | 2026 Q1 = {REF_EDUC_DES_2026} (real Comuna 9)')
 
 base['ITT'] = (
     PESOS['Seguridad'] * base['score_seguridad'] +

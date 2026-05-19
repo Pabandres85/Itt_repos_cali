@@ -51,11 +51,11 @@ Estado esperado segun notebook `03_itt_barrio_obrero.ipynb`:
 | Indicador / capa | Archivo esperado | Observaciones |
 |---|---|---|
 | Poligono | `Geojson_Barrio_Obrero.geojson` | Poligono unico |
-| Homicidios | `HOMICIDIOS_2023_2025_Obrero.geojson` | Conteo anual bajo |
-| Hurtos | `HURTOS_2023_2025_OBRERO.geojson` | Eventos del periodo |
-| Siniestros | `BD_SINIESTROS_2023_2025_COMUNA_BARRIO_OBRERO.geojson` | Analisis anual y trimestral |
-| VIF | `VIOLENCIA_INTRAFAMILIAR_2023_2025_OBRERO.geojson` | Cohesion social |
-| Comparendos | `COMPARENDOS_2023_2025_OBRERO.geojson` | Filtrar `agrupado="RINAS"` |
+| Homicidios | `DATIC_homicidios_2023_2026T1_Barrio_O.geojson` | Datos reales 2023-2026 Q1 |
+| Hurtos | `DATIC_hurtos_2023_2026T1_Barrio_O.geojson` | Datos reales 2023-2026 Q1 |
+| Siniestros | `BD_SINIESTROS_2023_2025_COMUNA_BARRIO_OBRERO.geojson` | Analisis anual y trimestral (solo 2023-2025) |
+| VIF | `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson` | Datos reales 2023-2026 Q1 |
+| Comparendos | `DATIC_comparendos_2023_2026T1_Barrio_O.geojson` | Filtrar `agrupado="RIÑAS"`. Datos reales 2023-2026 Q1 |
 | Arboles | `Arboles_Dagma_OBRERO.geojson` | Solo mapa |
 | Sedes | `Sedes_educativas_oficiales_OBRERO.geojson` | Solo mapa |
 | CAI | `CAI_MECAL_CALI_OBRERO.geojson` | Solo mapa |

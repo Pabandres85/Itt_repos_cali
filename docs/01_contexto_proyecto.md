@@ -46,7 +46,7 @@ El repositorio esta pensado para:
 
 - Analisis sobre corredor con buffer de 100 m y eventos 2023-2025.
 - El notebook ya fue implementado siguiendo la estructura funcional de Barrio Obrero.
-- Usa `ref_min/ref_max` fijos y referentes provisionales para Entorno Urbano, Educacion y Desarrollo, y Vulnerabilidad.
+- Usa `ref_min/ref_max` fijos y valores Proxy para Entorno Urbano, Educacion y Desarrollo, y Vulnerabilidad.
 - La data ya esta disponible en `data/itt_roosevelt/` como ZIP y carpeta descomprimida de trabajo.
 
 ## Avances recientes
@@ -63,4 +63,10 @@ La capa metodologica mas actualizada para agentes esta en:
 
 - `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`
 
-Los documentos de `docs/` resumen el proyecto y deben mantenerse consistentes con esa guia.
+## Valores Proxy 2026
+
+Para Pulmon de Oriente, el año 2026 solo dispone de datos reales de Q1. Los trimestres Q2, Q3 y Q4 se estiman mediante valores Proxy (promedio historico trimestral 2023-2025). Estos valores se marcan con doble asterisco (`**`) en todas las tablas y graficos.
+
+> **Nota metodologica:** Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron estimados mediante valores Proxy calculados a partir de la linea base historica de los años 2023–2025, con el fin de normalizar la informacion y garantizar comparabilidad estadistica y visual en el analisis.
+
+Referencia completa: `docs/05_nota_metodologica_proxy_2026.md`

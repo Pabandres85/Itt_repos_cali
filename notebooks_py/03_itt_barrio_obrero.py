@@ -291,15 +291,43 @@ def pick_col(df, candidates):
     return None
 
 def procesar(raw, nombre, filtro=None, filtro_col=None, startswith=False):
-    df = pd.DataFrame([f['properties'] for f in raw['features']])
+    # Extraer properties + coordenadas
+    registros = []
+    for feat in raw['features']:
+        row = dict(feat['properties'])
+        if feat.get('geometry') and feat['geometry'].get('coordinates'):
+            coords = feat['geometry']['coordinates']
+            row['_lon'] = coords[0]
+            row['_lat'] = coords[1]
+        elif 'x' in row and 'y' in row:
+            row['_lon'] = row['x']
+            row['_lat'] = row['y']
+        elif 'X' in row and 'Y' in row:
+            row['_lon'] = row['X']
+            row['_lat'] = row['Y']
+        else:
+            row['_lon'] = None
+            row['_lat'] = None
+        registros.append(row)
+    df = pd.DataFrame(registros)
+    # Filtrar por categoria si aplica
     if filtro and filtro_col:
         if startswith:
             df = df[df[filtro_col].astype(str).str.upper().str.startswith(filtro)].copy()
         else:
             df = df[df[filtro_col] == filtro].copy()
+    # Detectar columna de fecha
     col_fecha = pick_col(df, FECHA_CANDIDATES)
     if col_fecha is None:
         raise ValueError(f'No se encontro columna de fecha en {nombre}. Columnas: {list(df.columns)[:10]}')
+    # Deduplicar por fecha + coordenada (valores unicos)
+    df['_fecha_str'] = df[col_fecha].astype(str).str.strip()
+    n_antes = len(df)
+    df = df.drop_duplicates(subset=['_fecha_str', '_lon', '_lat'], keep='first').reset_index(drop=True)
+    n_dupes = n_antes - len(df)
+    if n_dupes > 0:
+        print(f'  {nombre}: {n_dupes} duplicados eliminados ({n_antes} -> {len(df)})')
+    # Parsear fecha
     df['_fecha'] = pd.to_datetime(df[col_fecha], errors='coerce')
     df['año'] = df['_fecha'].dt.year
     df['trimestre'] = df['_fecha'].dt.quarter

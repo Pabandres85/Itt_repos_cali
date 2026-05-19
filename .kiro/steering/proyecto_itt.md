@@ -49,6 +49,7 @@
 - **Cada vez que se ajuste un notebook .ipynb (Colab), actualizar tambien:** los .md de estructura, el contexto del agente, el CONSOLIDADO_ITT_ZONAS.txt, el script .py equivalente, y el steering si aplica. No dejar documentacion desactualizada.
 - **Siempre hacer push al final de cada ajuste.** No dejar cambios sin commitear ni pushear.
 - **Archivos _patch_*.py:** Son scripts temporales para modificar notebooks programaticamente. Una vez aplicados, se eliminan. No deben quedar en el repo.
+- **Al actualizar el CONSOLIDADO_ITT_ZONAS.txt:** Verificar que cada dimension refleje el periodo real de datos disponibles (ej: si hay datos 2026 Q1, la observacion debe decir "2023-2026 Q1", no "2023-2025"). Incluir cantidad de registros, archivos fuente, y estado de cada trimestre.
 
 ## Regla de periodos y Proxy
 

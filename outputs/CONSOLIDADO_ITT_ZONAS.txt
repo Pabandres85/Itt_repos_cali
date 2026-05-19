@@ -24,6 +24,7 @@ Script:    notebooks_py/03_itt_barrio_obrero.py
 Estado:    IMPLEMENTADO — Referencia metodologica del proyecto
 Periodo:   2023-2026 Q1 (anual solo 2023-2025; trimestral incluye Q1 2026 real, sin Proxy)
 Unidad:    Poligono unico (~5K hab)
+Area:      74,564 m2 (7.46 ha)
 
 DIMENSIONES:
 +---------------------+----------+------------------+---------------------------+
@@ -98,6 +99,7 @@ Script:    notebooks_py/01_itt_roosevelt.py
 Estado:    IMPLEMENTADO — Alineado con metodologia vigente
 Periodo:   2023-2025 (anual y trimestral)
 Unidad:    Corredor con buffer 100m (~50K-100K hab)
+Area:      428,258 m2 (42.83 ha)
 
 DIMENSIONES:
 +---------------------+----------+------------------+---------------------------+
@@ -137,6 +139,7 @@ Script:    No tiene .py
 Estado:    IMPLEMENTADO pero NO HOMOLOGADO (usa min-max relativo)
 Periodo:   2023-2025
 Unidad:    8 tramos buffer 100m (spatial join)
+Area:      No calculada (datos no versionados en repo)
 
 DIMENSIONES:
 +---------------------+----------+------------------+---------------------------+
@@ -179,6 +182,7 @@ Script:    notebooks_py/04_itt_pulmon_oriente_2025.py
 Estado:    IMPLEMENTADO — Zona de referencia metodologica
 Periodo:   2023-2026 (2026 T1 real + T2-T4 Proxy**)
 Unidad:    Zona agregada multiples comunas (>200K hab)
+Area:      5,503,953 m2 (550.40 ha)
 
 DIMENSIONES:
 +---------------------+----------+------------------+---------------------------+

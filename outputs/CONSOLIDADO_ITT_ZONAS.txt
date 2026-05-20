@@ -179,8 +179,8 @@ ZONA 4: PULMON DE ORIENTE
 ================================================================================
 Notebook:  04_itt_pulmon_oriente_2026_v2.ipynb
 Script:    notebooks_py/04_itt_pulmon_oriente_2025.py
-Estado:    IMPLEMENTADO — Zona de referencia metodologica
-Periodo:   2023-2026 (2026 T1 real + T2-T4 Proxy**)
+Estado:    IMPLEMENTADO — Sin Proxy, estructura alineada con Barrio Obrero
+Periodo:   2023-2026 Q1 (anual solo 2023-2025; trimestral incluye Q1 2026 real, sin Proxy)
 Unidad:    Zona agregada multiples comunas (>200K hab)
 Area:      5,503,953 m2 (550.40 ha)
 
@@ -188,9 +188,9 @@ DIMENSIONES:
 +---------------------+----------+------------------+---------------------------+
 | Dimension           | Estado   | Indicadores      | Observaciones             |
 +---------------------+----------+------------------+---------------------------+
-| Seguridad (30%)     | COMPLETA | Homicidios       | Datos reales 2023-2026T1  |
-|                     |          | Hurtos           | Q2-Q4 2026 = Proxy**      |
-|                     |          |                  | Duplicados eliminados     |
+| Seguridad (30%)     | COMPLETA | Homicidios       | Datos reales 2023-2026 Q1 |
+|                     |          | Hurtos           | Q2-Q4 2026: sin datos (-) |
+|                     |          |                  | Dedup por fecha+coord     |
 +---------------------+----------+------------------+---------------------------+
 | Movilidad (25%)     | PROXY   | —                | Score fijo: 35.0          |
 |                     |          |                  | No hay siniestros en ZIP  |
@@ -199,103 +199,78 @@ DIMENSIONES:
 +---------------------+----------+------------------+---------------------------+
 | Educacion (13%)     | PROXY   | —                | Score fijo: 54.9          |
 +---------------------+----------+------------------+---------------------------+
-| Cohesion Social(12%)| PARCIAL  | VIF              | Datos reales 2023-2026T1  |
-|                     |          | Rinas            | Q2-Q4 2026 = Proxy**      |
-|                     |          |                  | Vulnerabilidad: proxy 54.1  |
-|                     |          |                  | Duplicados eliminados     |
+| Cohesion Social(12%)| PARCIAL  | VIF              | Datos reales 2023-2026 Q1 |
+|                     |          | Rinas            | Q2-Q4 2026: sin datos (-) |
+|                     |          |                  | Vulnerabilidad: proxy 54.1|
+|                     |          |                  | Dedup por fecha+coord     |
 +---------------------+----------+------------------+---------------------------+
 
-RESULTADOS ITT POR AÑO (scores por dimension, promedio trimestral):
-+------+-----------+-----------+----------+---------+--------+------+---------------+
-| Año  | Seguridad | Movilidad | Cohesion | EntornoU| EducDes| ITT  | Nivel         |
-+------+-----------+-----------+----------+---------+--------+------+---------------+
-| 2023 |      41.0 |      35.0 |     63.2 |    39.2 |   54.9 | 43.6 | Consolidacion |
-| 2024 |      51.7 |      35.0 |     57.5 |    39.2 |   54.9 | 46.2 | Consolidacion |
-| 2025 |      64.7 |      35.0 |     39.6 |    39.2 |   54.9 | 47.9 | Consolidacion |
-| 2026**|     56.7 |      35.0 |     55.8 |    39.2 |   54.9 | 47.5 | Consolidacion |
-+------+-----------+-----------+----------+---------+--------+------+---------------+
-** 2026 incluye valores Proxy para Q2-Q4. ITT anual = promedio 4 trimestres.
-   Los scores se recalcularan al ejecutar el notebook con la logica Proxy completa.
-   Valores actuales pendientes de re-ejecucion en Colab.
+RESULTADOS ITT POR AÑO (solo años completos 2023-2025):
+  Los scores ITT se calculan solo con años completos (4 trimestres reales).
+  2026 no tiene ITT anual porque solo tiene Q1.
+  Valores pendientes de re-ejecucion en Colab con la logica actualizada.
 
 CONTEO TRIMESTRAL (valores unicos, deduplicados por fecha+coordenada):
 +------+-----+------------+--------+-----+-------+
 | Año  | Trim| Homicidios | Hurtos | VIF | Rinas |
 +------+-----+------------+--------+-----+-------+
-| 2023 | Q1  |         24 |    431 | 106 |    70 |
-| 2023 | Q2  |         24 |    373 | 138 |    67 |
-| 2023 | Q3  |         38 |    378 | 125 |    50 |
-| 2023 | Q4  |         31 |    259 |  88 |    37 |
-| 2024 | Q1  |         18 |    375 |  98 |    86 |
-| 2024 | Q2  |         21 |    353 | 123 |    91 |
-| 2024 | Q3  |         26 |    349 | 136 |    55 |
-| 2024 | Q4  |         20 |    327 | 126 |    62 |
-| 2025 | Q1  |         25 |    287 | 126 |    92 |
-| 2025 | Q2  |         14 |    306 | 142 |   120 |
-| 2025 | Q3  |          9 |    291 | 189 |   144 |
-| 2025 | Q4  |         37 |    260 | 105 |   243 |
-| 2026 | Q1  |         26 |    286 | 113 |   202 |
-| 2026 | Q2**|       19.7 |  344.0 |134.3|  92.7 |
-| 2026 | Q3**|       24.3 |  339.3 |150.0|  83.0 |
-| 2026 | Q4**|       29.3 |  282.0 |106.3| 114.0 |
+| 2023 | Q1  |         22 |    428 | 106 |    63 |
+| 2023 | Q2  |         24 |    371 | 138 |    63 |
+| 2023 | Q3  |         35 |    377 | 124 |    49 |
+| 2023 | Q4  |         30 |    259 |  88 |    36 |
+| 2024 | Q1  |         18 |    372 |  97 |    79 |
+| 2024 | Q2  |         20 |    353 | 122 |    85 |
+| 2024 | Q3  |         24 |    347 | 136 |    55 |
+| 2024 | Q4  |         20 |    323 | 125 |    60 |
+| 2025 | Q1  |         21 |    287 | 126 |    91 |
+| 2025 | Q2  |         13 |    306 | 142 |   113 |
+| 2025 | Q3  |          9 |    290 | 186 |   144 |
+| 2025 | Q4  |         34 |    259 | 105 |   243 |
+| 2026 | Q1  |         26 |    285 | 113 |   201 |
+| 2026 | Q2  |          — |      — |   — |     — |
+| 2026 | Q3  |          — |      — |   — |     — |
+| 2026 | Q4  |          — |      — |   — |     — |
 +------+-----+------------+--------+-----+-------+
-** = Valor Proxy (promedio historico trimestral 2023-2025)
+Q2-Q4 2026: SIN DATOS. No se generan Proxy.
 
-CONTEO ANUAL (con Proxy 2026):
+CONTEO ANUAL (solo años completos 2023-2025):
 +------+------------+--------+-----+-------+
 | Año  | Homicidios | Hurtos | VIF | Rinas |
 +------+------------+--------+-----+-------+
-| 2023 |        117 |  1,441 | 457 |   224 |
-| 2024 |         85 |  1,404 | 483 |   294 |
-| 2025 |         85 |  1,144 | 562 |   599 |
-| 2026 |         99 |  1,251 | 503 |   492 |
+| 2023 |        111 |  1,435 | 456 |   211 |
+| 2024 |         82 |  1,395 | 480 |   279 |
+| 2025 |         77 |  1,142 | 559 |   591 |
 +------+------------+--------+-----+-------+
-Nota: Anual 2026 = Q1 real + Q2-Q4 Proxy**
 
 DATOS POR AÑO:
   2023: Seguridad OK | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion Parcial
   2024: Seguridad OK | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion Parcial
   2025: Seguridad OK | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion Parcial
-  2026: T1 Real + T2-T4 Proxy** | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion T1 Real + T2-T4 Proxy**
-
-VALORES PROXY 2026 (Q2, Q3, Q4):
-  Homicidios:   Q2=19.7**  Q3=24.3**  Q4=29.3**
-  Hurtos:       Q2=344.0** Q3=339.3** Q4=282.0**
-  VIF:          Q2=134.3** Q3=150.0** Q4=106.3**
-  Rinas:        Q2=92.7**  Q3=83.0**  Q4=114.0**
-  Metodo: Promedio historico trimestral 2023-2025
-  ** = Valor estimado (Proxy), no observado directamente
+  2026 Q1: Seguridad OK | Movilidad Proxy | Entorno Proxy | Educacion Proxy | Cohesion Parcial
+        NO se generan Proxy para Q2-Q4 2026 en esta zona.
 
 VISUALIZACION EN GRAFICOS:
-  Todos los graficos del notebook muestran ** en valores Proxy 2026:
-  - Cards metricas: valores 2026 con ** (ej: "99**", "59.5**")
-  - Heatmaps: celdas Q2, Q3, Q4 de 2026 con ** (ej: "134**", "149**")
-  - Barras trimestrales: etiquetas Q2**, Q3**, Q4** en eje X y valores con **
-  - Leyendas: "2026**" para distinguir del dato real
-  - ITT Global: etiqueta "2026**" en eje X y valor con **
-  - Radar: leyenda "2026**"
-  - Nota al pie en todos los graficos: "** Valores Proxy Q2-Q4 2026"
-
-NOTA METODOLOGICA:
-  Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026
-  fueron estimados mediante valores Proxy calculados a partir de la linea
-  base historica de los años 2023-2025, con el fin de normalizar la
-  informacion y garantizar comparabilidad estadistica y visual en el analisis.
-  En los graficos, los valores Proxy se identifican con ** en etiquetas,
-  leyendas, rotulos, anotaciones y notas al pie.
+  - Cards (Celda 8): 2025 vs 2024 (solo años completos).
+  - Heatmaps: incluyen Q1 2026 real. Q2-Q4 2026 muestran '-'.
+  - Barras trimestrales: incluyen Q1 2026 real. Solo barra en Q1 para 2026.
+  - ITT Global, Radar: solo 2023-2025 (años completos).
+  - Barras trimestrales usan gradiente claro a oscuro (2023=claro, 2026=oscuro):
+    Seguridad: ['#90CAF9', '#42A5F5', '#1565C0', '#003366'] (azul)
+    Cohesion:  ['#CE93D8', '#8E24AA', '#4A148C', '#1A0033'] (purpura)
 
 DUPLICADOS EN DATA (eliminados por fecha+coordenada):
-  Homicidios:   313 total -> 313 unicos (0 duplicados)
-  Hurtos:       5,171 total -> 4,275 unicos (896 duplicados eliminados)
-  VIF:          25,769 total -> 20,512 unicos (5,257 duplicados eliminados)
-  Comparendos:  29,485 total -> 29,100 unicos (385 duplicados eliminados)
+  Homicidios:   313 total -> 296 unicos (17 duplicados eliminados)
+  Hurtos:       4,275 total -> 4,257 unicos (18 duplicados eliminados)
+  VIF:          1,615 total -> 1,608 unicos (7 duplicados eliminados)
+  Comparendos:  29,100 total -> 28,841 unicos (259 duplicados eliminados)
+  Rinas (filtro de comparendos): 1,282 registros
 
 FALTA:
   - Datos de Movilidad (siniestros viales) — no estan en el ZIP
   - Datos propios de Entorno Urbano (NDVI, area verde)
   - Datos propios de Educacion y Desarrollo
   - Dato de Vulnerabilidad propio (usa referente)
-  - Datos reales de 2026 T2-T4 (actualmente estimados con Proxy**)
+  - Datos reales de 2026 Q2-Q4 (cuando esten disponibles)
 
 ================================================================================
 RESUMEN COMPARATIVO — COMPLETITUD POR DIMENSION
@@ -319,10 +294,10 @@ PERIODO DISPONIBLE:
 | 2023                | Completo      | Completo   | Completo | Completo       |
 | 2024                | Completo      | Completo   | Completo | Completo       |
 | 2025                | Completo      | Completo   | Completo | Completo       |
-| 2026                | Q1 Real       | —          | —        | T1 Real +      |
-|                     | (sin Proxy)   |            |          | T2-T4 Proxy**  |
+| 2026                | Q1 Real       | —          | —        | Q1 Real        |
+|                     | (sin Proxy)   |            |          | (sin Proxy)    |
 +---------------------+---------------+------------+----------+----------------+
-** Valores estimados mediante promedio historico trimestral 2023-2025 (solo Pulmon de Oriente)
+Ninguna zona genera valores Proxy. Q2-Q4 2026 quedan sin datos donde no hay informacion.
 
 ARCHIVOS DISPONIBLES EN EL REPO:
 +---------------------+---------------+------------+----------+----------------+
@@ -345,17 +320,19 @@ PRIORIDADES PENDIENTES
 2. Obtener datos de Movilidad (siniestros) para Pulmon de Oriente
 3. Obtener datos propios de Educacion para todas las zonas
 4. Obtener datos propios de Entorno Urbano (NDVI, area verde) para todas las zonas
-5. Reemplazar valores Proxy 2026 T2-T4 por datos reales cuando esten disponibles
+5. Obtener datos reales de 2026 Q2-Q4 cuando esten disponibles
 6. Crear v2 y .py para Avenida Ciudad de Cali
 
 ================================================================================
 NOTA METODOLOGICA GENERAL
 ================================================================================
-Los valores correspondientes a los trimestres Q2, Q3 y Q4 del año 2026 fueron
-estimados mediante valores Proxy calculados a partir de la linea base historica
-de los años 2023-2025, con el fin de normalizar la informacion y garantizar
-comparabilidad estadistica y visual en el analisis.
+- Normalizacion: ref_min/ref_max fijos por indicador (no min-max relativo).
+- Deduplicacion: por fecha + coordenada en todos los datasets con eventos.
+- Datos anuales (Cards, ITT Global, Radar): solo años con 4 trimestres completos.
+- Datos trimestrales (Heatmaps, Barras): incluyen Q1 2026 real donde hay datos.
+  Q2-Q4 2026 se muestran como '-' (sin datos). No se generan valores Proxy.
+- Los valores Proxy de dimensiones fijas (Movilidad, Entorno, Educacion) se
+  mantienen como score fijo heredado de referencia, no como estimacion temporal.
 
-Los valores Proxy se identifican con doble asterisco (**) en tablas y graficos.
-Referencia completa: docs/05_nota_metodologica_proxy_2026.md
+Referencia: docs/05_nota_metodologica_proxy_2026.md
 ================================================================================

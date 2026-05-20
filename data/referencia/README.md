@@ -9,19 +9,17 @@ Usar esta carpeta para guardar insumos comunes a los tres ITT:
 - Diccionarios de variables.
 - Parametros generales de comparacion.
 
-## Estado actual
+## Archivos disponibles
 
-Ademas de referencias generales, esta carpeta ya contiene Excel de vivienda y mejoramiento territorial en evaluacion metodologica:
+| Archivo | Estado | Observaciones |
+|---|---|---|
+| `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` | Usado experimentalmente en notebook 03 | Proxy de Entorno Urbano con Comuna 9 para Barrio Obrero. Corte anual 2024 unicamente |
+| `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` | En analisis, no en calculo | Indicador de formalizacion predial, pendiente de resolver equivalencia territorial |
+| `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` | En analisis, no en calculo | Subsidios de mejoramiento de vivienda 2024-2025 |
+| `bienestar_RA2026_base_limpia.xlsx` | Descartado para ITT | Registro de Atencion SBS 2026 — 12.937 personas en programas sociales. No apto: solo 2026, 72% sin comuna, mide asistencia no condicion territorial |
 
-- `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`
-- `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx`
-- `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx`
+## Notas de uso
 
-## Uso previsto
-
-- El archivo de deficit habitacional es el principal candidato para evaluar un proxy de `Entorno Urbano`.
-- Ese archivo ya se usa de forma experimental en `notebooks/03_itt_barrio_obrero.ipynb` para recalcular `REF_ENTORNO_U` con `Comuna 9` como proxy territorial de `Barrio Obrero`.
-- La lectura correcta de ese insumo es anual `2024`; no ofrece serie mensual ni trimestral observada.
-- La visualizacion recomendada en el notebook para ese insumo es un `heatmap` de componentes del deficit cualitativo 2024.
-- Los archivos de predios titulados y subsidios de mejoramiento se consideran insumos complementarios de intervencion institucional.
-- `Predios titulados` y `subsidios de mejoramiento` aun no hacen parte del calculo actual de `Entorno Urbano` en los notebooks.
+- El deficit habitacional es el mejor candidato actual para proxy de Entorno Urbano; ya se usa en `03_itt_barrio_obrero.ipynb`.
+- No incorporar predios titulados ni subsidios al calculo sin resolver primero la equivalencia territorial (comuna vs barrio vs corredor buffer).
+- El archivo de bienestar puede revisarse en el futuro si se resuelve el problema de georeferenciacion (72% sin comuna).

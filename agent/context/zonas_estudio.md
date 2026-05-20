@@ -14,14 +14,17 @@
 
 ## ITT Avenida Ciudad de Cali
 
-- Estado: implementado.
-- Notebook: `notebooks/02_itt_avenida_ciudad_de_cali.ipynb`
-- Unidad de analisis: 8 tramos buffer de 100 m sobre corredor vial.
-- Metodo espacial: spatial join de eventos a tramos.
-- Periodo: 2023-2025.
-- Metodologia: funcional, pero pendiente de migracion a `ref_min/ref_max` fijos.
-- Referentes provisionales: Entorno Urbano 39.2, Educacion y Desarrollo 54.9.
-- Datos en repo: estructura creada, pero insumos fuente no versionados.
+- Estado: implementado y actualizado (ref_min/ref_max fijos, 3 ZIPs, heatmaps por tramo con orden geografico).
+- Notebook: `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` — 42 celdas.
+- Unidad de analisis: 8 tramos buffer de 100 m sobre corredor vial (~4.5 km).
+- Metodo espacial: spatial join de eventos a tramos usando `gdf_tramos['tramo'].astype(int)` (orden norte→sur).
+- Periodo: 2023-2026 T1. Movilidad solo 2023-2025 (sin datos 2026 — peso redistribuido en ITT).
+- Metodologia: usa `ref_min/ref_max` fijos por indicador. ITT 2026 excluye Movilidad (NaN, no proxy).
+- Referentes provisionales: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
+- Datos en repo: 3 ZIPs versionados en `data/itt_avenida_ciudad_de_cali/`.
+- Fuentes: ZIP1 (poligono + estaticas), ZIP2 (DATIC seguridad/cohesion), ZIP3 (siniestros movilidad).
+- Tramo sin datos: T8 (extremo sur) tiene 0 siniestros en ZIP3 — dato real confirmado.
+- Ejecucion Colab: celda git pull (si repo ya existe) + Cell 3A extrae 3 ZIPs + Cell 3 verifica paths.
 
 ## ITT Barrio Obrero
 

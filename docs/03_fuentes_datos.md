@@ -28,21 +28,23 @@ Insumos identificados en la zona Roosevelt:
 
 ### ITT Avenida Ciudad de Cali
 
-Estado esperado segun notebook `02_itt_avenida_ciudad_de_cali.ipynb`:
+Estado actual segun notebook `02_itt_avenida_ciudad_de_cali.ipynb` (3 ZIPs versionados en repo):
 
-| Indicador / capa | Archivo esperado | Observaciones |
-|---|---|---|
-| Tramos | `ciudad_de_Cali_100m.geojson` | 8 buffers del corredor |
-| Homicidios | `HOMICIDIOS_2023_2025_tramos.geojson` | Coordenadas WGS84 |
-| Hurtos | `HURTOS_2023_2025_tramos.geojson` | Coordenadas WGS84 |
-| Comparendos | `COMPARENDOS_2023_2025_tramos.geojson` | Filtrar `agrupado="RINAS"` |
-| Siniestros | `BD_SINIESTROS_2023_2025_tramos.geojson` | CRS EPSG:3115 |
-| VIF | `VIOLENCIA_INTRAFAMILIAR_2023_2025_tramos.geojson` | Requiere georreferenciacion |
+| ZIP | Indicador / capa | Archivo en repo | Observaciones |
+|---|---|---|---|
+| ZIP1 | Poligono corredor | `ciudad_de_Cali_100m.geojson` | 8 tramos, campo `tramo` orden norte→sur |
+| ZIP1 | Capas estaticas | VBG, arboles, sedes, CAI | Solo mapa / apoyo territorial |
+| ZIP2 | Homicidios | `DATIC_homicidios_2023_2026T1_filtrado_ciudad_de_Cali_100m.geojson` | DATIC 2023-2026 T1 |
+| ZIP2 | Hurtos | `DATIC_hurtos_2023_2026T1_filtrado_ciudad_de_Cali_100m.geojson` | DATIC 2023-2026 T1 |
+| ZIP2 | VIF | `DATIC_violencia_intrafamiliar_2023_2026T1ciudad_de_Cali_100m.geojson` | DATIC 2023-2026 T1 |
+| ZIP2 | Comparendos | `DATIC_comparendos_2023_2026T1_filtrado_ciudad_de_Cali_100m.geojson` | Filtrar `agrupado` startswith 'RI' para rinas |
+| ZIP3 | Siniestros | `BD_SINIESTROS_2023_2025_COMUNA_BARRIO_4326_filtrado_ciudad_de_Cali_100m.geojson` | 745 eventos, WGS84, campo `Fecha` ISO, `Tipo_Confi` |
 
 Estado en repo:
 
-- `data/itt_avenida_ciudad_de_cali/` no contiene aun los insumos fuente versionados.
-- La ejecucion actual depende de cargas externas o Colab.
+- Los 3 ZIPs estan versionados en `data/itt_avenida_ciudad_de_cali/`.
+- En Colab: celda git pull descarga repo → Cell 3A extrae los 3 ZIPs a sus carpetas respectivas.
+- ZIP3 extrae a `/content/movilidad_acc/` para evitar colision con ZIP2 (mismo nombre de carpeta interna).
 
 ### ITT Barrio Obrero
 
@@ -95,17 +97,21 @@ Si una fuente no esta presente en el repo, debe marcarse como:
 - Disponible solo en Colab o carga manual.
 - Pendiente de entrega.
 
-## Nuevas referencias territoriales
-
-La carpeta `data/referencia/` ahora incluye insumos de vivienda y mejoramiento que pueden servir como soporte metodologico futuro:
+## Referencias territoriales en data/referencia/
 
 | Archivo | Uso potencial | Estado |
 |---|---|---|
-| `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` | Proxy de `Entorno Urbano` por deficit habitacional | Ya usado de forma experimental en `03_itt_barrio_obrero.ipynb` |
+| `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` | Proxy de `Entorno Urbano` por deficit habitacional | Usado experimentalmente en `03_itt_barrio_obrero.ipynb` con Comuna 9 como proxy de Barrio Obrero |
 | `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` | Indicador de formalizacion / gestion | En analisis, no usado en calculo actual |
 | `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` | Indicador de intervencion en vivienda | En analisis, no usado en calculo actual |
+| `bienestar_RA2026_base_limpia.xlsx` | Registro de Atencion SBS 2026 — 12.937 personas atendidas en programas sociales | **Descartado para calculo ITT:** solo 2026 (sin serie), 72% sin comuna, mide asistencia a programas no condicion territorial |
 
-Nota metodologica:
+Nota metodologica sobre el archivo de deficit habitacional:
 
-- El archivo de deficit habitacional no tiene granularidad mensual ni trimestral; solo aporta un corte anual 2024.
-- Por eso, en Barrio Obrero la visualizacion incorporada al notebook es un `heatmap` de componentes del deficit cualitativo 2024, no una serie temporal observada.
+- No tiene granularidad mensual ni trimestral; solo aporta un corte anual 2024.
+- En Barrio Obrero la visualizacion es un heatmap de componentes del deficit cualitativo 2024, no una serie temporal observada.
+
+Nota sobre bienestar_RA2026:
+
+- Contiene: Primera Infancia (70%), SIDICU, Victimas, prevencion VBG, Discapacidad, entre otros programas.
+- Podria usarse como complemento narrativo futuro si se resuelve que el 72% de registros no tiene comuna asignada.

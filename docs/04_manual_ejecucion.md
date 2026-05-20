@@ -32,9 +32,9 @@ data/itt_barrio_obrero/
 
 Notas practicas:
 
-- Barrio Obrero hoy tiene `obrero.zip` dentro del repo.
-- Avenida Ciudad de Cali no tiene los GeoJSON fuente versionados en el repo.
-- Roosevelt ya tiene `Roosevelt.zip` y una carpeta descomprimida de trabajo en `data/itt_roosevelt/Roosevelt_unzipped/`.
+- Barrio Obrero: `obrero.zip` presente en el repo.
+- Avenida Ciudad de Cali: 3 ZIPs versionados — `Geojson_Ciudad_de_Cali (1).zip`, `geojson_filtrado_ciudad_de_Cali_100m.zip`, `geojson_Movilidad_ciudad_de_Cali_100m.zip`.
+- Roosevelt: `Roosevelt.zip` presente y carpeta descomprimida de trabajo en `data/itt_roosevelt/Roosevelt_unzipped/`.
 
 ## 3. Ejecutar notebooks por zona
 
@@ -49,13 +49,21 @@ notebooks/03_itt_barrio_obrero.ipynb
 Estado recomendado de uso:
 
 - `01_itt_roosevelt.ipynb`: implementado y alineado con la estructura de Barrio Obrero.
-- `02_itt_avenida_ciudad_de_cali.ipynb`: funcional, pero pendiente de migracion a `ref_min/ref_max`.
-- `03_itt_barrio_obrero.ipynb`: referencia actual de implementacion.
+- `02_itt_avenida_ciudad_de_cali.ipynb`: implementado y actualizado — ref_min/ref_max fijos, 3 ZIPs, heatmaps por tramo con orden geografico norte→sur.
+- `03_itt_barrio_obrero.ipynb`: referencia actual de implementacion para zonas tipo barrio/poligono unico.
 
 Nota operativa para Roosevelt:
 
 - Mantener la convencion `año` en las tablas del notebook para evitar inconsistencias entre celdas.
 - Si se ejecuta en Colab despues de cambios locales, conviene reiniciar entorno y correr desde la celda que construye `base`.
+
+Nota operativa para Avenida Ciudad de Cali:
+
+- En Colab, la celda de git clone tiene logica git pull si el repo ya existe (evita error de directorio existente).
+- Cell 3A extrae los 3 ZIPs: ZIP1 y ZIP2 a `/content/`, ZIP3 a `/content/movilidad_acc/` (carpeta separada para evitar colision).
+- Cell 3 verifica que todos los PATHS existan con check/cross visual antes de continuar.
+- Los heatmaps por tramo usan `gdf_tramos['tramo'].astype(int)` para orden geografico norte→sur (T1=norte, T8=sur).
+- 2026: solo T1 disponible. Movilidad se deja NaN (no proxy); ITT redistribuye el peso del 25% entre las 4 dimensiones restantes.
 
 Nota operativa para Barrio Obrero:
 

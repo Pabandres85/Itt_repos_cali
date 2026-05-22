@@ -59,7 +59,7 @@ Estado actual segun notebook `03_itt_barrio_obrero.ipynb` (archivos directamente
 | Ref. Seguridad | `CAI_MECAL_CALI_OBRERO.geojson` | `1_Dimension_Seguridad/` | 1 punto | — | — | CRS84 |
 | Cohesion Social | `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson` | `2_Dimensión_Cohesion_Social/` | 24 | 2023-Q1→2026-Q1 | `fecha_hech` | CRS84 |
 | Ref. Cohesion | `VBG_2025_OBRERO.geojson` | `2_Dimensión_Cohesion_Social/` | 2 puntos | 2025 | — | CRS84 |
-| Movilidad | `BD_SINIESTROS_2023_2025_COMUNA_BARRIO_OBRERO.geojson` | `3_Dimension_Movilidad/` | 15 | 2023→2025 (sin 2026) | `Fecha` (ISO) | CRS84 |
+| Movilidad | `BD_SINIESTROS_2023_2026_COMUNA_BARRIO_OBRERO.geojson` | `3_Dimension_Movilidad/` | 16 | 2023→2026-Q2 (1 evento 2026-04-15) | `Fecha` (ISO) | CRS84 |
 | Movilidad (no ITT) | `BD_COMPARENDOS_2025_COMUNA_BARRIO_OBRERO.geojson` | `3_Dimension_Movilidad/` | — | 2025 | — | EPSG:9377 |
 | Entorno Urbano | `Arboles_Dagma_OBRERO.geojson` | `5_Entorno_Urbano/` | 151 | — | — | CRS84 |
 | Entorno Urbano | `Barrio_Obrero_ndvi_2023/2024/2025/2026.tif` | `5_Entorno_Urbano/NDVI_Barrio_Obrero/` | 4 rasters | 2023-2026 | — | — |

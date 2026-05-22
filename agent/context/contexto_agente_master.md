@@ -135,7 +135,7 @@ Estado:
 - Caso actual mas importante para el uso experimental de `deficit habitacional` dentro de `Entorno Urbano`.
 - Datos directamente en subcarpetas por dimension (sin ZIP): `1_Dimension_Seguridad/`, `2_Dimensión_Cohesion_Social/`, `3_Dimension_Movilidad/`, `4_Desarrollo_Economico/` (vacia), `5_Entorno_Urbano/` (con NDVI 2023-2026), `6_Educacion/`.
 - Fuentes DATIC actualizadas: campo `fechah` (MM/DD/YYYY) en homicidios, `fecha_hech` (ISO) en el resto.
-- Tratamiento 2026: DATIC cubre hasta Q1; Q2/Q3/Q4 enmascarados como `NaN`. Siniestros: todo 2026 = `NaN`.
+- Tratamiento 2026: DATIC cubre hasta Q1; Q2/Q3/Q4 enmascarados como `NaN`. Siniestros cubre hasta Q2 (1 evento 2026-04-15); Q3/Q4 = `NaN`.
 - Visualizaciones: paleta Okabe-Ito, heatmaps cividis, graficas trimestrales linea+relleno.
 
 ### Roosevelt

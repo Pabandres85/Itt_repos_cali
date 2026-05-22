@@ -18,7 +18,7 @@ itt_barrio_obrero/
 │   ├── DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson   campo fecha: fecha_hech
 │   └── VBG_2025_OBRERO.geojson                          capa de referencia (2 puntos, solo 2025)
 ├── 3_Dimension_Movilidad/
-│   ├── BD_SINIESTROS_2023_2025_COMUNA_BARRIO_OBRERO.geojson   campo fecha: Fecha (ISO)
+│   ├── BD_SINIESTROS_2023_2026_COMUNA_BARRIO_OBRERO.geojson   campo fecha: Fecha (ISO)   16 eventos 2023-2026-Q2
 │   ├── BD_COMPARENDOS_2025_COMUNA_BARRIO_OBRERO.geojson        comparendos de transito 2025 (CRS: EPSG:9377)
 │   └── BD_COMPARENDOS_2025_COMUNA_BARRIO_OBRERO.qmd            metadata QGIS
 ├── 4_Desarrollo_Economico/              vacía — pendiente de datos
@@ -41,7 +41,7 @@ itt_barrio_obrero/
 | Seguridad | `DATIC_hurtos_*` | 155 | 2023-Q1 → 2026-Q1 | `fecha_hech` |
 | Seguridad / Cohesion | `DATIC_comparendos_*` | 374 | 2023-Q1 → 2026-Q1 | `fecha_hech` |
 | Cohesion Social | `DATIC_violencia_intrafamiliar_*` | 24 | 2023-Q1 → 2026-Q1 | `fecha_hech` |
-| Movilidad | `BD_SINIESTROS_2023_2025_*` | 15 | 2023 → 2025 (sin 2026) | `Fecha` |
+| Movilidad | `BD_SINIESTROS_2023_2026_*` | 16 | 2023 → 2026-Q2 | `Fecha` |
 
 ## Categorias en comparendos DATIC
 
@@ -61,7 +61,7 @@ itt_barrio_obrero/
 ## Tratamiento de 2026 en el notebook
 
 - DATIC cubre hasta 2026-Q1. Los trimestres Q2/Q3/Q4 de 2026 se marcan como `NaN` en `corr_trim`.
-- Siniestros no tiene dato 2026: todo el año 2026 = `NaN` en movilidad trimestral.
+- Siniestros cubre hasta 2026-Q2 (1 evento, 2026-04-15). Q3 y Q4 de 2026 = `NaN` en movilidad trimestral.
 - Las graficas de linea muestran la serie hasta el ultimo dato valido con linea de corte punteada.
 - El heatmap deja celdas NaN en blanco.
 

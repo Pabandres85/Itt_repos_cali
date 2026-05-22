@@ -37,7 +37,7 @@
 - Referentes base: `REF_ENTORNO_U = 39.2`, `REF_EDUC_DES = 54.9`, `REF_VULNERABILIDAD = 54.1`.
 - Entorno Urbano: notebook puede sobrescribir `39.2` con proxy experimental de `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` (Comuna 9 como proxy, corte anual 2024).
 - Visualizaciones: heatmaps cividis por dimension, graficas trimestrales linea+relleno con paleta Okabe-Ito.
-- Tratamiento 2026: DATIC cubre hasta Q1; Q2/Q3/Q4 = `NaN` en `corr_trim`. Siniestros: todo 2026 = `NaN`.
+- Tratamiento 2026: DATIC cubre hasta Q1; Q2/Q3/Q4 = `NaN` en `corr_trim`. Siniestros: cubre hasta 2026-Q2 (1 evento 2026-04-15); Q3/Q4 = `NaN`.
 - Datos en repo: archivos GeoJSON directamente en subcarpetas por dimension (sin ZIP). Git clone entrega todo.
 - Estructura de datos: `1_Dimension_Seguridad/`, `2_Dimensión_Cohesion_Social/`, `3_Dimension_Movilidad/`, `4_Desarrollo_Economico/` (vacia), `5_Entorno_Urbano/` (incluye NDVI 2023-2026), `6_Educacion/`.
 - Fuentes DATIC: `DATIC_homicidios_*` (campo `fechah` MM/DD/YYYY), `DATIC_hurtos_*`, `DATIC_comparendos_*`, `DATIC_violencia_intrafamiliar_*` (campo `fecha_hech` ISO).

@@ -48,25 +48,37 @@ Estado en repo:
 
 ### ITT Barrio Obrero
 
-Estado esperado segun notebook `03_itt_barrio_obrero.ipynb`:
+Estado actual segun notebook `03_itt_barrio_obrero.ipynb` (archivos directamente en repo, sin ZIP):
 
-| Indicador / capa | Archivo esperado | Observaciones |
-|---|---|---|
-| Poligono | `Geojson_Barrio_Obrero.geojson` | Poligono unico |
-| Homicidios | `HOMICIDIOS_2023_2025_Obrero.geojson` | Conteo anual bajo |
-| Hurtos | `HURTOS_2023_2025_OBRERO.geojson` | Eventos del periodo |
-| Siniestros | `BD_SINIESTROS_2023_2025_COMUNA_BARRIO_OBRERO.geojson` | Analisis anual y trimestral |
-| VIF | `VIOLENCIA_INTRAFAMILIAR_2023_2025_OBRERO.geojson` | Cohesion social |
-| Comparendos | `COMPARENDOS_2023_2025_OBRERO.geojson` | Filtrar `agrupado="RINAS"` |
-| Arboles | `Arboles_Dagma_OBRERO.geojson` | Solo mapa |
-| Sedes | `Sedes_educativas_oficiales_OBRERO.geojson` | Solo mapa |
-| CAI | `CAI_MECAL_CALI_OBRERO.geojson` | Solo mapa |
+| Dimension | Archivo | Carpeta | Registros | Cobertura real | Campo fecha | CRS |
+|---|---|---|---|---|---|---|
+| Base | `Geojson_Barrio_Obrero.geojson` | raiz | — | — | — | ESRI:103599 → reproyectar |
+| Seguridad | `DATIC_homicidios_2023_2026T1_Barrio_O.geojson` | `1_Dimension_Seguridad/` | 3 | 2024-Q1→2025-Q1 | `fechah` (MM/DD/YYYY) | CRS84 |
+| Seguridad | `DATIC_hurtos_2023_2026T1_Barrio_O.geojson` | `1_Dimension_Seguridad/` | 155 | 2023-Q1→2026-Q1 | `fecha_hech` (ISO) | CRS84 |
+| Seguridad / Cohesion | `DATIC_comparendos_2023_2026T1_Barrio_O.geojson` | `1_Dimension_Seguridad/` | 374 | 2023-Q1→2026-Q1 | `fecha_hech` | CRS84 |
+| Ref. Seguridad | `CAI_MECAL_CALI_OBRERO.geojson` | `1_Dimension_Seguridad/` | 1 punto | — | — | CRS84 |
+| Cohesion Social | `DATIC_violencia_intrafamiliar_2023_2026T1_Barrio_O.geojson` | `2_Dimensión_Cohesion_Social/` | 24 | 2023-Q1→2026-Q1 | `fecha_hech` | CRS84 |
+| Ref. Cohesion | `VBG_2025_OBRERO.geojson` | `2_Dimensión_Cohesion_Social/` | 2 puntos | 2025 | — | CRS84 |
+| Movilidad | `BD_SINIESTROS_2023_2025_COMUNA_BARRIO_OBRERO.geojson` | `3_Dimension_Movilidad/` | 15 | 2023→2025 (sin 2026) | `Fecha` (ISO) | CRS84 |
+| Movilidad (no ITT) | `BD_COMPARENDOS_2025_COMUNA_BARRIO_OBRERO.geojson` | `3_Dimension_Movilidad/` | — | 2025 | — | EPSG:9377 |
+| Entorno Urbano | `Arboles_Dagma_OBRERO.geojson` | `5_Entorno_Urbano/` | 151 | — | — | CRS84 |
+| Entorno Urbano | `Barrio_Obrero_ndvi_2023/2024/2025/2026.tif` | `5_Entorno_Urbano/NDVI_Barrio_Obrero/` | 4 rasters | 2023-2026 | — | — |
+| Educacion | `Sedes_educativas_oficiales_OBRERO.geojson` | `6_Educacion/` | 2 | — | — | CRS84 |
 
 Estado en repo:
 
-- `data/itt_barrio_obrero/` contiene `obrero.zip`.
-- Los GeoJSON no estan expandidos dentro del repo; la carga actual esta pensada para descompresion o subida en Colab.
-- En Colab, el flujo operativo reciente ha sido clonar el repo en `/content/itt_repos_cali`, descomprimir `data/itt_barrio_obrero/obrero.zip` y usar `BASE = /content/obrero/obrero/Geojson_Barrio_Obrero/`.
+- Todos los GeoJSON estan directamente en subcarpetas por dimension — no se requiere extraccion de ZIP.
+- `4_Desarrollo_Economico/` vacia — pendiente de datos.
+- En Colab: `git clone` o `git pull` en `/content/itt_repos_cali` entrega todo. `DATA_DIR = Path("/content/itt_repos_cali/data/itt_barrio_obrero")`.
+
+Categorias en comparendos DATIC (campo `agrupado`):
+
+| Categoria | Eventos | Uso en ITT |
+|---|---|---|
+| ARMAS EXCEPTO DE FUEGO | 248 | No incorporado aun |
+| DESACATO / IRRESPETO A LA AUTORIDAD | 76 | No incorporado |
+| SUSTANCIAS PSICOACTIVAS | 41 | Analisis contextual (Cohesion Social) |
+| RIÑAS | 9 | Indicador Cohesion Social — filtrar `agrupado=="RIÑAS"` |
 
 Soporte metodologico adicional para `Entorno Urbano` en Barrio Obrero:
 

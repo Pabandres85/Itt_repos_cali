@@ -32,7 +32,7 @@ data/itt_barrio_obrero/
 
 Notas practicas:
 
-- Barrio Obrero: `obrero.zip` presente en el repo.
+- Barrio Obrero: datos directamente en subcarpetas por dimension — no se requiere ZIP.
 - Avenida Ciudad de Cali: 3 ZIPs versionados — `Geojson_Ciudad_de_Cali (1).zip`, `geojson_filtrado_ciudad_de_Cali_100m.zip`, `geojson_Movilidad_ciudad_de_Cali_100m.zip`.
 - Roosevelt: `Roosevelt.zip` presente y carpeta descomprimida de trabajo en `data/itt_roosevelt/Roosevelt_unzipped/`.
 
@@ -67,10 +67,15 @@ Nota operativa para Avenida Ciudad de Cali:
 
 Nota operativa para Barrio Obrero:
 
-- En Colab, el flujo reciente ha sido clonar el repo en `/content/itt_repos_cali`.
-- Luego se descomprime `data/itt_barrio_obrero/obrero.zip` a `/content/obrero`.
-- La ruta base de trabajo resultante queda en `/content/obrero/obrero/Geojson_Barrio_Obrero/`.
-- El notebook incluye `Celda 3B` para recalcular `Entorno Urbano` con `deficit habitacional` y `Celda 3C` para visualizar sus componentes 2024.
+- No se extrae ZIP — todos los GeoJSON estan directamente en subcarpetas por dimension dentro del repo.
+- En Colab: `git clone https://github.com/Pabandres85/itt_repos_cali.git /content/itt_repos_cali` (o `git pull` si ya existe).
+- Ruta base: `DATA_DIR = Path("/content/itt_repos_cali/data/itt_barrio_obrero")`.
+- Celda 8 (git clone/pull) incluye verificacion visual de carpetas disponibles.
+- Celda 10 define PATHS con rutas a dimension folders, REFS, PESOS, REF_ENTORNO_U, REF_EDUC_DES, REF_VULNERABILIDAD.
+- Campo fecha homicidios: `fechah` formato `MM/DD/YYYY` — usar `formato_fecha="%m/%d/%Y"` en `procesar()`. Resto de DATIC: `fecha_hech` ISO.
+- 2026: DATIC cubre hasta Q1. Celda 22 aplica mascara NaN para Q2/Q3/Q4 en DATIC y todo 2026 en siniestros.
+- Visualizaciones: paleta Okabe-Ito, heatmaps cividis por dimension, graficas trimestrales linea+relleno.
+- El notebook incluye Celda 3B para recalcular `Entorno Urbano` con proxy de `deficit habitacional` (Comuna 9, corte 2024).
 
 ## 4. Criterio metodologico
 

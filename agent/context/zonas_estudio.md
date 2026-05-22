@@ -28,15 +28,18 @@
 
 ## ITT Barrio Obrero
 
-- Estado: implementado.
+- Estado: implementado y actualizado (DATIC 2023-2026 T1, paleta Okabe-Ito, heatmaps cividis, graficas linea+relleno).
 - Notebook: `notebooks/03_itt_barrio_obrero.ipynb`
 - Unidad de analisis: poligono unico del barrio.
-- Metodo espacial: no requiere spatial join por tramo.
-- Periodo: 2023-2025.
+- Metodo espacial: no requiere spatial join por tramo — eventos pre-filtrados a la zona.
+- Periodo: 2023-2026 T1. `ANIOS = [2023, 2024, 2025, 2026]`.
 - Metodologia: usa `ref_min/ref_max` fijos por indicador.
-- Referentes provisionales de base: Entorno Urbano 39.2, Educacion y Desarrollo 54.9, Vulnerabilidad 54.1.
-- Estado actual de Entorno Urbano: el notebook ya puede sobrescribir `39.2` con un proxy experimental usando `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`.
-- Base territorial del proxy: `Comuna 9` como aproximacion a Barrio Obrero.
-- Periodicidad real del proxy de Entorno Urbano: anual `2024`, no mensual ni trimestral observada.
-- Visualizacion interna reciente: `heatmap` de componentes del deficit cualitativo 2024.
-- Datos en repo: `obrero.zip` presente; capas se cargan por descompresion o Colab.
+- Referentes base: `REF_ENTORNO_U = 39.2`, `REF_EDUC_DES = 54.9`, `REF_VULNERABILIDAD = 54.1`.
+- Entorno Urbano: notebook puede sobrescribir `39.2` con proxy experimental de `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` (Comuna 9 como proxy, corte anual 2024).
+- Visualizaciones: heatmaps cividis por dimension, graficas trimestrales linea+relleno con paleta Okabe-Ito.
+- Tratamiento 2026: DATIC cubre hasta Q1; Q2/Q3/Q4 = `NaN` en `corr_trim`. Siniestros: todo 2026 = `NaN`.
+- Datos en repo: archivos GeoJSON directamente en subcarpetas por dimension (sin ZIP). Git clone entrega todo.
+- Estructura de datos: `1_Dimension_Seguridad/`, `2_Dimensión_Cohesion_Social/`, `3_Dimension_Movilidad/`, `4_Desarrollo_Economico/` (vacia), `5_Entorno_Urbano/` (incluye NDVI 2023-2026), `6_Educacion/`.
+- Fuentes DATIC: `DATIC_homicidios_*` (campo `fechah` MM/DD/YYYY), `DATIC_hurtos_*`, `DATIC_comparendos_*`, `DATIC_violencia_intrafamiliar_*` (campo `fecha_hech` ISO).
+- CRS: poligono ESRI:103599 → reproyectado a EPSG:4326 en notebook. Comparendos de transito EPSG:9377 — no entra al calculo ITT.
+- Indicador contextual pendiente: Concentracion de vulnerabilidad activa = 54.1 por 1.000 hab (73 personas Sub PyE 2025 / ~1.349 hab). Solo 2025, sin serie — mantener como contexto, no implementado en ITT.

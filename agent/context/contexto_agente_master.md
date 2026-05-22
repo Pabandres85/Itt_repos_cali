@@ -92,15 +92,12 @@ Estado:
 
 Estado:
 
-- Implementado y funcional.
-- Analiza 8 tramos buffer de 100 m sobre corredor vial.
-- Requiere `spatial join` de eventos a tramos.
-- Sigue usando min-max relativo para normalizar indicadores reales.
-
-Conclusion importante:
-
-- Es la principal deuda metodologica del repo.
-- No debe asumirse como notebook plenamente homologado al metodo vigente.
+- Implementado y actualizado — ya usa `ref_min/ref_max` fijos.
+- Analiza 8 tramos buffer de 100 m sobre corredor vial (~4.5 km).
+- Requiere `spatial join` de eventos a tramos usando `gdf_tramos['tramo'].astype(int)` (orden norte→sur).
+- Periodo 2023-2026 T1. Movilidad solo 2023-2025 — peso redistribuido en ITT 2026.
+- Paleta Okabe-Ito, heatmaps cividis por tramo.
+- Datos: 3 ZIPs versionados en `data/itt_avenida_ciudad_de_cali/`.
 
 ### Pulmon de Oriente 2026
 
@@ -132,9 +129,14 @@ Estado:
 ### Barrio Obrero
 
 - Unidad de analisis: poligono unico.
-- No requiere `spatial join` por tramo.
+- No requiere `spatial join` por tramo — eventos pre-filtrados a la zona.
+- Periodo: 2023-2026 T1. `ANIOS = [2023, 2024, 2025, 2026]`.
 - Caso mas limpio para entender la metodologia vigente.
-- Caso actual mas importante para entender el uso experimental de `deficit habitacional` dentro de `Entorno Urbano`.
+- Caso actual mas importante para el uso experimental de `deficit habitacional` dentro de `Entorno Urbano`.
+- Datos directamente en subcarpetas por dimension (sin ZIP): `1_Dimension_Seguridad/`, `2_Dimensión_Cohesion_Social/`, `3_Dimension_Movilidad/`, `4_Desarrollo_Economico/` (vacia), `5_Entorno_Urbano/` (con NDVI 2023-2026), `6_Educacion/`.
+- Fuentes DATIC actualizadas: campo `fechah` (MM/DD/YYYY) en homicidios, `fecha_hech` (ISO) en el resto.
+- Tratamiento 2026: DATIC cubre hasta Q1; Q2/Q3/Q4 enmascarados como `NaN`. Siniestros: todo 2026 = `NaN`.
+- Visualizaciones: paleta Okabe-Ito, heatmaps cividis, graficas trimestrales linea+relleno.
 
 ### Roosevelt
 
@@ -144,10 +146,10 @@ Estado:
 
 ### Avenida Ciudad de Cali
 
-- Unidad de analisis: 8 tramos.
-- Metodo espacial: `spatial join`.
+- Unidad de analisis: 8 tramos buffer de 100 m.
+- Metodo espacial: `spatial join` de eventos a tramos.
 - Caso mas complejo espacialmente.
-- Todavia no esta homologado en normalizacion.
+- Ya homologado a `ref_min/ref_max` fijos. Periodo 2023-2026 T1.
 
 ### Pulmon de Oriente
 
@@ -159,37 +161,31 @@ Estado:
 
 ### Datos presentes en el repo
 
-Hay ZIP versionados para:
-
-- `data/itt_roosevelt/`
-- `data/itt_barrio_obrero/`
-- `data/itt_pulmon_oriente/`
-
-Estos ZIP contienen insumos reales para trabajo territorial y validan que Roosevelt, Barrio Obrero y Pulmon de Oriente si tienen base de datos local dentro del repo.
+- `data/itt_roosevelt/`: `Roosevelt.zip` + carpeta descomprimida `Roosevelt_unzipped/`.
+- `data/itt_barrio_obrero/`: GeoJSON directamente en subcarpetas por dimension — no requiere ZIP. Git clone entrega todo.
+- `data/itt_avenida_ciudad_de_cali/`: 3 ZIPs versionados (`Geojson_Ciudad_de_Cali (1).zip`, `geojson_filtrado_ciudad_de_Cali_100m.zip`, `geojson_Movilidad_ciudad_de_Cali_100m.zip`).
+- `data/itt_pulmon_oriente/`: datos de referencia para scores provisionales.
 
 ### Datos no versionados en el repo
 
-- `data/itt_avenida_ciudad_de_cali/` tiene estructura y README, pero no trae los insumos fuente versionados.
-
-Implicacion:
-
-- Su ejecucion depende de carga externa, Colab o entrega manual de archivos.
+- Todos los insumos clave estan versionados en el repo para las 3 zonas activas.
+- `4_Desarrollo_Economico/` en Barrio Obrero: vacia, pendiente de datos.
 
 ## 8. Referencias territoriales y su estado actual
 
 La carpeta `data/referencia/` contiene Excel de apoyo metodologico:
 
-- `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx`
-- `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx`
-- `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx`
+- `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` — usado experimentalmente en notebook 03 para proxy Entorno Urbano.
+- `BD_PREDIOS_TITULADOS 2023-2025 (1).xlsx` — no usado en calculo actual.
+- `BD_SUBSIDIOS_MEJORAMIENTO_VIV_AÑOS_2024_2025 (1).xlsx` — no usado en calculo actual.
+- `Caracterizacion Personas Sub PyE (2025).xlsx` — 24.087 registros, Secretaria de Bienestar Social. Indicador derivado: concentracion de vulnerabilidad activa 54.1 por 1.000 hab (73 personas Sub PyE / ~1.349 hab). Solo contexto, no implementado en ITT.
+- `Caracterizacion R.A. 2026 corte may-6.xlsx` — Registro de Atencion SBS 2026. Descartado para calculo ITT: solo 2026 (sin serie), 72% sin comuna, mide asistencia a programas no condicion territorial.
 
 Lectura correcta:
 
-- No todos hacen parte del calculo actual del ITT.
-- Se consideran insumos potenciales para fortalecer `Entorno Urbano` u otras lecturas territoriales futuras.
-- El candidato mas fuerte documentado hoy para `Entorno Urbano` es el deficit habitacional.
-- Ese candidato ya fue incorporado de forma experimental en `03_itt_barrio_obrero.ipynb`.
-- `Predios titulados` y `subsidios de mejoramiento` siguen fuera del calculo actual de la dimension.
+- Solo `deficit habitacional` esta incorporado al calculo (experimental, proxy Entorno Urbano Barrio Obrero).
+- `Predios titulados`, `subsidios de mejoramiento`, `Sub PyE` y `RA2026` siguen fuera del calculo actual.
+- `Sub PyE 2025` y `RA2026` pueden usarse como complemento narrativo futuro si se resuelve la cobertura territorial.
 
 ## 9. Donde vive el conocimiento
 
@@ -218,10 +214,10 @@ Para responder bien sobre este repo, un agente debe leer en este orden:
 
 ## 11. Resumen ejecutivo para handoff rapido
 
-Este repo ya tiene una metodologia definida y parcialmente consolidada. `Barrio Obrero` es la referencia operativa vigente. `Roosevelt` ya esta alineado con esa metodologia. `Avenida Ciudad de Cali` sigue funcional, pero pendiente de migrar desde min-max relativo hacia `ref_min/ref_max` fijos. `Pulmon de Oriente` es la referencia metodologica de fondo y la fuente de los scores provisionales usados en otras zonas. Los datos versionados existen para Roosevelt, Barrio Obrero y Pulmon de Oriente, pero no para Avenida Ciudad de Cali. En Barrio Obrero, `Entorno Urbano` ya puede recalcularse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`, explicado con un `heatmap` de componentes del deficit cualitativo 2024.
+Este repo tiene una metodologia consolidada y tres zonas activas. `Barrio Obrero` es la referencia operativa vigente: usa `ref_min/ref_max` fijos, DATIC 2023-2026 T1, datos directamente en carpetas por dimension (sin ZIP), paleta Okabe-Ito, heatmaps cividis y graficas trimestrales linea+relleno. `Roosevelt` esta alineado con esa metodologia para 2023-2025. `Avenida Ciudad de Cali` ya fue homologada a `ref_min/ref_max` fijos con 3 ZIPs y 8 tramos, periodo 2023-2026 T1. `Pulmon de Oriente` es la referencia metodologica de fondo y la fuente de los scores provisionales. En Barrio Obrero, `Entorno Urbano` puede recalcularse con proxy experimental de `deficit habitacional 2024` para `Comuna 9`. Hay datos contextuales adicionales en `data/referencia/` (Sub PyE 2025, RA2026) que aun no entran al calculo ITT.
 
 ## 12. Prompt sugerido para otro agente
 
 Puedes iniciar a otro agente con este texto:
 
-> Este repo calcula el ITT de zonas urbanas de Cali. La metodologia vigente exige `ref_min/ref_max` fijos por indicador y esta documentada en `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`. `notebooks/03_itt_barrio_obrero.ipynb` es la referencia operativa principal; `notebooks/01_itt_roosevelt.ipynb` ya esta alineado a esa logica; `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` sigue funcional pero aun usa min-max relativo y debe tratarse como implementacion pendiente de homologacion. Los referentes provisionales actuales provenientes de Pulmon de Oriente son `Entorno Urbano = 39.2`, `Educacion y Desarrollo = 54.9` y `Vulnerabilidad = 54.1`, pero en Barrio Obrero `Entorno Urbano` ya puede sobrescribirse con un proxy experimental de `deficit habitacional 2024` para `Comuna 9`. Ese proxy no tiene periodicidad mensual o trimestral observada; su visualizacion adecuada hoy es el `heatmap` de componentes del deficit cualitativo 2024. Distingue siempre entre datos reales, scores provisionales y metodologia vigente. No inventes outputs no versionados ni asumas que el comparativo ya esta completo.
+> Este repo calcula el ITT de zonas urbanas de Cali. La metodologia vigente exige `ref_min/ref_max` fijos por indicador y esta documentada en `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`. `notebooks/03_itt_barrio_obrero.ipynb` es la referencia operativa principal (DATIC 2023-2026 T1, datos en carpetas por dimension sin ZIP, Okabe-Ito, cividis, linea+relleno); `notebooks/01_itt_roosevelt.ipynb` ya esta alineado para 2023-2025; `notebooks/02_itt_avenida_ciudad_de_cali.ipynb` esta homologado con `ref_min/ref_max` fijos para 2023-2026 T1. Los referentes provisionales de Pulmon de Oriente son `Entorno Urbano = 39.2`, `Educacion y Desarrollo = 54.9` y `Vulnerabilidad = 54.1`. En Barrio Obrero `Entorno Urbano` puede sobrescribirse con proxy experimental de `deficit habitacional 2024` para `Comuna 9` (corte anual, no serie trimestral). En 2026 solo hay dato Q1 para DATIC — Q2/Q3/Q4 son `NaN` en `corr_trim`, y siniestros no tienen dato 2026. Distingue siempre entre datos reales, scores provisionales y metodologia vigente. No inventes outputs no versionados.

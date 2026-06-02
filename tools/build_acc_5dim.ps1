@@ -1060,6 +1060,73 @@ base_corr.to_csv(OUTPUT_DIR / 'acc_itt_provisional_corredor.csv', index=False)
 print('Archivos exportados en:', OUTPUT_DIR)
 '@
 
+$cells += New-CodeCell @'
+EXPORT_PATH = OUTPUT_DIR / 'ITT_Avenida_Ciudad_de_Cali.xlsx'
+
+df_seg_corredor = corridor_trim(df_seg_trim, ['homicidios', 'hurtos']).copy()
+df_seg_corredor = df_seg_corredor.merge(base_corr[['anio', 'score_seguridad']], on='anio', how='left')
+
+df_mov_corredor = corridor_trim(df_mov_trim, ['siniestralidad', 'lesionados', 'mortales']).copy()
+df_mov_corredor = df_mov_corredor.merge(base_corr[['anio', 'score_movilidad']], on='anio', how='left')
+
+df_social_corredor = corridor_trim(df_social_trim, ['vif', 'rinas', 'spa']).copy()
+df_social_corredor = df_social_corredor.merge(base_corr[['anio', 'score_des_social']], on='anio', how='left')
+
+df_entorno_export = df_entorno_ann.copy()
+df_entorno_export = df_entorno_export.merge(
+    base_tramos[['tramo', 'anio', 'score_entorno_u']],
+    on=['tramo', 'anio'], how='left'
+)
+
+df_de_flujo_export = df_de_flow_trim.copy()
+df_de_stock_export = df_de_stock_ann.copy()
+df_de_stock_export = df_de_stock_export.merge(
+    base_tramos[['tramo', 'anio', 'score_des_eco']],
+    on=['tramo', 'anio'], how='left'
+)
+
+df_itt_tramos = base_tramos[[
+    'tramo', 'anio', 'score_seguridad', 'score_movilidad', 'score_des_social',
+    'score_entorno_u', 'score_des_eco', 'ITT', 'nivel', 'nota'
+]].copy()
+
+df_itt_corredor = base_corr[[
+    'anio', 'score_seguridad', 'score_movilidad', 'score_des_social',
+    'score_entorno_u', 'score_des_eco', 'ITT', 'nivel'
+]].copy()
+
+sheets = {
+    'ITT_Tramos':               df_itt_tramos,
+    'ITT_Corredor':             df_itt_corredor,
+    'Seguridad_Trim_Tramos':    df_seg_trim,
+    'Seguridad_Corredor':       df_seg_corredor,
+    'Movilidad_Trim_Tramos':    df_mov_trim,
+    'Movilidad_Corredor':       df_mov_corredor,
+    'Social_Trim_Tramos':       df_social_trim,
+    'Social_Corredor':          df_social_corredor,
+    'Entorno_Anual_Tramos':     df_entorno_export,
+    'DesEco_Flujo_Trim':        df_de_flujo_export,
+    'DesEco_Stock_Anual':       df_de_stock_export,
+    'Inventario_Fuentes':       df_inventory,
+}
+
+with pd.ExcelWriter(EXPORT_PATH, engine='openpyxl') as writer:
+    for sheet_name, df_sh in sheets.items():
+        if isinstance(df_sh, pd.DataFrame) and not df_sh.empty:
+            df_sh.round(2).to_excel(writer, sheet_name=sheet_name, index=False)
+        else:
+            pd.DataFrame({'nota': [f'Sin datos - ejecutar celdas previas']}).to_excel(
+                writer, sheet_name=sheet_name, index=False
+            )
+
+print(f'Exportado: {EXPORT_PATH}')
+print('Hojas:', ' | '.join(sheets.keys()))
+
+if os.path.exists('/content'):
+    from google.colab import files
+    files.download(str(EXPORT_PATH))
+'@
+
 $nb = [ordered]@{
     cells = $cells
     metadata = [ordered]@{

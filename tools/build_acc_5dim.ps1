@@ -40,7 +40,7 @@ $cells += New-MarkdownCell @'
 ## Alcance de esta version
 
 - Implementa las dimensiones con data disponible hoy por tramo:
-  - Seguridad y Convivencia
+  - Seguridad
   - Movilidad y Accesibilidad
   - Desarrollo Social observado (`VIF`, `Rinas`, `SPA`)
   - Entorno Urbano
@@ -321,12 +321,9 @@ def filter_tipo_conf(df, target):
 
 df_hom_trim = build_count_trim(PATHS['seg_hom'], 'fechah', 'homicidios')
 df_hur_trim = build_count_trim(PATHS['seg_hur'], 'fecha_hech', 'hurtos')
-df_conv_trim = build_count_trim(PATHS['seg_comp'], 'fecha_hech', 'convivencia')
-
 df_seg_trim = complete_trim_panel(
-    df_hom_trim.merge(df_hur_trim, on=['tramo','anio','trimestre','periodo'], how='outer')
-              .merge(df_conv_trim, on=['tramo','anio','trimestre','periodo'], how='outer'),
-    ['homicidios', 'hurtos', 'convivencia'],
+    df_hom_trim.merge(df_hur_trim, on=['tramo','anio','trimestre','periodo'], how='outer'),
+    ['homicidios', 'hurtos'],
     available_tramos=PATHS['seg_hom'].keys()
 )
 
@@ -474,7 +471,7 @@ $cells += New-MarkdownCell @'
 '@
 
 $cells += New-CodeCell @'
-df_seg_ann = annualize(df_seg_trim, ['homicidios', 'hurtos', 'convivencia'])
+df_seg_ann = annualize(df_seg_trim, ['homicidios', 'hurtos'])
 df_social_ann = annualize(df_social_trim, ['vif', 'rinas', 'spa'])
 df_mov_ann = annualize(df_mov_trim, ['siniestralidad', 'lesionados', 'mortales'])
 
@@ -490,7 +487,6 @@ base_tramos = (
 refs = {
     'homicidios':      (0, max(1.0, base_tramos['homicidios'].max(skipna=True)), True),
     'hurtos':          (0, max(1.0, base_tramos['hurtos'].max(skipna=True)), True),
-    'convivencia':     (0, max(1.0, base_tramos['convivencia'].max(skipna=True)), True),
     'siniestralidad':  (0, max(1.0, base_tramos['siniestralidad'].max(skipna=True)), True),
     'lesionados':      (0, max(1.0, base_tramos['lesionados'].max(skipna=True)), True),
     'mortales':        (0, max(1.0, base_tramos['mortales'].max(skipna=True)), True),
@@ -507,7 +503,7 @@ refs = {
 for ind, (rmin, rmax, inv) in refs.items():
     base_tramos[f'score_{ind}'] = base_tramos[ind].apply(lambda v: score_ref(v, rmin, rmax, inv))
 
-base_tramos['score_seguridad'] = base_tramos.apply(lambda r: score_mean(r, ['score_homicidios', 'score_hurtos', 'score_convivencia']), axis=1)
+base_tramos['score_seguridad'] = base_tramos.apply(lambda r: score_mean(r, ['score_homicidios', 'score_hurtos']), axis=1)
 base_tramos['score_movilidad'] = base_tramos.apply(lambda r: score_mean(r, ['score_siniestralidad', 'score_lesionados', 'score_mortales']), axis=1)
 base_tramos['score_des_social'] = base_tramos.apply(lambda r: score_mean(r, ['score_vif', 'score_rinas', 'score_spa']), axis=1)
 base_tramos['score_entorno_u'] = base_tramos.apply(lambda r: score_mean(r, ['score_ndvi', 'score_arbolado_total']), axis=1)
@@ -535,7 +531,7 @@ display(base_tramos[['tramo','anio','score_seguridad','score_movilidad','score_d
 
 $cells += New-CodeCell @'
 base_corr = (
-    corridor_annual_sum(df_seg_ann, ['homicidios', 'hurtos', 'convivencia'])
+    corridor_annual_sum(df_seg_ann, ['homicidios', 'hurtos'])
       .merge(corridor_annual_sum(df_mov_ann, ['siniestralidad', 'lesionados', 'mortales']), on='anio', how='outer')
       .merge(corridor_annual_sum(df_social_ann, ['vif', 'rinas', 'spa']), on='anio', how='outer')
       .merge(df_entorno_ann.groupby('anio', dropna=False).agg({'ndvi':'mean','arbolado_total':'sum'}).reset_index(), on='anio', how='outer')
@@ -551,7 +547,7 @@ for ind, (rmin, rmax, inv) in refs.items():
     if ind in base_corr.columns:
         base_corr[f'score_{ind}'] = base_corr[ind].apply(lambda v: score_ref(v, rmin, rmax, inv))
 
-base_corr['score_seguridad'] = base_corr.apply(lambda r: score_mean(r, ['score_homicidios', 'score_hurtos', 'score_convivencia']), axis=1)
+base_corr['score_seguridad'] = base_corr.apply(lambda r: score_mean(r, ['score_homicidios', 'score_hurtos']), axis=1)
 base_corr['score_movilidad'] = base_corr.apply(lambda r: score_mean(r, ['score_siniestralidad', 'score_lesionados', 'score_mortales']), axis=1)
 base_corr['score_des_social'] = base_corr.apply(lambda r: score_mean(r, ['score_vif', 'score_rinas', 'score_spa']), axis=1)
 base_corr['score_entorno_u'] = base_corr.apply(lambda r: score_mean(r, ['score_ndvi', 'score_arbolado_total']), axis=1)
@@ -733,25 +729,23 @@ def plot_per_tramo_annual(df_ann, tramo, metric_defs, title_prefix, output_name)
 '@
 
 $cells += New-MarkdownCell @'
-## Seguridad y Convivencia
+## Seguridad
 '@
 
 $cells += New-CodeCell @'
 plot_general_trim(
     df_seg_trim,
     [('homicidios', 'Homicidios', OKI_BERMELL),
-     ('hurtos', 'Hurtos', OKI_NARANJA),
-     ('convivencia', 'Infracciones de convivencia', OKI_AZUL)],
-    'Seguridad y Convivencia - Evolucion trimestral general | Avenida Ciudad de Cali',
+     ('hurtos', 'Hurtos', OKI_NARANJA)],
+    'Seguridad - Evolucion trimestral general | Avenida Ciudad de Cali',
     'acc_seg_general_trim.png'
 )
 
 plot_heatmaps_tramo_period(
     df_seg_trim,
     [('homicidios', 'Homicidios', 'Reds'),
-     ('hurtos', 'Hurtos', 'Oranges'),
-     ('convivencia', 'Convivencia', 'Blues')],
-    'Seguridad y Convivencia - Heatmap por tramo y trimestre | Avenida Ciudad de Cali',
+     ('hurtos', 'Hurtos', 'Oranges')],
+    'Seguridad - Heatmap por tramo y trimestre | Avenida Ciudad de Cali',
     'acc_seg_heatmap_tramo_periodo.png'
 )
 
@@ -759,17 +753,15 @@ for tramo in TRAMOS:
     plot_per_tramo_trim(
         df_seg_trim, tramo,
         [('homicidios', 'Homicidios', OKI_BERMELL),
-         ('hurtos', 'Hurtos', OKI_NARANJA),
-         ('convivencia', 'Convivencia', OKI_AZUL)],
-        'Seguridad y Convivencia - Evolucion trimestral',
+         ('hurtos', 'Hurtos', OKI_NARANJA)],
+        'Seguridad - Evolucion trimestral',
         f'acc_seg_trim_{tramo}.png'
     )
     plot_per_tramo_trim_heatmap(
         df_seg_trim, tramo,
         [('homicidios', 'Homicidios'),
-         ('hurtos', 'Hurtos'),
-         ('convivencia', 'Convivencia')],
-        'Seguridad y Convivencia - Heatmap individual',
+         ('hurtos', 'Hurtos')],
+        'Seguridad - Heatmap individual',
         f'acc_seg_heatmap_{tramo}.png'
     )
 '@

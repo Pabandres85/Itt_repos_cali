@@ -42,7 +42,7 @@ $cells += New-MarkdownCell @'
 - Implementa las dimensiones con data disponible hoy por tramo:
   - Seguridad
   - Movilidad y Accesibilidad
-  - Desarrollo Social observado (`VIF`, `Rinas`, `SPA`)
+  - Desarrollo Social (`VIF`, `Rinas`, `SPA`)
   - Entorno Urbano
   - Actividad Economica
 - `Educacion` queda pendiente por falta de archivos por tramo en `data/itt_avenida_ciudad_de_cali/6_Educacion`.
@@ -64,6 +64,7 @@ import geopandas as gpd
 import rasterio
 
 plt.style.use('seaborn-v0_8-whitegrid')
+sns.set_palette(['#0072B2', '#E69F00', '#009E73', '#D55E00', '#56B4E9', '#333333'])
 pd.set_option('display.max_columns', 200)
 pd.set_option('display.width', 220)
 
@@ -74,6 +75,11 @@ OKI_VERDE = '#009E73'
 OKI_NARANJA = '#E69F00'
 OKI_BERMELL = '#D55E00'
 OKI_GRIS = '#333333'
+
+CMAP_CALIDO = 'flare'
+CMAP_FRIO = 'crest'
+CMAP_NEUTRO = 'cividis'
+CMAP_INTENSO = 'mako'
 
 TRAMOS = [f'T{i}' for i in range(1, 9)]
 ANIOS = [2023, 2024, 2025, 2026]
@@ -269,6 +275,25 @@ def fmt_m(v):
     if pd.isna(v):
         return '-'
     return f'${v/1e6:,.0f}M'
+
+def fmt_compacto(v, mode='int'):
+    if pd.isna(v):
+        return ''
+    if mode == 'float2':
+        return f'{float(v):.2f}'
+    if mode == 'money':
+        v = float(v)
+        if abs(v) >= 1e9:
+            return f'${v/1e9:.1f}B'
+        if abs(v) >= 1e6:
+            return f'${v/1e6:.0f}M'
+        if abs(v) >= 1e3:
+            return f'${v/1e3:.0f}k'
+        return f'${v:.0f}'
+    return f'{int(round(float(v)))}'
+
+def heatmap_annot_df(pivot, mode='int'):
+    return pivot.applymap(lambda v: fmt_compacto(v, mode))
 
 def savefig(name):
     plt.savefig(OUTPUT_DIR / name, dpi=150, bbox_inches='tight', facecolor=BG)
@@ -596,10 +621,11 @@ def plot_heatmaps_tramo_period(df_trim, metric_defs, title, output_name):
     if len(metric_defs) == 1:
         axes = [axes]
     fig.suptitle(title, fontsize=13, fontweight='bold', color='#1B2631')
-    for ax, (col, label, cmap) in zip(axes, metric_defs):
+    for ax, (col, label, cmap, mode) in zip(axes, metric_defs):
         pivot = (df_trim.pivot(index='tramo', columns='periodo', values=col)
                        .reindex(index=TRAMOS, columns=PERIODOS_TRIM))
-        sns.heatmap(pivot, annot=True, fmt='.0f', cmap=cmap, linewidths=0.5, linecolor='#DEE2E6',
+        annot = heatmap_annot_df(pivot, mode)
+        sns.heatmap(pivot, annot=annot, fmt='', cmap=cmap, linewidths=0.5, linecolor='#DEE2E6',
                     ax=ax, cbar_kws={'shrink':0.8}, annot_kws={'size':8})
         ax.set_title(label, fontweight='bold', pad=8)
         ax.set_ylabel('Tramo')
@@ -641,11 +667,21 @@ def plot_per_tramo_trim_heatmap(df_trim, tramo, rows_cfg, title, output_name):
              .reindex(PERIODOS_TRIM)
              .reset_index())
     heat = pd.DataFrame({'periodo': PERIODOS_TRIM}).set_index('periodo')
-    for col, label in rows_cfg:
+    modes = {}
+    for item in rows_cfg:
+        if len(item) == 3:
+            col, label, mode = item
+        else:
+            col, label = item
+            mode = 'int'
         heat[label] = sub[col].to_numpy(dtype=float)
+        modes[label] = mode
     heat = heat.T
+    annot = heat.copy()
+    for label in heat.index:
+        annot.loc[label] = heat.loc[label].apply(lambda v: fmt_compacto(v, modes.get(label, 'int')))
     fig, ax = plt.subplots(figsize=(12, 2.8 + 0.35 * len(rows_cfg)), facecolor=BG)
-    sns.heatmap(heat, annot=True, fmt='.0f', cmap='YlGnBu', linewidths=0.5, linecolor='#DEE2E6',
+    sns.heatmap(heat, annot=annot, fmt='', cmap=CMAP_FRIO, linewidths=0.5, linecolor='#DEE2E6',
                 ax=ax, cbar_kws={'shrink':0.8}, annot_kws={'size':8})
     ax.set_title(f'{title} | {tramo}', fontweight='bold', pad=8)
     ax.set_ylabel('Indicador')
@@ -685,10 +721,11 @@ def plot_heatmaps_tramo_year(df_ann, metric_defs, title, output_name):
     if len(metric_defs) == 1:
         axes = [axes]
     fig.suptitle(title, fontsize=13, fontweight='bold', color='#1B2631')
-    for ax, (col, label, cmap) in zip(axes, metric_defs):
+    for ax, (col, label, cmap, mode) in zip(axes, metric_defs):
         pivot = (df_ann.pivot(index='tramo', columns='anio', values=col)
                     .reindex(index=TRAMOS, columns=ANIOS))
-        sns.heatmap(pivot, annot=True, fmt='.2f' if col == 'ndvi' else '.0f', cmap=cmap,
+        annot = heatmap_annot_df(pivot, mode)
+        sns.heatmap(pivot, annot=annot, fmt='', cmap=cmap,
                     linewidths=0.5, linecolor='#DEE2E6', ax=ax, cbar_kws={'shrink':0.8},
                     annot_kws={'size':8})
         ax.set_title(label, fontweight='bold', pad=8)
@@ -743,8 +780,8 @@ plot_general_trim(
 
 plot_heatmaps_tramo_period(
     df_seg_trim,
-    [('homicidios', 'Homicidios', 'Reds'),
-     ('hurtos', 'Hurtos', 'Oranges')],
+    [('homicidios', 'Homicidios', CMAP_CALIDO, 'int'),
+     ('hurtos', 'Hurtos', CMAP_NEUTRO, 'int')],
     'Seguridad - Heatmap por tramo y trimestre | Avenida Ciudad de Cali',
     'acc_seg_heatmap_tramo_periodo.png'
 )
@@ -759,8 +796,8 @@ for tramo in TRAMOS:
     )
     plot_per_tramo_trim_heatmap(
         df_seg_trim, tramo,
-        [('homicidios', 'Homicidios'),
-         ('hurtos', 'Hurtos')],
+        [('homicidios', 'Homicidios', 'int'),
+         ('hurtos', 'Hurtos', 'int')],
         'Seguridad - Heatmap individual',
         f'acc_seg_heatmap_{tramo}.png'
     )
@@ -782,9 +819,9 @@ plot_general_trim(
 
 plot_heatmaps_tramo_period(
     df_mov_trim,
-    [('siniestralidad', 'Siniestralidad', 'YlOrBr'),
-     ('lesionados', 'Lesionados', 'PuBu'),
-     ('mortales', 'Mortales', 'Reds')],
+    [('siniestralidad', 'Siniestralidad', CMAP_NEUTRO, 'int'),
+     ('lesionados', 'Lesionados', CMAP_FRIO, 'int'),
+     ('mortales', 'Mortales', CMAP_CALIDO, 'int')],
     'Movilidad y Accesibilidad - Heatmap por tramo y trimestre | Avenida Ciudad de Cali',
     'acc_mov_heatmap_tramo_periodo.png'
 )
@@ -800,18 +837,18 @@ for tramo in TRAMOS:
     )
     plot_per_tramo_trim_heatmap(
         df_mov_trim, tramo,
-        [('siniestralidad', 'Siniestralidad'),
-         ('lesionados', 'Lesionados'),
-         ('mortales', 'Mortales')],
+        [('siniestralidad', 'Siniestralidad', 'int'),
+         ('lesionados', 'Lesionados', 'int'),
+         ('mortales', 'Mortales', 'int')],
         'Movilidad y Accesibilidad - Heatmap individual',
         f'acc_mov_heatmap_{tramo}.png'
     )
 '@
 
 $cells += New-MarkdownCell @'
-## Desarrollo Social observado
+## Desarrollo Social
 
-> Esta version usa unicamente los componentes observados por tramo disponibles hoy: `VIF`, `Rinas` y `SPA`.  
+> Esta version usa unicamente los componentes disponibles hoy por tramo: `VIF`, `Rinas` y `SPA`.  
 > `Matricula` y `Desercion` quedan pendientes hasta contar con archivos por tramo.
 '@
 
@@ -821,16 +858,16 @@ plot_general_trim(
     [('vif', 'VIF', OKI_BERMELL),
      ('rinas', 'Rinas', OKI_NARANJA),
      ('spa', 'SPA', OKI_VERDE)],
-    'Desarrollo Social observado - Evolucion trimestral general | Avenida Ciudad de Cali',
+    'Desarrollo Social - Evolucion trimestral general | Avenida Ciudad de Cali',
     'acc_social_general_trim.png'
 )
 
 plot_heatmaps_tramo_period(
     df_social_trim,
-    [('vif', 'VIF', 'Reds'),
-     ('rinas', 'Rinas', 'Oranges'),
-     ('spa', 'SPA', 'Greens')],
-    'Desarrollo Social observado - Heatmap por tramo y trimestre | Avenida Ciudad de Cali',
+    [('vif', 'VIF', CMAP_CALIDO, 'int'),
+     ('rinas', 'Rinas', CMAP_NEUTRO, 'int'),
+     ('spa', 'SPA', CMAP_FRIO, 'int')],
+    'Desarrollo Social - Heatmap por tramo y trimestre | Avenida Ciudad de Cali',
     'acc_social_heatmap_tramo_periodo.png'
 )
 
@@ -840,15 +877,15 @@ for tramo in TRAMOS:
         [('vif', 'VIF', OKI_BERMELL),
          ('rinas', 'Rinas', OKI_NARANJA),
          ('spa', 'SPA', OKI_VERDE)],
-        'Desarrollo Social observado - Evolucion trimestral',
+        'Desarrollo Social - Evolucion trimestral',
         f'acc_social_trim_{tramo}.png'
     )
     plot_per_tramo_trim_heatmap(
         df_social_trim, tramo,
-        [('vif', 'VIF'),
-         ('rinas', 'Rinas'),
-         ('spa', 'SPA')],
-        'Desarrollo Social observado - Heatmap individual',
+        [('vif', 'VIF', 'int'),
+         ('rinas', 'Rinas', 'int'),
+         ('spa', 'SPA', 'int')],
+        'Desarrollo Social - Heatmap individual',
         f'acc_social_heatmap_{tramo}.png'
     )
 '@
@@ -868,8 +905,8 @@ plot_general_annual(
 
 plot_heatmaps_tramo_year(
     df_entorno_ann,
-    [('ndvi', 'NDVI', 'Greens'),
-     ('arbolado_total', 'Arbolado', 'Blues')],
+    [('ndvi', 'NDVI', CMAP_FRIO, 'float2'),
+     ('arbolado_total', 'Arbolado', CMAP_NEUTRO, 'int')],
     'Entorno Urbano - Heatmap por tramo y anio | Avenida Ciudad de Cali',
     'acc_entorno_heatmap_tramo_anio.png'
 )
@@ -909,9 +946,9 @@ plot_general_annual(
 
 plot_heatmaps_tramo_year(
     df_de_stock_ann,
-    [('establecimientos_activos', 'Establecimientos activos', 'Blues'),
-     ('empleabilidad_total', 'Empleabilidad total', 'Greens'),
-     ('ingresos_operacionales', 'Ingresos operacionales', 'YlOrBr')],
+    [('establecimientos_activos', 'Establecimientos activos', CMAP_NEUTRO, 'int'),
+     ('empleabilidad_total', 'Empleabilidad total', CMAP_FRIO, 'int'),
+     ('ingresos_operacionales', 'Ingresos operacionales', CMAP_INTENSO, 'money')],
     'Actividad Economica oficial - Heatmap por tramo y anio | Avenida Ciudad de Cali',
     'acc_de_oficial_heatmap_tramo_anio.png'
 )
@@ -937,9 +974,9 @@ plot_general_trim(
 
 plot_heatmaps_tramo_period(
     df_de_flow_trim,
-    [('negocios_nuevos', 'Negocios nuevos', 'PuBu'),
-     ('personal_nuevos', 'Personal nuevo', 'Greens'),
-     ('ingresos_nuevos', 'Ingresos nuevos', 'YlOrBr')],
+    [('negocios_nuevos', 'Negocios nuevos', CMAP_NEUTRO, 'int'),
+     ('personal_nuevos', 'Personal nuevo', CMAP_FRIO, 'int'),
+     ('ingresos_nuevos', 'Ingresos nuevos', CMAP_INTENSO, 'money')],
     'Actividad Economica complementaria - Heatmap por tramo y trimestre | Avenida Ciudad de Cali',
     'acc_de_flujo_heatmap_tramo_periodo.png'
 )
@@ -952,6 +989,14 @@ for tramo in TRAMOS:
          ('ingresos_nuevos', 'Ingresos nuevos', OKI_NARANJA)],
         'Actividad Economica complementaria - Evolucion trimestral',
         f'acc_de_flujo_trim_{tramo}.png'
+    )
+    plot_per_tramo_trim_heatmap(
+        df_de_flow_trim, tramo,
+        [('negocios_nuevos', 'Negocios nuevos', 'int'),
+         ('personal_nuevos', 'Personal nuevo', 'int'),
+         ('ingresos_nuevos', 'Ingresos nuevos', 'money')],
+        'Actividad Economica complementaria - Heatmap individual',
+        f'acc_de_flujo_heatmap_{tramo}.png'
     )
 '@
 

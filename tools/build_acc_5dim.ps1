@@ -53,6 +53,7 @@ $cells += New-CodeCell @'
 import os
 import re
 import json
+import unicodedata
 from pathlib import Path
 
 import numpy as np
@@ -199,6 +200,15 @@ def complete_trim_panel(df, value_cols):
     idx = pd.MultiIndex.from_product([TRAMOS, PERIODOS_TRIM], names=['tramo', 'periodo'])
     base = pd.DataFrame(index=idx).reset_index()
     base[['anio', 'trimestre']] = base['periodo'].str.extract(r'(\d{4})-Q(\d)').astype(int)
+
+    if 'anio' not in df.columns:
+        if 'ano' in df.columns:
+            df = df.rename(columns={'ano': 'anio'})
+        elif 'año' in df.columns:
+            df = df.rename(columns={'año': 'anio'})
+        else:
+            raise KeyError('No encontre columna anio en complete_trim_panel')
+
     out = base.merge(df, on=['tramo', 'periodo', 'anio', 'trimestre'], how='left')
     for col in value_cols:
         if col not in out.columns:
@@ -279,6 +289,15 @@ def build_count_trim(tramo_paths, date_col, out_col, filter_fn=None):
         df = add_period_cols(df, date_col)
         if df.empty:
             continue
+
+        if 'anio' not in df.columns:
+            if 'ano' in df.columns:
+                df = df.rename(columns={'ano': 'anio'})
+            elif 'año' in df.columns:
+                df = df.rename(columns={'año': 'anio'})
+            else:
+                raise KeyError(f'No encontre columna anio despues de add_period_cols para {tramo}')
+
         g = (df.groupby(['anio', 'trimestre', 'periodo']).size()
                .reset_index(name=out_col))
         g['tramo'] = tramo
@@ -341,6 +360,7 @@ def parse_fecha_es(txt):
     if pd.isna(txt):
         return pd.NaT
     s = str(txt).strip().lower()
+    s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('ascii')
     m = re.search(r'(\d{1,2}) de ([a-z]+) de (\d{4})', s)
     if not m:
         return pd.NaT
@@ -349,8 +369,7 @@ def parse_fecha_es(txt):
         'julio':7,'agosto':8,'septiembre':9,'setiembre':9,
         'octubre':10,'noviembre':11,'diciembre':12
     }
-    mes_txt = (m.group(2).replace('a','a').replace('e','e')
-                          .replace('i','i').replace('o','o').replace('u','u'))
+    mes_txt = m.group(2)
     mes = meses.get(mes_txt)
     if not mes:
         return pd.NaT

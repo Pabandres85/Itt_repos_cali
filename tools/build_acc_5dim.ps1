@@ -460,6 +460,13 @@ df_de_flow_trim = complete_trim_panel(
     ['negocios_nuevos', 'personal_nuevos', 'ingresos_nuevos'],
     available_tramos=PATHS['de_rm'].keys()
 )
+df_de_coh_ann = annualize(df_de_flow_trim, ['negocios_nuevos', 'personal_nuevos', 'ingresos_nuevos']).rename(
+    columns={
+        'negocios_nuevos': 'establecimientos',
+        'personal_nuevos': 'empleabilidad',
+        'ingresos_nuevos': 'ingresos',
+    }
+)
 df_de_stock_ann = pd.DataFrame(rows_de_stock)
 
 rows_entorno = []
@@ -487,6 +494,7 @@ for tramo in TRAMOS:
 df_entorno_ann = pd.DataFrame(rows_entorno)
 
 display(df_de_flow_trim.head())
+display(df_de_coh_ann.head())
 display(df_de_stock_ann.head())
 display(df_entorno_ann.head())
 '@
@@ -927,7 +935,8 @@ $cells += New-MarkdownCell @'
 Se muestran dos lecturas:
 
 1. **Oficial para ITT:** stock/proxy de `establecimientos activos`, `empleabilidad total` e `ingresos operacionales`.
-2. **Complementaria:** `creacion de negocios nuevos` por fecha de matricula.
+2. **Anual no acumulada:** `establecimientos`, `empleabilidad` e `ingresos` de la cohorte matriculada en cada anio.
+3. **Complementaria trimestral:** `creacion de negocios nuevos` por fecha de matricula.
 '@
 
 $cells += New-CodeCell @'
@@ -961,6 +970,38 @@ for tramo in TRAMOS:
          ('ingresos_operacionales', 'Ingresos operacionales', OKI_NARANJA, 1e6)],
         'Actividad Economica oficial - Evolucion anual',
         f'acc_de_oficial_anual_{tramo}.png'
+    )
+
+plot_general_annual(
+    df_de_coh_ann.groupby('anio', dropna=False).agg({
+        'establecimientos':'sum',
+        'empleabilidad':'sum',
+        'ingresos':'sum'
+    }).reset_index(),
+    [('establecimientos', 'Establecimientos', OKI_AZUL_C, None),
+     ('empleabilidad', 'Empleabilidad', OKI_VERDE, None),
+     ('ingresos', 'Ingresos', OKI_NARANJA, 1e6)],
+    'Actividad Economica anual no acumulada - Evolucion general | Avenida Ciudad de Cali',
+    'acc_de_coh_general_anual.png'
+)
+
+plot_heatmaps_tramo_year(
+    df_de_coh_ann,
+    [('establecimientos', 'Establecimientos', CMAP_NEUTRO, 'int'),
+     ('empleabilidad', 'Empleabilidad', CMAP_FRIO, 'int'),
+     ('ingresos', 'Ingresos', CMAP_INTENSO, 'money')],
+    'Actividad Economica anual no acumulada - Heatmap por tramo y anio | Avenida Ciudad de Cali',
+    'acc_de_coh_heatmap_tramo_anio.png'
+)
+
+for tramo in TRAMOS:
+    plot_per_tramo_annual(
+        df_de_coh_ann, tramo,
+        [('establecimientos', 'Establecimientos', OKI_AZUL_C, None),
+         ('empleabilidad', 'Empleabilidad', OKI_VERDE, None),
+         ('ingresos', 'Ingresos', OKI_NARANJA, 1e6)],
+        'Actividad Economica anual no acumulada - Evolucion anual',
+        f'acc_de_coh_anual_{tramo}.png'
     )
 
 plot_general_trim(
@@ -1052,6 +1093,7 @@ df_seg_trim.to_csv(OUTPUT_DIR / 'acc_seg_trim_tramos.csv', index=False)
 df_social_trim.to_csv(OUTPUT_DIR / 'acc_social_trim_tramos.csv', index=False)
 df_mov_trim.to_csv(OUTPUT_DIR / 'acc_mov_trim_tramos.csv', index=False)
 df_de_flow_trim.to_csv(OUTPUT_DIR / 'acc_de_flujo_trim_tramos.csv', index=False)
+df_de_coh_ann.to_csv(OUTPUT_DIR / 'acc_de_cohorte_anual_tramos.csv', index=False)
 df_de_stock_ann.to_csv(OUTPUT_DIR / 'acc_de_stock_anual_tramos.csv', index=False)
 df_entorno_ann.to_csv(OUTPUT_DIR / 'acc_entorno_anual_tramos.csv', index=False)
 base_tramos.to_csv(OUTPUT_DIR / 'acc_itt_provisional_tramos.csv', index=False)
@@ -1079,6 +1121,7 @@ df_entorno_export = df_entorno_export.merge(
 )
 
 df_de_flujo_export = df_de_flow_trim.copy()
+df_de_coh_export = df_de_coh_ann.copy()
 df_de_stock_export = df_de_stock_ann.copy()
 df_de_stock_export = df_de_stock_export.merge(
     base_tramos[['tramo', 'anio', 'score_des_eco']],
@@ -1105,6 +1148,7 @@ sheets = {
     'Social_Trim_Tramos':       df_social_trim,
     'Social_Corredor':          df_social_corredor,
     'Entorno_Anual_Tramos':     df_entorno_export,
+    'DesEco_Cohorte_Anual':     df_de_coh_export,
     'DesEco_Flujo_Trim':        df_de_flujo_export,
     'DesEco_Stock_Anual':       df_de_stock_export,
     'Inventario_Fuentes':       df_inventory,

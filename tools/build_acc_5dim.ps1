@@ -196,7 +196,7 @@ def add_period_cols(df, dt_col):
     out['periodo'] = out['anio'].astype(str) + '-Q' + out['trimestre'].astype(str)
     return out
 
-def complete_trim_panel(df, value_cols):
+def complete_trim_panel(df, value_cols, available_tramos=None):
     idx = pd.MultiIndex.from_product([TRAMOS, PERIODOS_TRIM], names=['tramo', 'periodo'])
     base = pd.DataFrame(index=idx).reset_index()
     base[['anio', 'trimestre']] = base['periodo'].str.extract(r'(\d{4})-Q(\d)').astype(int)
@@ -213,6 +213,9 @@ def complete_trim_panel(df, value_cols):
     for col in value_cols:
         if col not in out.columns:
             out[col] = np.nan
+    if available_tramos is not None:
+        mask = out['tramo'].isin(list(available_tramos))
+        out.loc[mask, value_cols] = out.loc[mask, value_cols].fillna(0)
     return out
 
 def annualize(df_trim, value_cols):
@@ -323,7 +326,8 @@ df_conv_trim = build_count_trim(PATHS['seg_comp'], 'fecha_hech', 'convivencia')
 df_seg_trim = complete_trim_panel(
     df_hom_trim.merge(df_hur_trim, on=['tramo','anio','trimestre','periodo'], how='outer')
               .merge(df_conv_trim, on=['tramo','anio','trimestre','periodo'], how='outer'),
-    ['homicidios', 'hurtos', 'convivencia']
+    ['homicidios', 'hurtos', 'convivencia'],
+    available_tramos=PATHS['seg_hom'].keys()
 )
 
 df_vif_trim = build_count_trim(PATHS['soc_vif'], 'fecha_hech', 'vif')
@@ -335,7 +339,8 @@ df_spa_trim = build_count_trim(PATHS['seg_comp'], 'fecha_hech', 'spa',
 df_social_trim = complete_trim_panel(
     df_vif_trim.merge(df_rinas_trim, on=['tramo','anio','trimestre','periodo'], how='outer')
                .merge(df_spa_trim, on=['tramo','anio','trimestre','periodo'], how='outer'),
-    ['vif', 'rinas', 'spa']
+    ['vif', 'rinas', 'spa'],
+    available_tramos=PATHS['soc_vif'].keys()
 )
 
 df_sin_trim = build_count_trim(PATHS['mov_sin'], 'Fecha', 'siniestralidad')
@@ -347,7 +352,8 @@ df_mor_trim = build_count_trim(PATHS['mov_sin'], 'Fecha', 'mortales',
 df_mov_trim = complete_trim_panel(
     df_sin_trim.merge(df_les_trim, on=['tramo','anio','trimestre','periodo'], how='outer')
                .merge(df_mor_trim, on=['tramo','anio','trimestre','periodo'], how='outer'),
-    ['siniestralidad', 'lesionados', 'mortales']
+    ['siniestralidad', 'lesionados', 'mortales'],
+    available_tramos=PATHS['mov_sin'].keys()
 )
 
 display(df_seg_trim.head())
@@ -427,7 +433,11 @@ for tramo, path in PATHS['de_rm'].items():
             'ingresos_log1p': float(np.log1p(ing)) if pd.notna(ing) and ing > 0 else 0.0,
         })
 
-df_de_flow_trim = complete_trim_panel(pd.DataFrame(rows_de_flow), ['negocios_nuevos', 'personal_nuevos', 'ingresos_nuevos'])
+df_de_flow_trim = complete_trim_panel(
+    pd.DataFrame(rows_de_flow),
+    ['negocios_nuevos', 'personal_nuevos', 'ingresos_nuevos'],
+    available_tramos=PATHS['de_rm'].keys()
+)
 df_de_stock_ann = pd.DataFrame(rows_de_stock)
 
 rows_entorno = []

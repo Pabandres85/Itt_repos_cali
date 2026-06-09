@@ -195,10 +195,17 @@ SIMPADE_FILES = {
     2025: (REF_EDU_DIR / 'SIMPADE' / 'SIMPADE_2025-11.csv',  'csv'),
 }
 
+SIMPADE_USECOLS = {'DANE_SEDE', 'SECTOR', 'GRADO'}
+
+def _usecols_simpade(col):
+    c = str(col).strip().upper().replace(' ', '_')
+    return c in SIMPADE_USECOLS
+
 def read_table(path, fmt):
+    print(f'  Leyendo {Path(path).name}...')
     if fmt == 'xlsx':
-        return pd.read_excel(path, dtype=str)
-    return pd.read_csv(path, sep=';', encoding='utf-8-sig', dtype=str)
+        return pd.read_excel(path, dtype=str, usecols=_usecols_simpade)
+    return pd.read_csv(path, sep=';', encoding='utf-8-sig', dtype=str, usecols=_usecols_simpade)
 
 def preparar_cols(df):
     df = df.copy()
@@ -281,7 +288,8 @@ df_des_tramo['desertores'] = df_des_tramo['desertores'].fillna(0).astype(int)
 
 df_des_corredor = df_des_tramo.groupby('anio', as_index=False)['desertores'].sum()
 
-display(df_simpade_sede.sort_values(['anio','tramo','sede']))
+print('Vista df_simpade_sede (primeras filas):')
+display(df_simpade_sede.sort_values(['anio','tramo','sede']).head(30))
 display(df_des_tramo)
 display(df_des_corredor)
 '@

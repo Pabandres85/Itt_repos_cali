@@ -569,11 +569,9 @@ if candidates_2026:
         'matricula': df_simat_2026_tramo['matricula'].sum(),
         'repitentes': df_simat_2026_tramo['repitentes'].sum(),
     }])
-    df_simat_2026_corredor['tasa_repitencia'] = np.where(
-        df_simat_2026_corredor['matricula'] > 0,
-        df_simat_2026_corredor['repitentes'] / df_simat_2026_corredor['matricula'] * 100,
-        np.nan
-    )
+    mat_2026 = pd.to_numeric(df_simat_2026_corredor['matricula'], errors='coerce').replace(0, np.nan)
+    rep_2026 = pd.to_numeric(df_simat_2026_corredor['repitentes'], errors='coerce')
+    df_simat_2026_corredor['tasa_repitencia'] = rep_2026.div(mat_2026).mul(100)
     display(df_simat_2026_tramo)
     display(df_simat_2026_corredor)
 

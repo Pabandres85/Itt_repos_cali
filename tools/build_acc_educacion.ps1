@@ -220,9 +220,19 @@ def clean_dane_code(s):
          .str.replace(r'\s+', '', regex=True)
     )
 
-def grado_valido(s):
+def grado_valido_simat(s):
     g = pd.to_numeric(s, errors='coerce')
     return g.isin(GRADOS_EFIC)
+
+def grado_valido_simpade(s):
+    txt = normalize_text(s)
+    excluir = (
+        txt.str.contains('CICLO|ADULTO|JARDIN|KIND|PREJARDIN|PRE-JARDIN', na=False) |
+        txt.isin(['-2', '-1', '12', '13', '21', '22', '23', '24', '25', '26', '41', '42', '43', '44', '45'])
+    )
+    # SIMPADE suele traer nombres de grado (SEXTO, DECIMO, ACELERACION),
+    # no codigos numericos. Se excluyen adultos/prejardin y se conserva el resto.
+    return ~excluir
 
 def cargar_simpade_tramos(anio, path, fmt, df_sedes):
     if not Path(path).exists():
@@ -242,7 +252,7 @@ def cargar_simpade_tramos(anio, path, fmt, df_sedes):
     if 'SECTOR' in out.columns:
         out = out[out['SECTOR'].astype(str).str.strip().str.upper() == 'OFICIAL'].copy()
     if 'GRADO' in out.columns:
-        out = out[grado_valido(out['GRADO'])].copy()
+        out = out[grado_valido_simpade(out['GRADO'])].copy()
 
     g = (out.groupby(['tramo','dane_sede','institucion','sede'], as_index=False)
             .size()
@@ -296,6 +306,7 @@ display(df_des_corredor)
 
 Add-CodeCell @'
 pivot_des = df_des_tramo.pivot(index='tramo', columns='anio', values='desertores').reindex(TRAMOS)
+pivot_des = pivot_des.apply(pd.to_numeric, errors='coerce').fillna(0)
 
 fig, ax = plt.subplots(figsize=(9.5, 5), facecolor=BG)
 sns.heatmap(pivot_des, annot=True, fmt='.0f', cmap='cividis',
@@ -361,7 +372,7 @@ def procesar_simat_6a_tramos(path_xlsx, anio, df_sedes):
     if 'SECTOR' in out.columns:
         out = out[out['SECTOR'].astype(str).str.strip().str.upper() == 'OFICIAL'].copy()
     if 'GRADO' in out.columns:
-        out = out[grado_valido(out['GRADO'])].copy()
+        out = out[grado_valido_simat(out['GRADO'])].copy()
 
     rep_col = 'REPITENTE' if 'REPITENTE' in out.columns else None
     g = out.groupby(['tramo','dane_sede','institucion','sede'], as_index=False).size().rename(columns={'size':'matricula'})
@@ -489,6 +500,7 @@ for col, titulo, cmap, fmt in [
     ('score_educacion', 'Score Educacion por tramo', 'cividis', '.1f'),
 ]:
     pivot = df_educ_tramo.pivot(index='tramo', columns='anio', values=col).reindex(TRAMOS)
+    pivot = pivot.apply(pd.to_numeric, errors='coerce')
     fig, ax = plt.subplots(figsize=(9.5, 5), facecolor=BG)
     sns.heatmap(pivot, annot=True, fmt=fmt, cmap=cmap,
                 linewidths=0.5, linecolor='white', ax=ax)

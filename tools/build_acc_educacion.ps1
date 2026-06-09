@@ -345,9 +345,8 @@ Si se usa Drive, pegar el ID de la carpeta que contiene `Anexo 6A` con diciembre
 '@
 
 Add-CodeCell @'
-# Configurar si se va a descargar SIMAT desde Drive en Colab.
-# Ejemplo: SIMAT_DRIVE_FOLDER_ID = 'xxxxxxxxxxxxxxxxxxxx'
-SIMAT_DRIVE_FOLDER_ID = ''
+# Carpeta Drive: SIMAT y SIMPADE anonimizados / Anexo 6A
+SIMAT_DRIVE_FOLDER_ID = '1bzP9_uWaJ4dGfwWx18Di3flPQb3hOB6s'
 SIMAT_LOCAL_DIR = Path('/content/simat_acc') if os.path.exists('/content') else (REF_EDU_DIR / 'SIMAT')
 
 matricula_simat = {}
@@ -404,17 +403,26 @@ if not SIMAT_6A_DIR.exists():
     SIMAT_6A_DIR = SIMAT_LOCAL_DIR
 
 print('Buscando SIMAT en:', SIMAT_6A_DIR)
-print('Archivos xlsx disponibles:', [p.name for p in SIMAT_6A_DIR.glob('*.xlsx')] if SIMAT_6A_DIR.exists() else [])
+all_simat_xlsx = sorted(SIMAT_6A_DIR.rglob('*.xlsx')) if SIMAT_6A_DIR.exists() else []
+anexo6a_xlsx = [p for p in all_simat_xlsx if 'ANEXO 6' in normalize_text(pd.Series([p.name])).iloc[0] or '6A' in normalize_text(pd.Series([p.name])).iloc[0]]
+if len(anexo6a_xlsx) == 0:
+    anexo6a_xlsx = all_simat_xlsx
+
+print('Archivos xlsx disponibles:', [p.name for p in anexo6a_xlsx])
 
 rows_simat = []
 for anio in ANIOS_EDUC:
     candidates = []
-    if SIMAT_6A_DIR.exists():
-        candidates = (
-            list(SIMAT_6A_DIR.glob(f'*[Dd]iciembre*{anio}*.xlsx')) +
-            list(SIMAT_6A_DIR.glob(f'*12*{anio}*.xlsx')) +
-            list(SIMAT_6A_DIR.glob(f'*{anio}*.xlsx'))
-        )
+    if anexo6a_xlsx:
+        candidates = [
+            p for p in anexo6a_xlsx
+            if str(anio) in p.name and (
+                'DICIEMBRE' in normalize_text(pd.Series([p.name])).iloc[0] or
+                p.name.strip().startswith('12')
+            )
+        ]
+        if not candidates:
+            candidates = [p for p in anexo6a_xlsx if str(anio) in p.name]
     if candidates:
         path = candidates[0]
         tmp = procesar_simat_6a_tramos(path, anio, df_sedes)
@@ -561,12 +569,18 @@ Este bloque busca SIMAT marzo 2026 si existe. Se muestra solo como seguimiento; 
 
 Add-CodeCell @'
 candidates_2026 = []
-if SIMAT_6A_DIR.exists():
-    candidates_2026 = (
-        list(SIMAT_6A_DIR.glob('*[Mm]arzo*2026*.xlsx')) +
-        list(SIMAT_6A_DIR.glob('*3.1*2026*.xlsx')) +
-        list(SIMAT_6A_DIR.glob('*2026*.xlsx'))
-    )
+if 'anexo6a_xlsx' in globals() and anexo6a_xlsx:
+    candidates_2026 = [
+        p for p in anexo6a_xlsx
+        if '2026' in p.name and (
+            'MARZO' in normalize_text(pd.Series([p.name])).iloc[0] or
+            p.name.strip().startswith('3')
+        )
+    ]
+    if not candidates_2026:
+        candidates_2026 = [p for p in anexo6a_xlsx if '2026' in p.name]
+elif SIMAT_6A_DIR.exists():
+    candidates_2026 = list(SIMAT_6A_DIR.rglob('*2026*.xlsx'))
 
 if candidates_2026:
     simat_2026_path = candidates_2026[0]

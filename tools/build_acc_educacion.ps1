@@ -442,16 +442,12 @@ def score_ref(v, ref_min, ref_max, menor_mejora=True):
 
 df_educ_tramo = df_des_tramo.merge(df_simat_tramo, on=['tramo','anio'], how='left')
 
-df_educ_tramo['tasa_desercion'] = np.where(
-    df_educ_tramo['matricula'].fillna(0) > 0,
-    df_educ_tramo['desertores'] / df_educ_tramo['matricula'] * 100,
-    np.nan
-)
-df_educ_tramo['tasa_repitencia'] = np.where(
-    df_educ_tramo['matricula'].fillna(0) > 0,
-    df_educ_tramo['repitentes'] / df_educ_tramo['matricula'] * 100,
-    np.nan
-)
+mat_tramo = pd.to_numeric(df_educ_tramo['matricula'], errors='coerce').replace(0, np.nan)
+des_tramo = pd.to_numeric(df_educ_tramo['desertores'], errors='coerce')
+rep_tramo = pd.to_numeric(df_educ_tramo['repitentes'], errors='coerce')
+
+df_educ_tramo['tasa_desercion'] = des_tramo.div(mat_tramo).mul(100)
+df_educ_tramo['tasa_repitencia'] = rep_tramo.div(mat_tramo).mul(100)
 df_educ_tramo['score_desercion'] = df_educ_tramo['tasa_desercion'].apply(lambda v: score_ref(v, REF_DES_MIN, REF_DES_MAX, True))
 df_educ_tramo['score_repitencia'] = df_educ_tramo['tasa_repitencia'].apply(lambda v: score_ref(v, REF_REP_MIN, REF_REP_MAX, True))
 df_educ_tramo['score_educacion'] = df_educ_tramo[['score_desercion','score_repitencia']].mean(axis=1)
@@ -462,16 +458,12 @@ df_educ_corredor = (
          matricula=('matricula','sum'),
          repitentes=('repitentes','sum'))
 )
-df_educ_corredor['tasa_desercion'] = np.where(
-    df_educ_corredor['matricula'].fillna(0) > 0,
-    df_educ_corredor['desertores'] / df_educ_corredor['matricula'] * 100,
-    np.nan
-)
-df_educ_corredor['tasa_repitencia'] = np.where(
-    df_educ_corredor['matricula'].fillna(0) > 0,
-    df_educ_corredor['repitentes'] / df_educ_corredor['matricula'] * 100,
-    np.nan
-)
+mat_corr = pd.to_numeric(df_educ_corredor['matricula'], errors='coerce').replace(0, np.nan)
+des_corr = pd.to_numeric(df_educ_corredor['desertores'], errors='coerce')
+rep_corr = pd.to_numeric(df_educ_corredor['repitentes'], errors='coerce')
+
+df_educ_corredor['tasa_desercion'] = des_corr.div(mat_corr).mul(100)
+df_educ_corredor['tasa_repitencia'] = rep_corr.div(mat_corr).mul(100)
 df_educ_corredor['score_desercion'] = df_educ_corredor['tasa_desercion'].apply(lambda v: score_ref(v, REF_DES_MIN, REF_DES_MAX, True))
 df_educ_corredor['score_repitencia'] = df_educ_corredor['tasa_repitencia'].apply(lambda v: score_ref(v, REF_REP_MIN, REF_REP_MAX, True))
 df_educ_corredor['score_educacion'] = df_educ_corredor[['score_desercion','score_repitencia']].mean(axis=1)

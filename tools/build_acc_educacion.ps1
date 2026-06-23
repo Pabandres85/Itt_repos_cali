@@ -1,4 +1,4 @@
-$ErrorActionPreference = "Stop"
+﻿$ErrorActionPreference = "Stop"
 
 $repo = Split-Path -Parent $PSScriptRoot
 $outPath = Join-Path $repo "notebooks/07_educacion_avenida_ciudad_de_cali.ipynb"
@@ -359,19 +359,25 @@ def procesar_simat_6a_tramos(path_xlsx, anio, df_sedes):
     sedes = df_sedes[['tramo','dane_sede','institucion','sede']].drop_duplicates().copy()
     sedes['dane_sede'] = clean_dane_code(sedes['dane_sede'])
 
-    col_sede = next((c for c in df.columns if 'CODIGO_DANE' in c and 'SEDE' in c), None)
+    # En Anexo 6A MEN, la sede suele venir como DANE_ANTERIOR.
+    # En otros cortes/exportes puede aparecer como DANE_SEDE o CODIGO_DANE_SEDE.
+    col_sede = next((c for c in ['DANE_ANTERIOR', 'DANE_SEDE', 'CODIGO_DANE_SEDE'] if c in df.columns), None)
     if col_sede is None:
-        col_sede = next((c for c in df.columns if c in ['DANE_SEDE', 'CODIGO_DANE_SEDE']), None)
+        col_sede = next((c for c in df.columns if 'DANE' in c and 'SEDE' in c), None)
     if col_sede is None:
-        raise KeyError('No encontre columna de codigo DANE de sede en SIMAT 6A.')
+        raise KeyError(
+            'No encontre columna de codigo DANE de sede en SIMAT 6A. '
+            f'Columnas disponibles: {df.columns.tolist()[:40]}'
+        )
 
     df[col_sede] = clean_dane_code(df[col_sede])
     out = df.merge(sedes, left_on=col_sede, right_on='dane_sede', how='inner')
 
     if 'SECTOR' in out.columns:
         out = out[out['SECTOR'].astype(str).str.strip().str.upper() == 'OFICIAL'].copy()
-    if 'GRADO' in out.columns:
-        out = out[grado_valido_simat(out['GRADO'])].copy()
+    col_grado = next((c for c in ['GRADO', 'COD_GRADO'] if c in out.columns), None)
+    if col_grado is not None:
+        out = out[grado_valido_simat(out[col_grado])].copy()
 
     rep_col = 'REPITENTE' if 'REPITENTE' in out.columns else None
     g = out.groupby(['tramo','dane_sede','institucion','sede'], as_index=False).size().rename(columns={'size':'matricula'})
@@ -715,3 +721,4 @@ $nb = [ordered]@{
 $json = $nb | ConvertTo-Json -Depth 100
 [System.IO.File]::WriteAllText($outPath, $json, [System.Text.UTF8Encoding]::new($false))
 Write-Host "Notebook creado: $outPath"
+
